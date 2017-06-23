@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>BHC WebService</name>
+    <groupId>com.bisnode.bhc</groupId>
+    <artifactId>bhc-ws</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    
+    <parent>
+        <groupId>com.bisnode</groupId>
+        <artifactId>informatics-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <developers>
+        <developer>
+            <name>Alexander Sahm</name>
+            <email>alexander.sahm@bisnode.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <properties>
+        <docker.registry>artifactory.bisnode.net/bisnode</docker.registry>
+        <docker.image>${project.artifactId}</docker.image>
+        <docker.maintainer>Alex Sahm &lt;alexander.sahm@bisnode.com&gt;</docker.maintainer>
+        <docker.from>server-jre:8u111bisnode7</docker.from>
+        <docker.port>8080</docker.port>
+        <jdk.version>1.8</jdk.version>
+        <!-- Disable SCM check since it does not yet support git -->
+        <scm.validate.skip>true</scm.validate.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>1.5.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bisnode</groupId>
+            <artifactId>spring-boot-microservice</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>1.5.1.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.bisnode.rest.Application</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.20.0</version>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>source</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <showLogs>true</showLogs>
+                    <images>
+                        <image>
+                            <name>${docker.registry}/${docker.image}</name>
+                            <build>
+                                <from>${docker.registry}/${docker.from}</from>
+                                <labels>
+                                    <maintainer>${docker.maintainer}</maintainer>
+                                </labels>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                                <ports>
+                                    <port>${docker.port}</port>
+                                </ports>
+                                <workdir>/opt/${project.artifactId}</workdir>
+                                <cmd>
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-jar</arg>
+                                        <arg>${project.artifactId}-${project.version}.jar</arg>
+                                    </exec>
+                                </cmd>
+                                <assembly>
+                                    <targetDir>/opt/${project.artifactId}</targetDir>
+                                    <inline xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+                                            xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+                                        <includeBaseDirectory>false</includeBaseDirectory>
+                                        <fileSets>
+                                            <fileSet>
+                                                <directory>${project.build.directory}</directory>
+                                                <outputDirectory>/</outputDirectory>
+                                                <includes>
+                                                    <include>${project.artifactId}-${project.version}.jar</include>
+                                                </includes>
+                                            </fileSet>
+                                            <fileSet>
+                                                <directory>${project.build.directory}/lib</directory>
+                                                <outputDirectory>lib</outputDirectory>
+                                            </fileSet>
+                                        </fileSets>
+                                    </inline>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
