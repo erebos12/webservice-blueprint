@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api
-@RequestMapping("/file")
+@RequestMapping("/portfolios")
 public class GetPortfolioController {
 
     @Autowired
@@ -25,10 +25,10 @@ public class GetPortfolioController {
             @ApiResponse(code = 404, message = "When no portfolio found", response = String.class)})
 
 
-    @RequestMapping(path = "/portfolio/{id}", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public ResponseEntity getPortfolio(
-            @ApiParam(value = "pdf file to be returned") final @PathVariable("id") String id) {
+            @ApiParam(value = "portfolio to be returned") final @PathVariable("id") String id) {
         return null;
     }
 }
