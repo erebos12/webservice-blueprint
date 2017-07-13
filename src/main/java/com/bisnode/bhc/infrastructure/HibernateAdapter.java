@@ -18,14 +18,6 @@ public class HibernateAdapter implements AutoCloseable {
 	private final SessionFactory sessionFactory;
 	private final StandardServiceRegistry serviceRegistry;
 
-	/**
-	 * @param configFile
-	 *            the hibernate cfg XML file
-	 * @param entityClasses
-	 *            a list of classes that are registered for marshalling
-	 * @throws IOException
-	 *             if the connection or setup fails
-	 */
 	public HibernateAdapter(URL configFile, List<Class<?>> entityClasses) throws IOException {
 		logger.info("Reading configuration from {}", configFile);
 		Configuration configuration = new Configuration().configure(configFile);

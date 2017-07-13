@@ -10,19 +10,19 @@ import org.hibernate.Session;
 
 public class TableInserter {
 
-	private final HibernateAdapter hibernate;
+    private final HibernateAdapter hibernate;
 
-	public TableInserter(URL configFile) throws IOException {
-		hibernate = new HibernateAdapter(configFile, Arrays.asList(Portfolio.class));
-	}
+    public TableInserter(URL configFile) throws IOException {
+        hibernate = new HibernateAdapter(configFile, Arrays.asList(Portfolio.class));
+    }
 
-	public <T> void insertInto(List<T> listToInsert) throws Exception {
-		try (Session session = hibernate.getSessionFactory().openSession()) {
-			session.beginTransaction();
-			listToInsert.stream().forEach(typeElement -> session.save(typeElement));
-			session.getTransaction().commit();
-		} catch (Exception e) {			
-			throw e;
-		}
-	}
+    public <T> void insertInto(List<T> listToInsert) throws Exception {
+        try (Session session = hibernate.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            listToInsert.stream().forEach(typeElement -> session.save(typeElement));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

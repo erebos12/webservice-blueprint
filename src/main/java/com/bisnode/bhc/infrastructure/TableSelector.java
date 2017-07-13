@@ -1,11 +1,5 @@
 package com.bisnode.bhc.infrastructure;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.bisnode.bhc.domain.Portfolio;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -13,6 +7,11 @@ import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 public class TableSelector {
 
@@ -31,13 +30,13 @@ public class TableSelector {
      * and   ...
      * and   COLUMN_N in (critN1, critN2, ..., critNn) = SelectColumnCriteria for COLUMN_N
      *
-     * @param dbTableClazz      class name of the DB table
+     * @param dbTableClazz  class name of the DB table
      * @param selectColumnCriteriaList List of SelectColumnCriteria which represents - >=1 of COLUMN_X in (crit1, crit2, ..., critN)
      * @return List of results of type generic T
      */
     @SuppressWarnings("unchecked") // compiler just knows at runtime types of generic
     public <T> List<T> selectWhereInMultipleList(Class<?> dbTableClazz, List<SelectColumnCriteria> selectColumnCriteriaList) {
-        List<T> result = new ArrayList<T>();
+        List<T> result;
         try (Session session = hibernate.getSessionFactory().openSession()) {
             Criteria cr = session.createCriteria(dbTableClazz);
             selectColumnCriteriaList.stream().forEach(scc -> addConjunctionToCriteria(cr, scc));

@@ -1,14 +1,12 @@
 package com.bisnode.bhc.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
+@Entity
 @Table(name = "Portfolio")
 public class Portfolio {
 
@@ -42,11 +40,6 @@ public class Portfolio {
 	
 	@Column(name = "PFL_END_DATE")
 	public Date PFL_END_DATE;
-	    
-	
-	public int getPFL_CLT_ID() {
-		return PFL_CLT_ID;
-	}
 
 	@Override
 	public String toString() {
