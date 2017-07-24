@@ -1,4 +1,4 @@
-package com.bisnode.bhc.infrastructure;
+package com.bisnode.bhc.infrastructure.h2;
 
 import org.h2.tools.RunScript;
 import org.slf4j.Logger;

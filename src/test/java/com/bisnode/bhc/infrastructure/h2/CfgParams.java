@@ -1,4 +1,4 @@
-package com.bisnode.bhc.infrastructure;
+package com.bisnode.bhc.infrastructure.h2;
 
 import java.net.MalformedURLException;
 import java.net.URL;
