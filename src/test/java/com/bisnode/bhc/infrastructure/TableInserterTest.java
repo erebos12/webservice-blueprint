@@ -58,7 +58,7 @@ public class TableInserterTest {
 
 		tblInserter.insertInto(Arrays.asList(p, p2));
 
-		SelectColumnCriteria critDepartment = new SelectColumnCriteria("PFL_CLT_ID", Arrays.asList(9, 99));
+		SelectColumnProperty critDepartment = new SelectColumnProperty("PFL_CLT_ID", Arrays.asList(9, 99));
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment));
 		assertEquals(2, portfolioList.size());
 	}

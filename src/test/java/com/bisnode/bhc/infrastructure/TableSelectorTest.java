@@ -29,7 +29,7 @@ public class TableSelectorTest {
 		/*
 		 * SQL: select * from Portfolio where PFL_CDP_ID in (123)     
 		*/
-		SelectColumnCriteria critDepartment = new SelectColumnCriteria("PFL_CDP_ID", Arrays.asList(123));								
+		SelectColumnProperty critDepartment = new SelectColumnProperty("PFL_CDP_ID", Arrays.asList(123));
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment));
 		assertEquals(3, portfolioList.size());			
 	}
@@ -39,7 +39,7 @@ public class TableSelectorTest {
 		/*
 		 * SQL: select * from Portfolio where PFL_CDP_ID in (123, 111)     
 		*/
-		SelectColumnCriteria critDepartment = new SelectColumnCriteria("PFL_CDP_ID", Arrays.asList(123, 111));								
+		SelectColumnProperty critDepartment = new SelectColumnProperty("PFL_CDP_ID", Arrays.asList(123, 111));
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment));
 		assertEquals(4, portfolioList.size());			
 	}
@@ -49,8 +49,8 @@ public class TableSelectorTest {
 		/*
 		 * SQL: select * from Portfolio where PFL_CDP_ID in (123) and PFL_CUST_ID in ("111")
 		*/
-		SelectColumnCriteria critDepartment = new SelectColumnCriteria("PFL_CDP_ID", Arrays.asList(123));
-		SelectColumnCriteria critDuns = new SelectColumnCriteria("PFL_CUST_ID",  Arrays.asList("111"));	
+		SelectColumnProperty critDepartment = new SelectColumnProperty("PFL_CDP_ID", Arrays.asList(123));
+		SelectColumnProperty critDuns = new SelectColumnProperty("PFL_CUST_ID",  Arrays.asList("111"));
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment, critDuns));
 		assertEquals(1, portfolioList.size());			
 	}
@@ -62,8 +62,8 @@ public class TableSelectorTest {
 		 *   	where PFL_CDP_ID in (123)
 		 *      and   PFL_CUST_ID in ("444", "111")         
 		*/
-		SelectColumnCriteria critDepartment = new SelectColumnCriteria("PFL_CDP_ID", Arrays.asList(123));					
-		SelectColumnCriteria critDuns = new SelectColumnCriteria("PFL_CUST_ID",  Arrays.asList("444", "111"));	
+		SelectColumnProperty critDepartment = new SelectColumnProperty("PFL_CDP_ID", Arrays.asList(123));
+		SelectColumnProperty critDuns = new SelectColumnProperty("PFL_CUST_ID",  Arrays.asList("444", "111"));
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment, critDuns));
 		assertEquals(2, portfolioList.size());		
 		assertEquals(1, portfolioList.get(0).PFL_CLT_ID);
@@ -77,8 +77,8 @@ public class TableSelectorTest {
 		 *   	where PFL_CDP_ID in (123)
 		 *      and   PFL_CUST_ID in ("444")      
 		*/
-		SelectColumnCriteria critDepartment = new SelectColumnCriteria("PFL_CDP_ID", Arrays.asList(123));	
-		SelectColumnCriteria critDuns = new SelectColumnCriteria("PFL_CUST_ID",  Arrays.asList("444"));					
+		SelectColumnProperty critDepartment = new SelectColumnProperty("PFL_CDP_ID", Arrays.asList(123));
+		SelectColumnProperty critDuns = new SelectColumnProperty("PFL_CUST_ID",  Arrays.asList("444"));
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment, critDuns));
 		assertEquals(1, portfolioList.size());	
 		assertEquals(5, portfolioList.get(0).PFL_CLT_ID);
@@ -92,9 +92,9 @@ public class TableSelectorTest {
 		 *      and   PFL_CUST_ID in ("222", "444")
 		 *      and   PFL_CURRENCY_ISO3 in ("EUR", "SWK")
 		*/		
-		SelectColumnCriteria critDepartment = new SelectColumnCriteria("PFL_CDP_ID", Arrays.asList(123));				
-		SelectColumnCriteria critDuns = new SelectColumnCriteria("PFL_CUST_ID",  Arrays.asList("222", "444"));			
-		SelectColumnCriteria critCurrency = new SelectColumnCriteria("PFL_CURRENCY_ISO3", Arrays.asList("EUR", "SWK"));						
+		SelectColumnProperty critDepartment = new SelectColumnProperty("PFL_CDP_ID", Arrays.asList(123));
+		SelectColumnProperty critDuns = new SelectColumnProperty("PFL_CUST_ID",  Arrays.asList("222", "444"));
+		SelectColumnProperty critCurrency = new SelectColumnProperty("PFL_CURRENCY_ISO3", Arrays.asList("EUR", "SWK"));
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment, critDuns, critCurrency));
 		assertEquals(2, portfolioList.size());
 		assertEquals(2, portfolioList.get(0).PFL_CLT_ID);

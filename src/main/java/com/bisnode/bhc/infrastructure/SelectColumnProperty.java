@@ -2,12 +2,12 @@ package com.bisnode.bhc.infrastructure;
 
 import java.util.Collection;
 
-public class SelectColumnCriteria {
+public class SelectColumnProperty {
 
     private String columnName;
     private Collection<?> filterList;
 
-    public SelectColumnCriteria(String columnName, Collection<?> filterList) {
+    public SelectColumnProperty(String columnName, Collection<?> filterList) {
         this.columnName = columnName;
         this.filterList = filterList;
     }

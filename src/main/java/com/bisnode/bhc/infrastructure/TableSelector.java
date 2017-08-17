@@ -25,28 +25,28 @@ public class TableSelector {
     /**
      * This method corresponds to SQL:
      * select * from TABLE
-     * where COLUMN_X in (critX1, critX2, ..., critXn) = SelectColumnCriteria for COLUMN_X
-     * and   COLUMN_Y in (critY1, critY2, ..., critYn) = SelectColumnCriteria for COLUMN_Y
+     * where COLUMN_X in (critX1, critX2, ..., critXn) = SelectColumnProperty for COLUMN_X
+     * and   COLUMN_Y in (critY1, critY2, ..., critYn) = SelectColumnProperty for COLUMN_Y
      * and   ...
-     * and   COLUMN_N in (critN1, critN2, ..., critNn) = SelectColumnCriteria for COLUMN_N
+     * and   COLUMN_N in (critN1, critN2, ..., critNn) = SelectColumnProperty for COLUMN_N
      *
      * @param dbTableClazz  class name of the DB table
-     * @param selectColumnCriteriaList List of SelectColumnCriteria which represents - >=1 of COLUMN_X in (crit1, crit2, ..., critN)
+     * @param selectColumnPropertyList List of SelectColumnProperty which represents - >=1 of COLUMN_X in (crit1, crit2, ..., critN)
      * @return List of results of type generic T
      */
     @SuppressWarnings("unchecked") // compiler just knows at runtime types of generic
-    public <T> List<T> selectWhereInMultipleList(Class<?> dbTableClazz, List<SelectColumnCriteria> selectColumnCriteriaList) {
+    public <T> List<T> selectWhereInMultipleList(Class<?> dbTableClazz, List<SelectColumnProperty> selectColumnPropertyList) {
         List<T> result;
         try (Session session = hibernate.getSessionFactory().openSession()) {
             Criteria cr = session.createCriteria(dbTableClazz);
-            selectColumnCriteriaList.stream().forEach(scc -> addConjunctionToCriteria(cr, scc));
+            selectColumnPropertyList.stream().forEach(scc -> addConjunctionToCriteria(cr, scc));
             logger.info("Criterion: " + cr.toString());
             result = cr.list();
         }
         return result;
     }
 
-    private void addConjunctionToCriteria(Criteria cr, SelectColumnCriteria scc) {
+    private void addConjunctionToCriteria(Criteria cr, SelectColumnProperty scc) {
         Conjunction conjunction = Restrictions.conjunction();
         conjunction.add(Restrictions.in(scc.getColumnName(), scc.getFilterList()));
         cr.add(conjunction);
