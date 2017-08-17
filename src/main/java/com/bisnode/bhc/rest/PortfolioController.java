@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Api
 @RequestMapping("/portfolios")
-public class GetPortfolioController {
+public class PortfolioController {
 
     @Autowired
-    public GetPortfolioController(Config config){
+    public PortfolioController(Config config){
     }
 
     @ApiOperation(value = "Return portfolio")
