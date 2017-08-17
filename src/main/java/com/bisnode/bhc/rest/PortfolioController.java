@@ -13,22 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Api
 @RequestMapping("/portfolios")
-public class PortfolioController {
+public class PortfolioController implements PortfolioApi {
 
     @Autowired
-    public PortfolioController(Config config){
+    public PortfolioController(Config config) {
     }
 
-    @ApiOperation(value = "Return portfolio")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Return portfolio", response = String.class),
-            @ApiResponse(code = 404, message = "When no portfolio found", response = String.class)})
-
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public ResponseEntity getPortfolio(
-            @ApiParam(value = "portfolio to be returned") final @PathVariable("id") String id) {
+    public ResponseEntity getPortfolio(final @PathVariable("id") String id) {
         return null;
     }
 }
