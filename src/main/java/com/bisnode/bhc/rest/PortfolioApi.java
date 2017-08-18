@@ -23,4 +23,9 @@ public interface PortfolioApi {
     @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public ResponseEntity getPortfolio(@ApiParam(value = "portfolio to be returned") final @PathVariable("id") String id);
+
+    @ResponseBody
+    public ResponseEntity postPortfolio();
 }
+
+

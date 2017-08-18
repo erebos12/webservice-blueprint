@@ -22,5 +22,11 @@ public class PortfolioController implements PortfolioApi {
     public ResponseEntity getPortfolio(final @PathVariable("id") String id) {
         return null;
     }
+
+    @Override
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity postPortfolio() {
+        return ResponseEntity.ok(new String("Hello from Portfolio Webservice from Bisnode!"));
+    }
 }
 
