@@ -79,7 +79,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.bisnode.rest.Application</mainClass>
+                            <mainClass>com.bisnode.bhc.BhcWsMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
