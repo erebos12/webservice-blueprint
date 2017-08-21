@@ -62,4 +62,33 @@ public class TableInserterTest {
 		List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment));
 		assertEquals(2, portfolioList.size());
 	}
+
+	@Test(expected = org.hibernate.exception.ConstraintViolationException.class)
+	public void testinsertDuplicates() throws Exception {
+		Portfolio originPortfolio = new Portfolio();
+		originPortfolio.PFL_CLT_ID = 99;
+		originPortfolio.PFL_CDP_ID = 11;
+		originPortfolio.PFL_COUNTRY_ISO3 = "US";
+		originPortfolio.PFL_CUST_ID = "9999";
+		originPortfolio.PFL_CURRENCY_ISO3 = "USD";
+		originPortfolio.PFL_DTT_ID = 8;
+		originPortfolio.PFL_LEDGER_KEY = "SQUID";
+		originPortfolio.PFL_WRK_ID = 1;
+		originPortfolio.PFL_END_DATE = null;
+		originPortfolio.PFL_START_DATE = new Date();
+
+		Portfolio duplicatePortfolio = new Portfolio();
+		originPortfolio.PFL_CLT_ID = 99;
+		originPortfolio.PFL_CDP_ID = 11;
+		originPortfolio.PFL_COUNTRY_ISO3 = "US";
+		originPortfolio.PFL_CUST_ID = "9999";
+		originPortfolio.PFL_CURRENCY_ISO3 = "USD";
+		originPortfolio.PFL_DTT_ID = 8;
+		originPortfolio.PFL_LEDGER_KEY = "SQUID";
+		originPortfolio.PFL_WRK_ID = 1;
+		originPortfolio.PFL_END_DATE = null;
+		originPortfolio.PFL_START_DATE = new Date();
+
+		tblInserter.insertInto(Arrays.asList(originPortfolio, duplicatePortfolio));
+	}
 }
