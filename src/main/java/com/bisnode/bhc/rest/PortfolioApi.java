@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 /**
  * Created by sahm on 17.08.17.
  */
@@ -19,7 +21,7 @@ public interface PortfolioApi {
 
     public ResponseEntity getPortfolio(@ApiParam(value = "portfolio to be returned") final @PathVariable("id") String id);
 
-    public ResponseEntity<?> postPortfolio(@RequestBody String body) ;
+    public ResponseEntity<?> postPortfolio(@RequestBody String body) throws IOException;
 }
 
 
