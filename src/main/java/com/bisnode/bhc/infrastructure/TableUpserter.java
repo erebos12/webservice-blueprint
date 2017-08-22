@@ -12,8 +12,8 @@ public class TableUpserter {
 
     private final HibernateAdapter hibernate;
 
-    public TableUpserter(URL configFile) throws IOException {
-        hibernate = new HibernateAdapter(configFile, Arrays.asList(Portfolio.class));
+    public TableUpserter(URL configFile, List<Class<?>> entityClasses) throws IOException {
+        hibernate = new HibernateAdapter(configFile, entityClasses);
     }
 
     public <T> void upsert(T object2Insert) throws Exception {

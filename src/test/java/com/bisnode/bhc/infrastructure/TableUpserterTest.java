@@ -30,8 +30,8 @@ public class TableUpserterTest {
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
         TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
-        tblInserter = new TableUpserter(CfgParams.getHibernateCfgFile());
-        tableSelector = new TableSelector(CfgParams.getHibernateCfgFile());
+        tblInserter = new TableUpserter(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
+        tableSelector = new TableSelector(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
     }
 
     @Test

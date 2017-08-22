@@ -18,8 +18,8 @@ public class TableSelector {
     private final HibernateAdapter hibernate;
     private static final Logger logger = LoggerFactory.getLogger(TableSelector.class);
 
-    public TableSelector(URL configFile) throws IOException {
-        hibernate = new HibernateAdapter(configFile, Arrays.asList(Portfolio.class));
+    public TableSelector(URL configFile, List<Class<?>> entityClasses) throws IOException {
+        hibernate = new HibernateAdapter(configFile, entityClasses);
     }
 
     /**
@@ -30,7 +30,7 @@ public class TableSelector {
      * and   ...
      * and   COLUMN_N in (critN1, critN2, ..., critNn) = SelectColumnProperty for COLUMN_N
      *
-     * @param dbTableClazz  class name of the DB table
+     * @param dbTableClazz             class name of the DB table
      * @param selectColumnPropertyList List of SelectColumnProperty which represents - >=1 of COLUMN_X in (crit1, crit2, ..., critN)
      * @return List of results of type generic T
      */
