@@ -5,15 +5,17 @@ package com.bisnode.bhc.rest;
  */
 
 import com.bisnode.bhc.configuration.Config;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.annotations.Api;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Api
@@ -32,11 +34,11 @@ public class PortfolioController implements PortfolioApi {
     }
 
     @Override
-    public ResponseEntity<JSONObject> postPortfolio(@RequestBody String body) {
+    public ResponseEntity<?> postPortfolio(@RequestBody String body) {
         logger.info("Receiving POST request: ", body);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("message", "Received POST request successfully");
-        return new ResponseEntity<JSONObject>(jsonObject, HttpStatus.OK);
+        ObjectNode node = JsonNodeFactory.instance.objectNode();
+        node.put("message", "Received POST request successfully");
+        return ResponseEntity.ok(node);
     }
 }
 
