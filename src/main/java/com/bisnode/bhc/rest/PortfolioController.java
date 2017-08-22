@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api
@@ -29,13 +26,15 @@ public class PortfolioController implements PortfolioApi {
     }
 
     @Override
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity getPortfolio(final @PathVariable("id") String id) {
         return null;
     }
 
     @Override
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> postPortfolio(@RequestBody String body) {
-        logger.info("Receiving POST request: ", body);
+        logger.info("Receiving POST request: {}", body);
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         node.put("message", "Received POST request successfully");
         return ResponseEntity.ok(node);

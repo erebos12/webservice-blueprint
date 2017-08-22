@@ -17,12 +17,8 @@ public interface PortfolioApi {
             @ApiResponse(code = 200, message = "Return portfolio", response = String.class),
             @ApiResponse(code = 404, message = "When no portfolio found", response = String.class)})
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
     public ResponseEntity getPortfolio(@ApiParam(value = "portfolio to be returned") final @PathVariable("id") String id);
 
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    @ResponseBody
     public ResponseEntity<?> postPortfolio(@RequestBody String body) ;
 }
 
