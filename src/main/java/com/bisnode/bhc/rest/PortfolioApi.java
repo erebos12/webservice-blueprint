@@ -4,11 +4,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by sahm on 17.08.17.
@@ -24,8 +23,9 @@ public interface PortfolioApi {
     @ResponseBody
     public ResponseEntity getPortfolio(@ApiParam(value = "portfolio to be returned") final @PathVariable("id") String id);
 
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ResponseEntity postPortfolio();
+    public ResponseEntity<JSONObject> postPortfolio(@RequestBody String body);
 }
 
 

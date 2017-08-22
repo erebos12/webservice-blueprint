@@ -1,12 +1,10 @@
 package com.bisnode.bhc.infrastructure;
 
+import org.hibernate.Session;
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
-
-import com.bisnode.bhc.domain.Portfolio;
-import org.hibernate.Session;
 
 public class TableUpserter {
 
