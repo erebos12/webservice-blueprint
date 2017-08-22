@@ -2,6 +2,8 @@ package com.bisnode.bhc.infrastructure;
 
 
 import com.bisnode.bhc.rest.PortfolioController;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Test;
@@ -34,8 +36,11 @@ public class PortfolioControllerTest {
         ObjectNode json2send = JsonNodeFactory.instance.objectNode();
         json2send.put("name", "Alex");
 
+        ObjectMapper mapper = new ObjectMapper();
+
         mockMvc.perform(post("/portfolios")
-                .contentType(MediaType.APPLICATION_JSON).content(String.valueOf(json2send)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(json2send)))
                 .andExpect(status().isOk());
     }
 
