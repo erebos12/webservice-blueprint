@@ -1,8 +1,7 @@
 package com.bisnode.bhc.infrastructure;
 
 
-import com.bisnode.bhc.rest.PortfolioController;
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.bisnode.bhc.rest.PostPostPortfolioController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,9 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = PortfolioController.class, includeFilters = {
+@WebMvcTest(controllers = PostPostPortfolioController.class, includeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.bisnode.bhc.*")})
-public class PortfolioControllerTest {
+public class PostPortfolioControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

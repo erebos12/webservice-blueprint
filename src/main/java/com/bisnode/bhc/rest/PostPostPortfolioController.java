@@ -21,19 +21,13 @@ import java.io.IOException;
 @RestController
 @Api
 @RequestMapping("/portfolios")
-public class PortfolioController implements PortfolioApi {
+public class PostPostPortfolioController implements PostPortfolioApi {
 
-    private static final Logger logger = LoggerFactory.getLogger(PortfolioController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PostPostPortfolioController.class);
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    public PortfolioController(Config config) {
-    }
-
-    @Override
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity getPortfolio(final @PathVariable("id") String id) {
-        return null;
+    public PostPostPortfolioController(Config config) {
     }
 
     @Override
