@@ -1,4 +1,5 @@
 {
     "port": 8083,
-    "hostname": "localhost" 
+    "hostname": "localhost",
+    "hibernate_cfg": "hibernate.cfg.xml"
 }

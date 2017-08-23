@@ -1,16 +1,22 @@
-package com.bisnode.bhc.infrastructure.h2;
+package com.bisnode.bhc.configuration;
+
+import com.bisnode.bhc.domain.Portfolio;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 public class CfgParams {
 
-    public static final String configFolder = "config";
-    public static final String hibernateCfgFile = "hibernate.cfg.xml";
-    public static final String serverCfgFile = "config.json";
-    public static final String h2TestDataFile = "bhc-data-h2.sql";
-    public static final String version = "1.1";
+    private static final String configFolder = "config";
+    private static final String hibernateCfgFile = "hibernate.cfg.xml";
+    private static final String h2TestDataFile = "bhc-data-h2.sql";
+
+    public static List<Class<?>> getHibernateTables(){
+        return Arrays.asList(Portfolio.class);
+    }
 
     public static String getH2DataFile() throws MalformedURLException {
         URL fileUrl = Paths.get(configFolder, h2TestDataFile).toUri().toURL();

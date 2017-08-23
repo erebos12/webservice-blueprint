@@ -1,7 +1,7 @@
 package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.h2.CfgParams;
+import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.infrastructure.h2.TestH2Initializer;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
@@ -120,5 +120,10 @@ public class TableUpserterTest {
         assertThat(portfolioList.get(0).PFL_WRK_ID, is(updatedPortfolio.PFL_WRK_ID));
         assertThat(portfolioList.get(0).PFL_END_DATE, is(IsNull.nullValue()));
         assertThat(portfolioList.get(0).PFL_START_DATE, is(IsNull.notNullValue()));
+
+        int updatedEntries = tblInserter.updateAllEndDates();
+        assertThat(updatedEntries, is(5));
+        portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(select));
+        assertThat(portfolioList.get(0).PFL_END_DATE, is(IsNull.notNullValue()));
     }
 }

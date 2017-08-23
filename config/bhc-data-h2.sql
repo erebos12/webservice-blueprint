@@ -16,9 +16,9 @@ DELETE FROM `Portfolio`;
 
 INSERT INTO `Portfolio` (PFL_CLT_ID, PFL_CDP_ID, PFL_WRK_ID, PFL_CUST_ID, PFL_DTT_ID, PFL_COUNTRY_ISO3, PFL_CURRENCY_ISO3, PFL_LEDGER_KEY, PFL_START_DATE, PFL_END_DATE) VALUES
 	                     (1, 123, 1, '111', 2, 'DE', 'EUR', 'SQUID', '2016-01-07', NULL),
-	                     (2, 123, 2, '222', 1, 'DE', 'EUR', 'SQUID', '2016-01-07', '2016-01-09'),
-	                     (3, 111, 3, '333', 2, 'DE', 'EUR', 'SQUID', '2016-01-01', '2016-01-03'),
-	                     (5, 123, 4, '444', 3, 'SE', 'SWK', 'SQUID', '2016-01-03', '2016-01-10');
+	                     (2, 123, 2, '222', 1, 'DE', 'EUR', 'SQUID', '2016-01-07', NULL),
+	                     (3, 111, 3, '333', 2, 'DE', 'EUR', 'SQUID', '2016-01-01', NULL),
+	                     (5, 123, 4, '444', 3, 'SE', 'SWK', 'SQUID', '2016-01-03', NULL);
 
 CREATE TABLE IF NOT EXISTS `Workflow` (	
 	WRK_ID INT NOT NULL,

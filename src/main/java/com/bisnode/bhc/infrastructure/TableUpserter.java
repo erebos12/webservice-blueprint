@@ -4,6 +4,7 @@ import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 public class TableUpserter {
@@ -19,6 +20,21 @@ public class TableUpserter {
             session.beginTransaction();
             session.saveOrUpdate(object2Insert);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public int updateAllEndDates() {
+        try (Session session = hibernate.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Date currentDate = new Date();
+            String hqlUpdate = "update Portfolio p set p.PFL_END_DATE = :currentDate";
+            int updatedEntities = session.createQuery(hqlUpdate)
+                    .setDate("currentDate", currentDate)
+                    .executeUpdate();
+            session.getTransaction().commit();
+            return updatedEntities;
         } catch (Exception e) {
             throw e;
         }

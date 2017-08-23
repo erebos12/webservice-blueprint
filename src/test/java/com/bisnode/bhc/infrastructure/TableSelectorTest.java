@@ -1,7 +1,7 @@
 package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.h2.CfgParams;
+import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.infrastructure.h2.TestH2Initializer;
 import org.junit.BeforeClass;
 import org.junit.Test;
