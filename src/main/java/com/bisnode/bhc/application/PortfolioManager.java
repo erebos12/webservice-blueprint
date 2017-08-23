@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by sahm on 23.08.17.
@@ -20,8 +21,8 @@ public class PortfolioManager {
         this.tableUpserter = new TableUpserter(hibernetCfgFile, CfgParams.getHibernateTables());
     }
 
-    public void update(Portfolio portfolio) throws Exception {
+    public void update(List<Portfolio> portfolioList) {
         tableUpserter.updateAllEndDates();
-        tableUpserter.upsert(portfolio);
+        portfolioList.forEach(portfolio -> tableUpserter.upsert(portfolio));
     }
 }

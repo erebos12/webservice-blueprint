@@ -15,13 +15,11 @@ public class TableUpserter {
         hibernate = new HibernateAdapter(configFile, entityClasses);
     }
 
-    public <T> void upsert(T object2Insert) throws Exception {
+    public <T> void upsert(T object2Insert){
         try (Session session = hibernate.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.saveOrUpdate(object2Insert);
             session.getTransaction().commit();
-        } catch (Exception e) {
-            throw e;
         }
     }
 
@@ -35,8 +33,6 @@ public class TableUpserter {
                     .executeUpdate();
             session.getTransaction().commit();
             return updatedEntities;
-        } catch (Exception e) {
-            throw e;
         }
     }
 }
