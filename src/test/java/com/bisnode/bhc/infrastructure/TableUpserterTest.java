@@ -2,7 +2,7 @@ package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.h2.TestH2Initializer;
+import com.bisnode.bhc.utils.TestH2Initializer;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;

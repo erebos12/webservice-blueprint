@@ -5,7 +5,7 @@ import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import com.bisnode.bhc.infrastructure.SelectColumnProperty;
 import com.bisnode.bhc.infrastructure.TableSelector;
-import com.bisnode.bhc.infrastructure.h2.TestH2Initializer;
+import com.bisnode.bhc.utils.TestH2Initializer;
 import com.bisnode.bhc.utils.Sorter;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;

@@ -1,4 +1,4 @@
-package com.bisnode.bhc.infrastructure;
+package com.bisnode.bhc.rest;
 
 
 import com.bisnode.bhc.rest.PostPostPortfolioController;
