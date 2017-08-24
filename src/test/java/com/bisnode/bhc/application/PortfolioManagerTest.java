@@ -35,7 +35,7 @@ public class PortfolioManagerTest {
     }
 
     @Test
-    public void test_updatePortfolio() throws Exception {
+    public void whenUpdateExisting_thenExpect_NoEndDate() throws Exception {
         Portfolio p = new Portfolio();
         p.PFL_CLT_ID = 99;
         p.PFL_CDP_ID = 11;

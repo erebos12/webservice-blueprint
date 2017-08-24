@@ -69,7 +69,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.bisnode.bhc.BhcWsMain</mainClass>
+                            <mainClass>com.bisnode.bhc.PortfolioWsMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
