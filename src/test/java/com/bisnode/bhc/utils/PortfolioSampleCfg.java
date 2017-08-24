@@ -1,4 +1,4 @@
-package com.bisnode.bhc.infrastructure;
+package com.bisnode.bhc.utils;
 
 import com.bisnode.bhc.domain.Portfolio;
 

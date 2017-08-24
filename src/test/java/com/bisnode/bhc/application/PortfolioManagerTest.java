@@ -2,7 +2,7 @@ package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.PortfolioSampleCfg;
+import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import com.bisnode.bhc.infrastructure.SelectColumnProperty;
 import com.bisnode.bhc.infrastructure.TableSelector;
 import com.bisnode.bhc.infrastructure.h2.TestH2Initializer;
