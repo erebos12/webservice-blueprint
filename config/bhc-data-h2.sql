@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `Portfolio` (
 	pfl_country_iso2 char(2) NOT NULL,
 	pfl_strt_dt datetime NOT NULL,
 	pfl_end_dt datetime DEFAULT NULL,
-	PRIMARY KEY (pfl_id)
+	PRIMARY KEY (pfl_id),
+	UNIQUE KEY portfolio_pk (pfl_id)
 );
 
 DELETE FROM `Portfolio`;
