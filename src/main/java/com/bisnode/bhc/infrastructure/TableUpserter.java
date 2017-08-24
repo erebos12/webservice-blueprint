@@ -27,7 +27,7 @@ public class TableUpserter {
         try (Session session = hibernate.getSessionFactory().openSession()) {
             session.beginTransaction();
             Date currentDate = new Date();
-            String hqlUpdate = "update Portfolio p set p.PFL_END_DATE = :currentDate";
+            String hqlUpdate = "update Portfolio p set p.pfl_end_dt = :currentDate";
             int updatedEntities = session.createQuery(hqlUpdate)
                     .setDate("currentDate", currentDate)
                     .executeUpdate();

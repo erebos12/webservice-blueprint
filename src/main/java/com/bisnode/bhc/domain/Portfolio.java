@@ -1,5 +1,7 @@
 package com.bisnode.bhc.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,41 +13,35 @@ import java.util.Date;
 public class Portfolio {
 
     @Id
-    @Column(name = "PFL_CLT_ID")
-    public int PFL_CLT_ID;
+    @Column(name = "pfl_id")
+    public int pfl_id;
 
-    @Column(name = "PFL_CDP_ID")
-    public int PFL_CDP_ID;
+    @Column(name = "pfl_csg_id")
+    public int pfl_csg_id;
 
-    @Column(name = "PFL_WRK_ID")
-    public int PFL_WRK_ID;
+    @Column(name = "pfl_wrk_id")
+    public int pfl_wrk_id;
 
-    @Column(name = "PFL_CUST_ID")
-    public String PFL_CUST_ID;
+    @Column(name = "pfl_cust_identifier")
+    public String pfl_cust_identifier;
 
-    @Column(name = "PFL_DTT_ID")
-    public int PFL_DTT_ID;
+    @Column(name = "pfl_ext_identifier")
+    public int pfl_ext_identifier;
 
-    @Column(name = "PFL_COUNTRY_ISO3")
-    public String PFL_COUNTRY_ISO3;
+    @Column(name = "pfl_dtt_id")
+    public int pfl_dtt_id;
 
-    @Column(name = "PFL_CURRENCY_ISO3")
-    public String PFL_CURRENCY_ISO3;
+    @Column(name = "pfl_country_iso2")
+    public String pfl_country_iso2;
 
-    @Column(name = "PFL_LEDGER_KEY")
-    public String PFL_LEDGER_KEY;
+    @Column(name = "pfl_strt_dt")
+    public Date pfl_strt_dt;
 
-    @Column(name = "PFL_START_DATE")
-    public Date PFL_START_DATE;
+    @Column(name = "pfl_end_dt")
+    public Date pfl_end_dt;
 
-    @Column(name = "PFL_END_DATE")
-    public Date PFL_END_DATE;
-
-    @Override
     public String toString() {
-        return "Portfolio [PFL_CLT_ID=" + PFL_CLT_ID + ", PFL_CDP_ID=" + PFL_CDP_ID + ", PFL_WRK_ID=" + PFL_WRK_ID
-                + ", PFL_CUST_ID=" + PFL_CUST_ID + ", PFL_DTT_ID=" + PFL_DTT_ID + ", PFL_COUNTRY_ISO3="
-                + PFL_COUNTRY_ISO3 + ", PFL_CURRENCY_ISO3=" + PFL_CURRENCY_ISO3 + ", PFL_LEDGER_KEY=" + PFL_LEDGER_KEY
-                + ", PFL_START_DATE=" + PFL_START_DATE + ", PFL_END_DATE=" + PFL_END_DATE + "]";
+        return ToStringBuilder.reflectionToString(this);
     }
+
 }

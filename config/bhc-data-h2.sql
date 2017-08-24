@@ -1,24 +1,17 @@
 CREATE TABLE IF NOT EXISTS `Portfolio` (	
-	PFL_CLT_ID INT NOT NULL,
-	PFL_CDP_ID INT,
-	PFL_WRK_ID INT NOT NULL,
-	PFL_CUST_ID VARCHAR(20) NOT NULL,
-	PFL_DTT_ID INT NOT NULL,
-	PFL_COUNTRY_ISO3 VARCHAR(20) NOT NULL,
-	PFL_CURRENCY_ISO3 VARCHAR(20) NOT NULL,
-	PFL_LEDGER_KEY VARCHAR(20) NOT NULL,
-	PFL_START_DATE DATETIME NOT NULL,
-	PFL_END_DATE DATETIME,
-	PRIMARY KEY (PFL_CLT_ID)
+	pfl_id int(20) NOT NULL AUTO_INCREMENT,
+	pfl_csg_id int(11) DEFAULT NULL,
+	pfl_wrk_id int(20) DEFAULT NULL,
+	pfl_cust_identifier varchar(20) NOT NULL,
+	pfl_ext_identifier varchar(20) NOT NULL,
+	pfl_dtt_id int(11) NOT NULL,
+	pfl_country_iso2 char(2) NOT NULL,
+	pfl_strt_dt datetime NOT NULL,
+	pfl_end_dt datetime DEFAULT NULL,
+	PRIMARY KEY (pfl_id)
 );
 
 DELETE FROM `Portfolio`;
-
-INSERT INTO `Portfolio` (PFL_CLT_ID, PFL_CDP_ID, PFL_WRK_ID, PFL_CUST_ID, PFL_DTT_ID, PFL_COUNTRY_ISO3, PFL_CURRENCY_ISO3, PFL_LEDGER_KEY, PFL_START_DATE, PFL_END_DATE) VALUES
-	                     (1, 123, 1, '111', 2, 'DE', 'EUR', 'SQUID', '2016-01-07', NULL),
-	                     (2, 123, 2, '222', 1, 'DE', 'EUR', 'SQUID', '2016-01-07', NULL),
-	                     (3, 111, 3, '333', 2, 'DE', 'EUR', 'SQUID', '2016-01-01', NULL),
-	                     (5, 123, 4, '444', 3, 'SE', 'SWK', 'SQUID', '2016-01-03', NULL);
 
 CREATE TABLE IF NOT EXISTS `Workflow` (	
 	WRK_ID INT NOT NULL,
