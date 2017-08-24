@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `Portfolio` (
 	pfl_id int(20) NOT NULL AUTO_INCREMENT, /* internal identifier for a portfolio */
 	pfl_csg_id int(11) DEFAULT NULL, /* = Portfolio-Owner-ID e.g. PBC, P2R */
 	pfl_wrk_id int(20) DEFAULT NULL, /* constant value for backend-processes */
-	pfl_cust_identifier varchar(20) NOT NULL, /* = DUNS-Number */
+	pfl_cust_identifier varchar(20) NOT NULL, /* = DUNS-Number ror some other ID (might be Handelsregisternummer)*/
 	pfl_ext_identifier varchar(20) NOT NULL, /* = Business-Partner-ID (BP_ID) */
 	pfl_dtt_id int(11) NOT NULL, /* = Profile-ID e.g. S,M,L */
 	pfl_country_iso2 char(2) NOT NULL,

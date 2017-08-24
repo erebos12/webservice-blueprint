@@ -1,12 +1,13 @@
 package com.bisnode.bhc.rest;
 
 
-import com.bisnode.bhc.rest.PostPostPortfolioController;
+import com.bisnode.bhc.domain.IncomingPortfolio;
+import com.bisnode.bhc.utils.ResourceHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,8 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.io.File;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,21 +30,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.bisnode.bhc.*")})
 public class PostPortfolioControllerTest {
 
+    private static final Logger logger = LoggerFactory.getLogger(PostPortfolioControllerTest.class);
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     public void whenSending_portfolio_thenExpect_200OK() throws Exception {
-        ObjectNode json2send = JsonNodeFactory.instance.objectNode();
-        json2send.put("name", "Alex");
-
-        ObjectMapper mapper = new ObjectMapper();
-
+        String json = ResourceHelper.getResourceAsString("incoming_portfolio01.json");
+        logger.info("Sending POST with json: '{}'", json);
         mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(json2send)))
+                .content(json))
                 .andExpect(status().isOk());
     }
-
-
 }

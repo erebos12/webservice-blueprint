@@ -4,7 +4,7 @@ package com.bisnode.bhc.rest;
  * Created by sahm on 21.06.17.
  */
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.bisnode.bhc.domain.IncomingPortfolio;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -35,8 +35,8 @@ public class PostPostPortfolioController implements PostPortfolioApi {
     @Override
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> postPortfolio(@RequestBody String body) throws IOException {
-        JsonNode incomingJsonNode = mapper.readTree(body);
-        logger.info("Receiving POST request body: {}", mapper.writeValueAsString(incomingJsonNode));
+        IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
+        logger.info("Receiving POST request with body: '{}'", incomingPortfolio.toString());
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         node.put("message", "Received POST request successfully");
         return ResponseEntity.ok(node);
