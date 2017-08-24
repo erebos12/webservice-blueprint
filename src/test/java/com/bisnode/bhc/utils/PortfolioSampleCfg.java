@@ -25,6 +25,7 @@ public class PortfolioSampleCfg {
         portfolioCompany1.pfl_dtt_id = 3333;
         portfolioCompany1.pfl_cust_identifier = "33333";
         portfolioCompany1.pfl_strt_dt = new Date();
+        System.out.println("Portfolio 1: " + portfolioCompany1.toString());
         return portfolioCompany1;
     }
 
@@ -38,6 +39,7 @@ public class PortfolioSampleCfg {
         portfolioCompany2.pfl_dtt_id = 6666;
         portfolioCompany2.pfl_cust_identifier = "66666";
         portfolioCompany2.pfl_strt_dt = new Date();
+        System.out.println("Portfolio 2: " + portfolioCompany2.toString());
         return portfolioCompany2;
     }
 
@@ -52,6 +54,7 @@ public class PortfolioSampleCfg {
         portfolioCompany3.pfl_dtt_id = 7777;
         portfolioCompany3.pfl_cust_identifier = "77777";
         portfolioCompany3.pfl_strt_dt = new Date();
+        System.out.println("Portfolio 3: " + portfolioCompany3.toString());
         return portfolioCompany3;
     }
 
@@ -65,6 +68,7 @@ public class PortfolioSampleCfg {
         portfolioCompany4.pfl_dtt_id = 8888;
         portfolioCompany4.pfl_cust_identifier = "88888";
         portfolioCompany4.pfl_strt_dt = new Date();
+        System.out.println("Portfolio 4: " + portfolioCompany4.toString());
         return portfolioCompany4;
     }
 
