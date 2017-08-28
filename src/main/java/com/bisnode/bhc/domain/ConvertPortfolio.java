@@ -2,12 +2,17 @@ package com.bisnode.bhc.domain;
 
 import com.bisnode.bhc.domain.exception.InvalidDataProfileException;
 import com.bisnode.bhc.domain.exception.InvalidSystemIdException;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by sahm on 28.08.17.
  */
+@Component
 public class ConvertPortfolio {
 
     private HashMap<String, Integer> systemIdMap = new HashMap<>();
