@@ -53,6 +53,7 @@ public class PostPortfolioController implements PostPortfolioApi {
             node.put("message", "Portfolio proceeded successfully");
             return ResponseEntity.ok(node);
         } catch (Throwable e) {
+            logger.error("problems while proceeding POST request: '{}'", e.toString());
             node.put("message", e.toString());
             return ResponseEntity.badRequest().body(node);
         }

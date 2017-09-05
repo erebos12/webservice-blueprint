@@ -15,7 +15,7 @@ public class TableUpserter {
         hibernate = new HibernateAdapter(configFile, entityClasses);
     }
 
-    public <T> void upsert(T object2Insert){
+    public <T> void upsert(T object2Insert) {
         try (Session session = hibernate.getSessionFactory().openSession()) {
             session.beginTransaction();
             session.saveOrUpdate(object2Insert);
@@ -26,10 +26,9 @@ public class TableUpserter {
     public int updateAllEndDates() {
         try (Session session = hibernate.getSessionFactory().openSession()) {
             session.beginTransaction();
-            Date currentDate = new Date();
             String hqlUpdate = "update Portfolio p set p.pfl_end_dt = :currentDate";
             int updatedEntities = session.createQuery(hqlUpdate)
-                    .setDate("currentDate", currentDate)
+                    .setDate("currentDate", new Date())
                     .executeUpdate();
             session.getTransaction().commit();
             return updatedEntities;
