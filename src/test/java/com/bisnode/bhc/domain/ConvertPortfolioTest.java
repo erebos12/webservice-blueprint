@@ -60,5 +60,6 @@ public class ConvertPortfolioTest {
         String expectedMsg = "Invalid system_id value " + INVALID_SYSTEM_ID + " for company-id: 2534";
         expectedEx.expectMessage(expectedMsg);
         converter.apply(incomingPortfolio);
+        
     }
 }
