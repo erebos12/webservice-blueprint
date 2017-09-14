@@ -31,7 +31,7 @@ public class PortfolioManagerTest {
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
         TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
-        portfolioManager = new PortfolioManager(CfgParams.getHibernateCfgFile());
+        portfolioManager = new PortfolioManager();
         tableSelector = new TableSelector(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
     }
 

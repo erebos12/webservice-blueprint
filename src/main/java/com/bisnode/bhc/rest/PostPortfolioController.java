@@ -37,10 +37,10 @@ public class PostPortfolioController implements PostPortfolioApi {
     private ObjectNode node = JsonNodeFactory.instance.objectNode();
 
     @Autowired
-    public PostPortfolioController(ConvertPortfolio converter) throws IOException {
-        this.portfolioManager = new PortfolioManager(CfgParams.getHibernateCfgFile());
-        this.mapper = new ObjectMapper();
+    public PostPortfolioController(ConvertPortfolio converter, PortfolioManager portfolioManager) throws IOException {
         this.converter = converter;
+        this.portfolioManager = portfolioManager;
+        this.mapper = new ObjectMapper();
     }
 
     @Override

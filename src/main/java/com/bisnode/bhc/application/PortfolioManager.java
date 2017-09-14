@@ -19,8 +19,8 @@ public class PortfolioManager {
     private TableUpserter tableUpserter;
 
     @Autowired
-    public PortfolioManager(URL hibernetCfgFile) throws IOException {
-        this.tableUpserter = new TableUpserter(hibernetCfgFile, CfgParams.getHibernateTables());
+    public PortfolioManager() throws IOException {
+        this.tableUpserter = new TableUpserter(CfgParams.getHibernateCfgFile(), CfgParams.getHibernateTables());
     }
 
     public void update(List<Portfolio> portfolioList) {

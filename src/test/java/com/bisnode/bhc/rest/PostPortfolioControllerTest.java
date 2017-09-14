@@ -2,7 +2,6 @@ package com.bisnode.bhc.rest;
 
 
 import com.bisnode.bhc.utils.ResourceHelper;
-import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
