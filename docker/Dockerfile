@@ -5,6 +5,7 @@ RUN mkdir /opt/bhc-ws
 
 COPY bin /opt/bhc-ws/bin
 COPY lib /opt/bhc-ws/lib
+COPY config /opt/bhc-ws/config
 
 EXPOSE 8080
 
