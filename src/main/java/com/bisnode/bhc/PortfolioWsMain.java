@@ -14,6 +14,7 @@ public class PortfolioWsMain {
     private static final Logger logger = LoggerFactory.getLogger(PortfolioWsMain.class);
 
     public static void main(String[] args) {
+        logger.info("Starting PortfolioWsMain ...");
         SpringApplication app = new SpringApplication(PortfolioWsMain.class);
         app.run();
         logger.info("Started PortfolioWsMain successfully.");
