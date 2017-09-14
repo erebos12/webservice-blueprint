@@ -18,7 +18,6 @@ public class PortfolioManager {
 
     private TableUpserter tableUpserter;
 
-    @Autowired
     public PortfolioManager() throws IOException {
         this.tableUpserter = new TableUpserter(CfgParams.getHibernateCfgFile(), CfgParams.getHibernateTables());
     }

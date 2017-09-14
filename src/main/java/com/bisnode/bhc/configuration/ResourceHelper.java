@@ -1,4 +1,4 @@
-package com.bisnode.bhc.utils;
+package com.bisnode.bhc.configuration;
 
 /**
  * Created by sahm on 25.08.17.
