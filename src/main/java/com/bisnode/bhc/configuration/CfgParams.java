@@ -18,8 +18,7 @@ public class CfgParams {
     }
 
     public static String getH2DataFile() throws MalformedURLException {
-        URL fileUrl = ResourceHelper.getResource(h2TestDataFile);
-        return fileUrl.getFile();
+        return ResourceHelper.getResource(h2TestDataFile).getFile();
     }
 
     public static URL getHibernateCfgFile() throws MalformedURLException {
