@@ -2,9 +2,7 @@ package com.bisnode.bhc.rest;
 
 
 import com.bisnode.bhc.configuration.ResourceHelper;
-import com.bisnode.bhc.utils.InvalidPortfolioMessageException;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

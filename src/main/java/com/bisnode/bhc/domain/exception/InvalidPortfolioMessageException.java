@@ -1,4 +1,4 @@
-package com.bisnode.bhc.utils;
+package com.bisnode.bhc.domain.exception;
 
 public class InvalidPortfolioMessageException extends Exception {
 
