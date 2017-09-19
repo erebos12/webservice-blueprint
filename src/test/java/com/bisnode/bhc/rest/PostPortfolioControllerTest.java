@@ -2,6 +2,9 @@ package com.bisnode.bhc.rest;
 
 
 import com.bisnode.bhc.configuration.ResourceHelper;
+import com.bisnode.bhc.utils.InvalidPortfolioMessageException;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -55,8 +58,8 @@ public class PostPortfolioControllerTest {
                 .content(json))
                 .andExpect(status().isBadRequest())
                 .andReturn();
-        String expectedMsg = "{\"message\":\"com.bisnode.bhc.domain.exception.InvalidDataProfileException: Invalid data_profile value jhsghfdgjsd for company-id: 43257\"}";
-        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
+        String expectedString = "/companies/0/data_profile";
+        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
     }
 
     @Test
@@ -68,7 +71,17 @@ public class PostPortfolioControllerTest {
                 .content(json))
                 .andExpect(status().isBadRequest())
                 .andReturn();
-        String expectedMsg = "{\"message\":\"com.bisnode.bhc.domain.exception.InvalidSystemIdException: Invalid system_id value zzzzzzzzzzzzzz for company-id: 43257\"}";
-        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
+        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString("properties/system_id"));
+    }
+
+    @Test
+    public void sendEmptyJsonInPost_thenExpect_400() throws Exception {
+        MvcResult result = mockMvc.perform(post("/portfolios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{}"))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        String expectedString = "object has missing required properties";
+        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
     }
 }

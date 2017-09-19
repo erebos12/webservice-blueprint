@@ -5,11 +5,9 @@ package com.bisnode.bhc.rest;
  */
 
 import com.bisnode.bhc.application.PortfolioManager;
-import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.ConvertPortfolio;
 import com.bisnode.bhc.domain.IncomingPortfolio;
-import com.bisnode.bhc.domain.exception.InvalidDataProfileException;
-import com.bisnode.bhc.domain.exception.InvalidSystemIdException;
+import com.bisnode.bhc.utils.JsonSchemaValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -34,26 +32,31 @@ public class PostPortfolioController implements PostPortfolioApi {
     private ObjectMapper mapper;
     private ConvertPortfolio converter;
     private PortfolioManager portfolioManager;
-    private ObjectNode node = JsonNodeFactory.instance.objectNode();
+    private JsonSchemaValidator jsonSchemaValidator;
+    private final ObjectNode node = JsonNodeFactory.instance.objectNode();
+    private final String jsonSchemaFile = "schema.json";
 
     @Autowired
     public PostPortfolioController(ConvertPortfolio converter, PortfolioManager portfolioManager) throws IOException {
         this.converter = converter;
         this.portfolioManager = portfolioManager;
         this.mapper = new ObjectMapper();
+        this.jsonSchemaValidator = new JsonSchemaValidator();
+        jsonSchemaValidator.loadJsonSchema(jsonSchemaValidator.jsonFile2JsonNode(jsonSchemaFile));
     }
 
     @Override
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> postPortfolio(@RequestBody String body) throws IOException {
         try {
+            jsonSchemaValidator.validate(mapper.readTree(body));
             IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
             logger.info("Receiving POST request with body: '{}'", incomingPortfolio.toString());
             portfolioManager.update(converter.apply(incomingPortfolio));
             node.put("message", "Portfolio proceeded successfully");
             return ResponseEntity.ok(node);
         } catch (Throwable e) {
-            logger.error("problems while proceeding POST request: '{}'", e.toString());
+            logger.error("Exception while proceeding POST request: '{}'", e.toString());
             node.put("message", e.toString());
             return ResponseEntity.badRequest().body(node);
         }
