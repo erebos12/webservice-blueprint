@@ -1,10 +1,11 @@
 package com.bisnode.bhc.configuration;
 
 import com.bisnode.bhc.domain.Portfolio;
+import com.google.common.io.Resources;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,11 +18,11 @@ public class CfgParams {
         return Arrays.asList(Portfolio.class);
     }
 
-    public static String getH2DataFile() throws MalformedURLException {
-        return ResourceHelper.getResource(h2TestDataFile).getFile();
+    public static String getH2DataFile() throws IOException {
+        return Resources.getResource(h2TestDataFile).getFile();
     }
 
     public static URL getHibernateCfgFile() throws MalformedURLException {
-        return ResourceHelper.getResource(hibernateCfgFile);
+        return Resources.getResource(hibernateCfgFile);
     }
 }

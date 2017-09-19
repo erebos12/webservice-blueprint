@@ -1,7 +1,8 @@
 package com.bisnode.bhc.rest;
 
 
-import com.bisnode.bhc.configuration.ResourceHelper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
+import java.io.IOException;
+import java.net.URL;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -36,7 +40,7 @@ public class PostPortfolioControllerTest {
 
     @Test
     public void whenSending_portfolio_thenExpect_200OK() throws Exception {
-        String json = ResourceHelper.getResourceAsString("incoming_portfolio01.json");
+        String json = getFileContent("incoming_portfolio01.json");
         logger.info("Sending POST with json: '{}'", json);
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -49,7 +53,7 @@ public class PostPortfolioControllerTest {
 
     @Test
     public void sendInvalidDataProfile_thenExpect_400() throws Exception {
-        String json = ResourceHelper.getResourceAsString("incoming_portfolio_invalid.json");
+        String json = getFileContent("incoming_portfolio_invalid.json");
         logger.info("Sending POST with json: '{}'", json);
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -62,7 +66,7 @@ public class PostPortfolioControllerTest {
 
     @Test
     public void sendInvalidSystemId_thenExpect_400() throws Exception {
-        String json = ResourceHelper.getResourceAsString("incoming_portfolio_invalid_systemId.json");
+        String json = getFileContent("incoming_portfolio_invalid_systemId.json");
         logger.info("Sending POST with json: '{}'", json);
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -81,5 +85,10 @@ public class PostPortfolioControllerTest {
                 .andReturn();
         String expectedString = "object has missing required properties";
         assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
+    }
+
+    private String getFileContent(String file) throws IOException {
+        URL url = Resources.getResource(file);
+        return Resources.toString(url, Charsets.UTF_8);
     }
 }
