@@ -1,7 +1,5 @@
 package com.bisnode.bhc.domain;
 
-import com.bisnode.bhc.domain.exception.InvalidDataProfileException;
-import com.bisnode.bhc.domain.exception.InvalidSystemIdException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -31,14 +29,12 @@ public class ConvertPortfolio {
         this.profileIdMap.put("Large", 3);
     }
 
-    public List<Portfolio> apply(IncomingPortfolio incomingPortfolio) throws InvalidDataProfileException, InvalidSystemIdException {
-        for (Company company : incomingPortfolio.companies) {
-            portfolios.add(createPortfolio(incomingPortfolio, company));
-        }
+    public List<Portfolio> apply(IncomingPortfolio incomingPortfolio){
+        incomingPortfolio.companies.forEach(company -> portfolios.add(createPortfolio(incomingPortfolio, company)));
         return portfolios;
     }
 
-    private Portfolio createPortfolio(IncomingPortfolio incomingPortfolio, Company company) throws InvalidDataProfileException, InvalidSystemIdException {
+    private Portfolio createPortfolio(IncomingPortfolio incomingPortfolio, Company company){
         Portfolio portfolio = new Portfolio();
         portfolio.pfl_wrk_id = WORKFLOW_ID;
         portfolio.pfl_ext_identifier = EXTERNAL_ID;
@@ -46,13 +42,7 @@ public class ConvertPortfolio {
         portfolio.pfl_end_dt = null;
         portfolio.pfl_country_iso2 = company.country;
         portfolio.pfl_cust_identifier = company.id;
-        if (profileIdMap.get(company.data_profile) == null) {
-            throw new InvalidDataProfileException(company.id, company.data_profile);
-        }
         portfolio.pfl_dtt_id = profileIdMap.get(company.data_profile);
-        if (systemIdMap.get(incomingPortfolio.system_id) == null) {
-            throw new InvalidSystemIdException(company.id, incomingPortfolio.system_id);
-        }
         portfolio.pfl_csg_id = systemIdMap.get(incomingPortfolio.system_id);
         return portfolio;
     }
