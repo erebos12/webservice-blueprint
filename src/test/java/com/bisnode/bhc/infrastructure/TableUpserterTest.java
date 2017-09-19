@@ -24,35 +24,32 @@ public class TableUpserterTest {
 
     private static TableUpserter tableUpserter = null;
     private static TableSelector tableSelector = null;
-    private static final Logger logger = LoggerFactory.getLogger(TableUpserterTest.class);
-    private static final String PORTFOLIO_TABLE_UKEY_COLUMN = "pfl_id";
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
-        TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
         tableUpserter = new TableUpserter(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
         tableSelector = new TableSelector(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
     }
 
     @Test
     public void whenInsertToDifferentPortfolios_thenExpect_them_in_DB() throws Exception {
-        tableUpserter.upsert(PortfolioSampleCfg.getPortfolioCompany1());
-        tableUpserter.upsert(PortfolioSampleCfg.getPortfolioCompany2());
+        TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
+        tableUpserter.upsert(PortfolioSampleCfg.getPortfolioCompany3());
+        tableUpserter.upsert(PortfolioSampleCfg.getPortfolioCompany4());
 
-        SelectColumnProperty critDepartment = new SelectColumnProperty(PORTFOLIO_TABLE_UKEY_COLUMN, Arrays.asList(1, 2));
+        SelectColumnProperty critDepartment = new SelectColumnProperty("pfl_cust_identifier", Arrays.asList("77777", "88888"));
         List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment));
         assertEquals(2, portfolioList.size());
     }
 
     @Test
     public void whenUpdateAnExistingPortfolio_thenExpect_updated_pfl_wrk_id() throws Exception {
-
+        TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
         Portfolio p1 = PortfolioSampleCfg.getPortfolioCompany1();
         tableUpserter.upsert(p1);
-        SelectColumnProperty critDepartment = new SelectColumnProperty(PORTFOLIO_TABLE_UKEY_COLUMN, Arrays.asList(p1.pfl_id));
+        SelectColumnProperty critDepartment = new SelectColumnProperty("pfl_wrk_id", Arrays.asList(33));
         List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment));
         assertThat(portfolioList.size(), is(1));
-        assertThat(portfolioList.get(0).pfl_id, is(p1.pfl_id));
         assertThat(portfolioList.get(0).pfl_country_iso2, is(p1.pfl_country_iso2));
         assertThat(portfolioList.get(0).pfl_cust_identifier, is(p1.pfl_cust_identifier));
         assertThat(portfolioList.get(0).pfl_dtt_id, is(p1.pfl_dtt_id));
@@ -62,13 +59,12 @@ public class TableUpserterTest {
         assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.nullValue()));
         assertThat(portfolioList.get(0).pfl_strt_dt, is(IsNull.notNullValue()));
 
-        p1.pfl_wrk_id = 321;
-        tableUpserter.upsert(p1);
+        Portfolio p1_updated = PortfolioSampleCfg.getPortfolioCompany1Updated();
+        tableUpserter.upsert(p1_updated);
 
-        SelectColumnProperty select = new SelectColumnProperty(PORTFOLIO_TABLE_UKEY_COLUMN, Arrays.asList(p1.pfl_id));
+        SelectColumnProperty select = new SelectColumnProperty("pfl_wrk_id", Arrays.asList(44));
         portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(select));
         assertThat(portfolioList.size(), is(1));
-        assertThat(portfolioList.get(0).pfl_wrk_id, is(p1.pfl_wrk_id));
         assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.nullValue()));
         assertThat(portfolioList.get(0).pfl_strt_dt, is(IsNull.notNullValue()));
 

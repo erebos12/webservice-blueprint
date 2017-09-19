@@ -1,5 +1,8 @@
 package com.bisnode.bhc.domain;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import java.util.List;
 @Component
 public class ConvertPortfolio {
 
+    private static final Logger logger = LoggerFactory.getLogger(ConvertPortfolio.class);
     private HashMap<String, Integer> systemIdMap = new HashMap<>();
     private HashMap<String, Integer> profileIdMap = new HashMap<>();
     private final int WORKFLOW_ID = 1;
@@ -31,6 +35,7 @@ public class ConvertPortfolio {
 
     public List<Portfolio> apply(IncomingPortfolio incomingPortfolio){
         incomingPortfolio.companies.forEach(company -> portfolios.add(createPortfolio(incomingPortfolio, company)));
+        logger.info("list.size: {}", portfolios.size());
         return portfolios;
     }
 
@@ -44,6 +49,16 @@ public class ConvertPortfolio {
         portfolio.pfl_cust_identifier = company.id;
         portfolio.pfl_dtt_id = profileIdMap.get(company.data_profile);
         portfolio.pfl_csg_id = systemIdMap.get(incomingPortfolio.system_id);
+        logger.info("createPortfolio():  {}" , this.toString());
         return portfolio;
+    }
+
+    @Override
+    public String toString() {
+        return "ConvertPortfolio{" +
+                "WORKFLOW_ID=" + WORKFLOW_ID +
+                ", EXTERNAL_ID=" + EXTERNAL_ID +
+                ", portfolios=" + portfolios +
+                '}';
     }
 }

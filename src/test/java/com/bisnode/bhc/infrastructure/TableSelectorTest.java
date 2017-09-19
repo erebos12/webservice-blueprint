@@ -54,21 +54,21 @@ public class TableSelectorTest {
     }
 
     @Test
-    public void select_pfl_id_with_1_OR_2() throws IOException {
+    public void select_pfl_csg_id_with_6_OR_7() throws IOException {
 		/*
-		 * SQL: select * from Portfolio where pfl_id in (1, 2)
+		 * SQL: select * from Portfolio where pfl_csg_id in (6, 7)
 		*/
-        SelectColumnProperty critDepartment = new SelectColumnProperty("pfl_id", Arrays.asList(1, 2));
+        SelectColumnProperty critDepartment = new SelectColumnProperty("pfl_csg_id", Arrays.asList(6, 7));
         List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment));
-        assertEquals(2, portfolioList.size());
+        assertEquals(3, portfolioList.size());
     }
 
     @Test
-    public void select_PFL_CDP_ID_with_123_AND_PFL_CUST_ID_with_111() throws IOException {
+    public void select_pfl_csg_id_with_3_AND_pfl_cust_identifier_with_33333() throws IOException {
 		/*
-		 * SQL: select * from Portfolio where pfl_id in (1) and pfl_cust_identifier in ("33333")
+		 * SQL: select * from Portfolio where pfl_csg_id in (3) and pfl_cust_identifier in ("33333")
 		*/
-        SelectColumnProperty critDepartment = new SelectColumnProperty("pfl_id", Arrays.asList(1));
+        SelectColumnProperty critDepartment = new SelectColumnProperty("pfl_csg_id", Arrays.asList(3));
         SelectColumnProperty critDuns = new SelectColumnProperty("pfl_cust_identifier", Arrays.asList("33333"));
         List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(critDepartment, critDuns));
         assertEquals(1, portfolioList.size());

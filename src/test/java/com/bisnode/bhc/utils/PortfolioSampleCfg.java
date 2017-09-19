@@ -11,13 +11,13 @@ public class PortfolioSampleCfg {
 
 
     private static Portfolio portfolioCompany1;
+    private static Portfolio portfolioCompany1_updated;
     private static Portfolio portfolioCompany2;
     private static Portfolio portfolioCompany3;
     private static Portfolio portfolioCompany4;
 
     public static Portfolio getPortfolioCompany1() {
         portfolioCompany1 = new Portfolio();
-        portfolioCompany1.pfl_id = 1;
         portfolioCompany1.pfl_country_iso2 = "DE";
         portfolioCompany1.pfl_csg_id = 3;
         portfolioCompany1.pfl_wrk_id = 33;
@@ -29,9 +29,21 @@ public class PortfolioSampleCfg {
         return portfolioCompany1;
     }
 
+    public static Portfolio getPortfolioCompany1Updated() {
+        portfolioCompany1_updated = new Portfolio();
+        portfolioCompany1_updated.pfl_country_iso2 = "DE";
+        portfolioCompany1_updated.pfl_csg_id = 3;
+        portfolioCompany1_updated.pfl_wrk_id = 44;
+        portfolioCompany1_updated.pfl_ext_identifier = 333;
+        portfolioCompany1_updated.pfl_dtt_id = 3333;
+        portfolioCompany1_updated.pfl_cust_identifier = "33333";
+        portfolioCompany1_updated.pfl_strt_dt = new Date();
+        System.out.println("Portfolio 1 updated: " + portfolioCompany1_updated.toString());
+        return portfolioCompany1_updated;
+    }
+
     public static Portfolio getPortfolioCompany2() {
         portfolioCompany2 = new Portfolio();
-        portfolioCompany2.pfl_id = 2;
         portfolioCompany2.pfl_country_iso2 = "SE";
         portfolioCompany2.pfl_csg_id = 6;
         portfolioCompany2.pfl_wrk_id = 66;
@@ -46,7 +58,6 @@ public class PortfolioSampleCfg {
 
     public static Portfolio getPortfolioCompany3() {
         portfolioCompany3 = new Portfolio();
-        portfolioCompany3.pfl_id = 3;
         portfolioCompany3.pfl_country_iso2 = "SE";
         portfolioCompany3.pfl_csg_id = 7;
         portfolioCompany3.pfl_wrk_id = 77;
@@ -60,9 +71,8 @@ public class PortfolioSampleCfg {
 
     public static Portfolio getPortfolioCompany4() {
         portfolioCompany4 = new Portfolio();
-        portfolioCompany4.pfl_id = 4;
         portfolioCompany4.pfl_country_iso2 = "SE";
-        portfolioCompany4.pfl_csg_id = 8;
+        portfolioCompany4.pfl_csg_id = 6;
         portfolioCompany4.pfl_wrk_id = 77;
         portfolioCompany4.pfl_ext_identifier = 888;
         portfolioCompany4.pfl_dtt_id = 8888;

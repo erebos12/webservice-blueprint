@@ -52,8 +52,9 @@ public class GetPortfolioControllerTest {
         assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
 
 
-        result = mockMvc.perform(get("/portfolios/PBC")
-                .content(""))
+        String expectedReponse = "{\"portfolio\":[{\"pfl_id\":1,\"pfl_csg_id\":1,\"pfl_wrk_id\":1,\"pfl_cust_identifier\":\"43257\",\"pfl_ext_identifier\":1,\"pfl_dtt_id\":3,\"pfl_country_iso2\":\"DE\",\"pfl_strt_dt\":1505843655463,\"pfl_end_dt\":null},{\"pfl_id\":2,\"pfl_csg_id\":1,\"pfl_wrk_id\":1,\"pfl_cust_identifier\":\"44561\",\"pfl_ext_identifier\":1,\"pfl_dtt_id\":2,\"pfl_country_iso2\":\"US\",\"pfl_strt_dt\":1505843655463,\"pfl_end_dt\":null},{\"pfl_id\":3,\"pfl_csg_id\":1,\"pfl_wrk_id\":1,\"pfl_cust_identifier\":\"43756823\",\"pfl_ext_identifier\":1,\"pfl_dtt_id\":1,\"pfl_country_iso2\":\"SE\",\"pfl_strt_dt\":1505843655463,\"pfl_end_dt\":null}]}";
+        mockMvc.perform(get("/portfolios/PBC")
+                .content(expectedReponse))
                 .andExpect(status().isOk())
                 .andReturn();
     }
