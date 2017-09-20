@@ -94,10 +94,4 @@ public class PortfolioManagerTest {
         assertThat(p1_old_with_end_date.pfl_end_dt, is(IsNull.notNullValue()));
         assertThat(p1_new_without_end_date.pfl_end_dt, is(IsNull.nullValue()));
     }
-
-    @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
-    public void whenUpdateWithInvalidPortfolio_thenExpect_Exception() throws Exception {
-        Portfolio p = new Portfolio();
-        portfolioManager.update(Arrays.asList(p));
-    }
 }
