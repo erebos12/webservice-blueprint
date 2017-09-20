@@ -54,7 +54,6 @@ public class PortfolioManagerTest {
         assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.nullValue()));
     }
 
-
     @Test
     public void whenUpdateSamePortfolio_thenExpect_EndDateForOldPortfolio() throws Exception {
         //initial portfolio

@@ -10,10 +10,12 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.JsonValidator;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
 
+@Component
 public class JsonSchemaValidator {
 
     private JsonNode schemaNode;

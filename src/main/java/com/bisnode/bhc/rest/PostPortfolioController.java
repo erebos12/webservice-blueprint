@@ -29,18 +29,18 @@ import java.io.IOException;
 public class PostPortfolioController implements PostPortfolioApi {
 
     private static final Logger logger = LoggerFactory.getLogger(PostPortfolioController.class);
+    @Autowired
     private ObjectMapper mapper;
+    @Autowired
     private ConvertPortfolio converter;
+    @Autowired
     private PortfolioManager portfolioManager;
     private JsonSchemaValidator jsonSchemaValidator;
     private final ObjectNode node = JsonNodeFactory.instance.objectNode();
     private final String jsonSchemaFile = "schema.json";
 
     @Autowired
-    public PostPortfolioController(ConvertPortfolio converter, PortfolioManager portfolioManager) throws IOException {
-        this.converter = converter;
-        this.portfolioManager = portfolioManager;
-        this.mapper = new ObjectMapper();
+    public PostPortfolioController() throws IOException {
         this.jsonSchemaValidator = new JsonSchemaValidator();
         jsonSchemaValidator.loadJsonSchema(jsonSchemaValidator.jsonFile2JsonNode(jsonSchemaFile));
     }

@@ -13,10 +13,10 @@ import java.io.IOException;
  */
 public interface PostPortfolioApi {
 
-    @ApiOperation(value = "Return portfolio")
+    @ApiOperation(value = "Post a portfolio")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Return portfolio", response = String.class),
-            @ApiResponse(code = 404, message = "When no portfolio found", response = String.class)})
+            @ApiResponse(code = 200, message = "Portfolio posted successfully", response = String.class),
+            @ApiResponse(code = 400, message = "Portfolio message content is invalid", response = String.class)})
 
     public ResponseEntity<?> postPortfolio(@RequestBody String body) throws IOException;
 }

@@ -25,7 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 @Api
 @RequestMapping("/portfolios")
-public class GetPortfolioController {
+public class GetPortfolioController implements GetPortfolioApi{
 
     private static final Logger logger = LoggerFactory.getLogger(GetPortfolioController.class);
 
@@ -35,6 +35,7 @@ public class GetPortfolioController {
     @Autowired
     private ObjectMapper mapper;
 
+    @Override
     @RequestMapping(path = "/{system_id}", method = GET, produces = "application/json")
     public ResponseEntity getPortfolio(final @PathVariable("system_id") String system_id) {
         logger.info("Receiving GET request with system_id: '{}'", system_id);
