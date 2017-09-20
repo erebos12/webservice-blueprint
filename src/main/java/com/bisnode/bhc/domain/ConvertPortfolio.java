@@ -17,20 +17,8 @@ import java.util.List;
 public class ConvertPortfolio {
 
     private static final Logger logger = LoggerFactory.getLogger(ConvertPortfolio.class);
-    private HashMap<String, Integer> systemIdMap = new HashMap<>();
-    private HashMap<String, Integer> profileIdMap = new HashMap<>();
     private final int WORKFLOW_ID = 1;
     private final int EXTERNAL_ID = 1; // BHC=1
-
-    public ConvertPortfolio() {
-        this.systemIdMap.put("PBC", 1);
-        this.systemIdMap.put("P2R", 2);
-        this.systemIdMap.put("P4S", 3);
-
-        this.profileIdMap.put("Small", 1);
-        this.profileIdMap.put("Medium", 2);
-        this.profileIdMap.put("Large", 3);
-    }
 
     public List<Portfolio> apply(IncomingPortfolio incomingPortfolio){
         List<Portfolio> portfolios = new ArrayList<>();
@@ -47,8 +35,8 @@ public class ConvertPortfolio {
         portfolio.pfl_end_dt = null;
         portfolio.pfl_country_iso2 = company.country;
         portfolio.pfl_cust_identifier = company.id;
-        portfolio.pfl_dtt_id = profileIdMap.get(company.data_profile);
-        portfolio.pfl_csg_id = systemIdMap.get(incomingPortfolio.system_id);
+        portfolio.pfl_dtt_id = GlobalMapping.profileIdMap.get(company.data_profile);
+        portfolio.pfl_csg_id = GlobalMapping.systemIdMap.get(incomingPortfolio.system_id);
         logger.info("createPortfolio():  {}", portfolio.toString());
         return portfolio;
     }

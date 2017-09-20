@@ -1,6 +1,7 @@
 package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.configuration.CfgParams;
+import com.bisnode.bhc.domain.GlobalMapping;
 import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.infrastructure.SelectColumnProperty;
 import com.bisnode.bhc.infrastructure.TableSelector;
@@ -34,7 +35,8 @@ public class PortfolioManager {
     }
 
     public List<Portfolio> getPortfolio(String system_id) {
-        SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty("pfl_csg_id", Arrays.asList(1));
+        Integer mappedSystemId = GlobalMapping.systemIdMap.get(system_id.toUpperCase());
+        SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty("pfl_csg_id", Arrays.asList(mappedSystemId));
         return tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(pfl_csg_id_criteria));
     }
 }

@@ -57,7 +57,7 @@ public class PostAndGetPortfolioTest {
         String expectedMsg = "{\"message\":\"Portfolio proceeded successfully\"}";
         assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
 
-        result = mockMvc.perform(get("/portfolios/pbc"))
+        result = mockMvc.perform(get("/portfolios/p2r"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -78,7 +78,7 @@ public class PostAndGetPortfolioTest {
                 .andReturn();
         assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
 
-        result = mockMvc.perform(get("/portfolios/pbc"))
+        result = mockMvc.perform(get("/portfolios/p2r"))
                 .andExpect(status().isOk())
                 .andReturn();
 
