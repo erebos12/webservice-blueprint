@@ -14,6 +14,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
@@ -55,24 +56,43 @@ public class PortfolioManagerTest {
 
 
     @Test
-    public void whenUpdateP1_and_AddP3_thenExpect_EndDateForP2() throws Exception {
+    public void whenUpdateSamePortfolio_thenExpect_EndDateForOldPortfolio() throws Exception {
         //initial portfolio
-        Portfolio p1 = PortfolioSampleCfg.getPortfolioCompany1();
-        Portfolio p2 = PortfolioSampleCfg.getPortfolioCompany2();
-        portfolioManager.update(Arrays.asList(p1, p2));
+        Portfolio p1 = new Portfolio();
+        p1.pfl_cust_identifier = "123";
+        p1.pfl_country_iso2 = "DE";
+        p1.pfl_strt_dt = new Date();
+        p1.pfl_csg_id = 1;
+        p1.pfl_dtt_id = 1;
+        p1.pfl_ext_identifier = 444;
+        p1.pfl_wrk_id = 1;
 
-        // just add p3 and update p1 again
-        Portfolio p3 = PortfolioSampleCfg.getPortfolioCompany3();
-        portfolioManager.update(Arrays.asList(p1, p3));
-
-        //then expect only p2 must have end date (portfolio is disabled)
-        SelectColumnProperty selectCrit = new SelectColumnProperty("pfl_id", Arrays.asList(p1.pfl_id, p2.pfl_id, p3.pfl_id));
+        portfolioManager.update(Arrays.asList(p1));
+        SelectColumnProperty selectCrit = new SelectColumnProperty("pfl_cust_identifier", Arrays.asList("123"));
         List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(selectCrit));
-        assertEquals(3, portfolioList.size());
-        Sorter.sortListByPortfolioID(portfolioList);
-        assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.nullValue()));
-        assertThat(portfolioList.get(1).pfl_end_dt, is(IsNull.notNullValue()));
-        assertThat(portfolioList.get(2).pfl_end_dt, is(IsNull.nullValue()));
+        assertEquals(1, portfolioList.size());
+
+        p1 = new Portfolio();
+        p1.pfl_cust_identifier = "123";
+        p1.pfl_country_iso2 = "DE";
+        p1.pfl_strt_dt = new Date();
+        p1.pfl_csg_id = 1;
+        p1.pfl_dtt_id = 2; //change in here
+        p1.pfl_ext_identifier = 444;
+        p1.pfl_wrk_id = 1;
+
+        portfolioManager.update(Arrays.asList(p1));
+        selectCrit = new SelectColumnProperty("pfl_dtt_id", Arrays.asList(1));
+        portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(selectCrit));
+        assertEquals(1, portfolioList.size());
+        Portfolio p1_old_with_end_date = portfolioList.get(0);
+        selectCrit = new SelectColumnProperty("pfl_dtt_id", Arrays.asList(2));
+        portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(selectCrit));
+        assertEquals(1, portfolioList.size());
+        Portfolio p1_new_without_end_date = portfolioList.get(0);
+
+        assertThat(p1_old_with_end_date.pfl_end_dt, is(IsNull.notNullValue()));
+        assertThat(p1_new_without_end_date.pfl_end_dt, is(IsNull.nullValue()));
     }
 
     @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
