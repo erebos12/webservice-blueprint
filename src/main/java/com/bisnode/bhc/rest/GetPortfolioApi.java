@@ -16,8 +16,7 @@ public interface GetPortfolioApi {
 
     @ApiOperation(value = "Get portfolio")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Return a Portfolio for a certain system id", response = String.class),
-            @ApiResponse(code = 400, message = "When portfolio is not found", response = String.class)})
+            @ApiResponse(code = 200, message = "Return a Portfolio for a certain system id", response = String.class)})
 
     public ResponseEntity getPortfolio(final @PathVariable("system_id") String system_id);
 }
