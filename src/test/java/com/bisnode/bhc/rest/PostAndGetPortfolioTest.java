@@ -96,6 +96,20 @@ public class PostAndGetPortfolioTest {
         Assert.assertEquals(portfolioArray.get(1).get("pfl_end_dt").asText(), "null");
     }
 
+
+    @Test
+    public void when_getWithInvalidSystemId_thenExpectEmptyPortfolioList() throws Exception {
+        MvcResult result = mockMvc.perform(get("/portfolios/fdjkjhgfdh"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String response = result.getResponse().getContentAsString();
+        JsonNode jsonNode = mapper.readTree(response);
+        System.out.println(jsonNode.toString());
+        JsonNode portfolioArray = jsonNode.get("portfolio");
+        assertThat(portfolioArray.size(), is(0));
+    }
+
     private String getFileContent(String file) throws IOException {
         URL url = Resources.getResource(file);
         return Resources.toString(url, Charsets.UTF_8);
