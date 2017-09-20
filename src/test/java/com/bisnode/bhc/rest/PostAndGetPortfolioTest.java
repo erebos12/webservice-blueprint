@@ -110,6 +110,35 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.size(), is(0));
     }
 
+    @Test
+    public void getJustActivePortfolios() throws Exception {
+        MvcResult result = mockMvc.perform(post("/portfolios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getFileContent("incoming_portfolio01.json")))
+                .andExpect(status().isOk())
+                .andReturn();
+        String expectedMsg = "{\"message\":\"Portfolio proceeded successfully\"}";
+        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
+
+        result = mockMvc.perform(post("/portfolios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getFileContent("incoming_portfolio01.json")))
+                .andExpect(status().isOk())
+                .andReturn();
+        expectedMsg = "{\"message\":\"Portfolio proceeded successfully\"}";
+        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
+
+        result = mockMvc.perform(get("/portfolios/pbc?active=true"))
+                .andExpect(status().isOk())
+                .andReturn();
+        String response = result.getResponse().getContentAsString();
+        JsonNode jsonNode = mapper.readTree(response);
+        System.out.println(jsonNode.toString());
+        JsonNode portfolioArray = jsonNode.get("portfolio");
+        assertThat(portfolioArray.size(), is(3));
+
+    }
+
     private String getFileContent(String file) throws IOException {
         URL url = Resources.getResource(file);
         return Resources.toString(url, Charsets.UTF_8);

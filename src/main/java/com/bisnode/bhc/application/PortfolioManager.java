@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by sahm on 23.08.17.
@@ -38,5 +39,12 @@ public class PortfolioManager {
         Integer mappedSystemId = GlobalMapping.systemIdMap.get(system_id.toUpperCase());
         SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty("pfl_csg_id", Arrays.asList(mappedSystemId));
         return tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(pfl_csg_id_criteria));
+    }
+
+    public List<Portfolio> getActivePortfolio(String system_id) {
+        Integer mappedSystemId = GlobalMapping.systemIdMap.get(system_id.toUpperCase());
+        SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty("pfl_csg_id", Arrays.asList(mappedSystemId));
+        List<Portfolio> list = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(pfl_csg_id_criteria));
+        return list.stream().filter(i -> i.pfl_end_dt == null).collect(Collectors.toList());
     }
 }

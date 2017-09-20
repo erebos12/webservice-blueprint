@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
@@ -18,7 +19,8 @@ public interface GetPortfolioApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Return a Portfolio for a certain system id", response = String.class)})
 
-    public ResponseEntity getPortfolio(final @PathVariable("system_id") String system_id);
+    public ResponseEntity getPortfolio(final @PathVariable("system_id") String system_id,
+                                       final @RequestParam("active") String active);
 }
 
 
