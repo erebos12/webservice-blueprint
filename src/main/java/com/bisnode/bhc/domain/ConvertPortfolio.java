@@ -49,7 +49,7 @@ public class ConvertPortfolio {
         portfolio.pfl_cust_identifier = company.id;
         portfolio.pfl_dtt_id = profileIdMap.get(company.data_profile);
         portfolio.pfl_csg_id = systemIdMap.get(incomingPortfolio.system_id);
-        logger.info("createPortfolio():  {}" , this.toString());
+        logger.info("createPortfolio():  {}", this.toString());
         return portfolio;
     }
 
