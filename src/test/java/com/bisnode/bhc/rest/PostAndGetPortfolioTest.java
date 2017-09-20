@@ -90,7 +90,7 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.size(), is(2));
         assertThat(portfolioArray.get(0).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(0).get("pfl_ext_identifier").asInt(), is(1));
-        //Assert.assertNotEquals(portfolioArray.get(1).get("pfl_end_dt").asText(), "null");
+        Assert.assertNotEquals(portfolioArray.get(0).get("pfl_end_dt").asText(), "null");
         assertThat(portfolioArray.get(1).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(1).get("pfl_ext_identifier").asInt(), is(1));
         Assert.assertEquals(portfolioArray.get(1).get("pfl_end_dt").asText(), "null");
