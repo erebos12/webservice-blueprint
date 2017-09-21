@@ -4,3 +4,6 @@ microservice:
     description: Bayer-Health-Care REST WEB Service
   oauth2:
     enabled: false # Disable for development only
+
+bhcws:
+  mode: ${BHCWS_MODE}

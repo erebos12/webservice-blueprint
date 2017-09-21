@@ -7,8 +7,6 @@ import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;

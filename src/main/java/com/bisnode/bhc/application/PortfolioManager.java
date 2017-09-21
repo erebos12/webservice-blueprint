@@ -6,12 +6,9 @@ import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.infrastructure.SelectColumnProperty;
 import com.bisnode.bhc.infrastructure.TableSelector;
 import com.bisnode.bhc.infrastructure.TableUpserter;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
