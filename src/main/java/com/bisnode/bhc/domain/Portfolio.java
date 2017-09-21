@@ -5,12 +5,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import javax.persistence.*;
 import java.util.Date;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
-@Table(name = "Portfolio")
+@Table(name = "portfolio")
 public class Portfolio {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=IDENTITY)
     @Column(name = "pfl_id")
     public int pfl_id;
 
