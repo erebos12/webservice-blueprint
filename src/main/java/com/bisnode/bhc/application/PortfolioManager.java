@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ public class PortfolioManager {
 
     private TableUpserter tableUpserter;
     private TableSelector tableSelector;
+    private static final String SYSTEM_ID_COLUMN = "pfl_csg_id";
 
     public PortfolioManager() throws IOException {
         this.tableUpserter = new TableUpserter(CfgParams.getHibernateCfgFile(), CfgParams.getHibernateTables());
@@ -36,15 +38,23 @@ public class PortfolioManager {
     }
 
     public List<Portfolio> getPortfolio(String system_id) {
-        Integer mappedSystemId = GlobalMapping.systemIdMap.get(system_id.toUpperCase());
-        SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty("pfl_csg_id", Arrays.asList(mappedSystemId));
+        Integer mappedSystemId = getSystemIdValue(system_id);
+        SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty(SYSTEM_ID_COLUMN, Arrays.asList(mappedSystemId));
         return tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(pfl_csg_id_criteria));
     }
 
     public List<Portfolio> getActivePortfolio(String system_id) {
-        Integer mappedSystemId = GlobalMapping.systemIdMap.get(system_id.toUpperCase());
-        SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty("pfl_csg_id", Arrays.asList(mappedSystemId));
+        Integer mappedSystemId = getSystemIdValue(system_id);
+        SelectColumnProperty pfl_csg_id_criteria = new SelectColumnProperty(SYSTEM_ID_COLUMN, Arrays.asList(mappedSystemId));
         List<Portfolio> list = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(pfl_csg_id_criteria));
-        return list.stream().filter(i -> i.pfl_end_dt == null).collect(Collectors.toList());
+        return list.stream().filter(portItem -> hasNoEndDate(portItem.pfl_end_dt)).collect(Collectors.toList());
+    }
+
+    private Integer getSystemIdValue(String system_id) {
+        return GlobalMapping.systemIdMap.get(system_id.toUpperCase());
+    }
+
+    private boolean hasNoEndDate(Date endDate) {
+        return endDate == null;
     }
 }
