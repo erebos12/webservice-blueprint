@@ -4,10 +4,9 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
-        <!-- jdbc:jtds:<server_type>://<server>[:<port>][/<database>][;<property>=<value>[;...]]-->
-        <property name="hibernate.connection.url">jdbc:jtds:sqlserver://SHR-QA-DB-01:1433/squid</property>
-        <property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://SHR-QA-DB-01:3306/squid</property>
         <property name="connection.username">devdba</property>
         <property name="connection.password">N1xputm8chn!</property>
     </session-factory>
