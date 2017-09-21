@@ -23,18 +23,18 @@ public class CfgParams {
     private static final String hibernateCfgFileProduction = "hibernate.cfg.prod.xml";
     private static final String h2TestDataFile = "bhc-data-h2.sql";
 
-    @Value("${bhcws.mode}")
-    private static String mode;
+    @Value("${bhcws.mode:#{test}}")
+    public String mode;
 
-    public static List<Class<?>> getHibernateTables() {
+    public List<Class<?>> getHibernateTables() {
         return Arrays.asList(Portfolio.class);
     }
 
-    public static String getH2DataFile() throws IOException {
+    public String getH2DataFile() throws IOException {
         return Resources.getResource(h2TestDataFile).getFile();
     }
 
-    public static URL getHibernateCfgFile() throws MalformedURLException {
+    public URL getHibernateCfgFile() throws MalformedURLException {
         if ("prod".equalsIgnoreCase(mode)) {
             logger.info("running with production mode");
             return Resources.getResource(hibernateCfgFileProduction);

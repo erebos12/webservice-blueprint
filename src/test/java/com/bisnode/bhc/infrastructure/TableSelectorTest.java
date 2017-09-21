@@ -7,6 +7,7 @@ import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import com.bisnode.bhc.utils.Sorter;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,12 +24,13 @@ public class TableSelectorTest {
     private static Portfolio p2;
     private static Portfolio p3;
     private static Portfolio p4;
+    private static CfgParams cfgParams = new CfgParams();
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
-        TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
-        tableSelector = new TableSelector(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
-        tableUpserter = new TableUpserter(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
+        TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
+        tableSelector = new TableSelector(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
+        tableUpserter = new TableUpserter(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
         insertTestData();
     }
 

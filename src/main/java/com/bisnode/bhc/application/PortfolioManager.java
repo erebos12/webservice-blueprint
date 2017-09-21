@@ -6,6 +6,7 @@ import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.infrastructure.SelectColumnProperty;
 import com.bisnode.bhc.infrastructure.TableSelector;
 import com.bisnode.bhc.infrastructure.TableUpserter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,9 +25,10 @@ public class PortfolioManager {
     private TableSelector tableSelector;
     private static final String SYSTEM_ID_COLUMN = "pfl_csg_id";
 
-    public PortfolioManager() throws IOException {
-        this.tableUpserter = new TableUpserter(CfgParams.getHibernateCfgFile(), CfgParams.getHibernateTables());
-        this.tableSelector = new TableSelector(CfgParams.getHibernateCfgFile(), CfgParams.getHibernateTables());
+    @Autowired
+    public PortfolioManager(CfgParams cfgParams) throws IOException {
+        this.tableUpserter = new TableUpserter(cfgParams.getHibernateCfgFile(), cfgParams.getHibernateTables());
+        this.tableSelector = new TableSelector(cfgParams.getHibernateCfgFile(), cfgParams.getHibernateTables());
     }
 
     public void update(List<Portfolio> portfolioList) {

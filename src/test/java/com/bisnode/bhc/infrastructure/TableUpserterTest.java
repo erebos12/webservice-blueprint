@@ -7,6 +7,7 @@ import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,16 +23,17 @@ public class TableUpserterTest {
 
     private static TableUpserter tableUpserter = null;
     private static TableSelector tableSelector = null;
+    private static CfgParams cfgParams = new CfgParams();
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
-        tableUpserter = new TableUpserter(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
-        tableSelector = new TableSelector(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
+        tableUpserter = new TableUpserter(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
+        tableSelector = new TableSelector(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
     }
 
     @Test
     public void whenInsertToDifferentPortfolios_thenExpect_them_in_DB() throws Exception {
-        TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
+        TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
         tableUpserter.upsert(PortfolioSampleCfg.getPortfolioCompany3());
         tableUpserter.upsert(PortfolioSampleCfg.getPortfolioCompany4());
 
@@ -42,7 +44,7 @@ public class TableUpserterTest {
 
     @Test
     public void whenUpdateAnExistingPortfolio_thenExpect_updated_pfl_wrk_id() throws Exception {
-        TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
+        TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
         Portfolio p1 = PortfolioSampleCfg.getPortfolioCompany1();
         tableUpserter.upsert(p1);
         SelectColumnProperty critDepartment = new SelectColumnProperty("pfl_wrk_id", Arrays.asList(33));

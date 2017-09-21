@@ -6,4 +6,4 @@ microservice:
     enabled: false # Disable for development only
 
 bhcws:
-  mode: ${BHCWS_MODE}
+   mode: ${BHCWS_MODE}

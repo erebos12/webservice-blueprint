@@ -10,6 +10,7 @@ import com.bisnode.bhc.utils.Sorter;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,9 +32,10 @@ public class PortfolioManagerTest {
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
-        TestH2Initializer.initializeH2(CfgParams.getH2DataFile());
-        portfolioManager = new PortfolioManager();
-        tableSelector = new TableSelector(CfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
+        CfgParams cfgParams = new CfgParams();
+        TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
+        portfolioManager = new PortfolioManager(cfgParams);
+        tableSelector = new TableSelector(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
     }
 
     @Test
