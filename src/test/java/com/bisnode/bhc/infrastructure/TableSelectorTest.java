@@ -7,7 +7,6 @@ import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import com.bisnode.bhc.utils.Sorter;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class TableSelectorTest {
 
     private static TableSelector tableSelector = null;
-    private static TableUpserter tableUpserter = null;
+    private static PortfolioTableUpserter portfolioTableUpserter;
     private static Portfolio p1;
     private static Portfolio p2;
     private static Portfolio p3;
@@ -30,7 +29,7 @@ public class TableSelectorTest {
     public static void setup() throws SQLException, RuntimeException, IOException {
         TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
         tableSelector = new TableSelector(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
-        tableUpserter = new TableUpserter(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
+        portfolioTableUpserter = new PortfolioTableUpserter();
         insertTestData();
     }
 
@@ -39,10 +38,10 @@ public class TableSelectorTest {
         p2 = PortfolioSampleCfg.getPortfolioCompany2();
         p3 = PortfolioSampleCfg.getPortfolioCompany3();
         p4 = PortfolioSampleCfg.getPortfolioCompany4();
-        tableUpserter.upsert(p1);
-        tableUpserter.upsert(p2);
-        tableUpserter.upsert(p3);
-        tableUpserter.upsert(p4);
+        portfolioTableUpserter.insert(p1);
+        portfolioTableUpserter.insert(p2);
+        portfolioTableUpserter.insert(p3);
+        portfolioTableUpserter.insert(p4);
     }
 
     @Test

@@ -5,7 +5,7 @@ import com.bisnode.bhc.domain.GlobalMapping;
 import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.infrastructure.SelectColumnProperty;
 import com.bisnode.bhc.infrastructure.TableSelector;
-import com.bisnode.bhc.infrastructure.TableUpserter;
+import com.bisnode.bhc.infrastructure.PortfolioTableUpserter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,22 +21,23 @@ import java.util.stream.Collectors;
 @Component
 public class PortfolioManager {
 
-    private TableUpserter tableUpserter;
+    @Autowired
+    private PortfolioTableUpserter portfolioTableUpserter;
     private TableSelector tableSelector;
     private static final String SYSTEM_ID_COLUMN = "pfl_csg_id";
 
     @Autowired
-    public PortfolioManager(CfgParams cfgParams) throws IOException {
-        this.tableUpserter = new TableUpserter(cfgParams.getHibernateCfgFile(), cfgParams.getHibernateTables());
+    public PortfolioManager(CfgParams cfgParams, PortfolioTableUpserter portfolioTableUpserter) throws IOException {
         this.tableSelector = new TableSelector(cfgParams.getHibernateCfgFile(), cfgParams.getHibernateTables());
+        this.portfolioTableUpserter = portfolioTableUpserter;
     }
 
     public void update(List<Portfolio> portfolioList) {
         if (portfolioList.isEmpty()){
             return;
         }
-        tableUpserter.update(portfolioList.get(0).pfl_csg_id);
-        portfolioList.forEach(portfolio -> tableUpserter.upsert(portfolio));
+        portfolioTableUpserter.update(portfolioList.get(0).pfl_csg_id);
+        portfolioList.forEach(portfolio -> portfolioTableUpserter.insert(portfolio));
     }
 
     public List<Portfolio> getPortfolio(String system_id) {

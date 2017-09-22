@@ -10,7 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "portfolio")
 public class Portfolio {
-
+    
     @Id
     @GeneratedValue(strategy=IDENTITY)
     @Column(name = "pfl_id", nullable = false)

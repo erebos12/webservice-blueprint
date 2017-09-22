@@ -2,6 +2,7 @@ package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
+import com.bisnode.bhc.infrastructure.PortfolioTableUpserter;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import com.bisnode.bhc.infrastructure.SelectColumnProperty;
 import com.bisnode.bhc.infrastructure.TableSelector;
@@ -10,7 +11,6 @@ import com.bisnode.bhc.utils.Sorter;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -34,7 +34,7 @@ public class PortfolioManagerTest {
     public static void setup() throws SQLException, RuntimeException, IOException {
         CfgParams cfgParams = new CfgParams();
         TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
-        portfolioManager = new PortfolioManager(cfgParams);
+        portfolioManager = new PortfolioManager(cfgParams, new PortfolioTableUpserter());
         tableSelector = new TableSelector(cfgParams.getHibernateCfgFile(), Arrays.asList(Portfolio.class));
     }
 
