@@ -30,7 +30,7 @@ public class TableUpserter {
     public int updateAllEndDates() {
         try (Session session = hibernate.getSessionFactory().openSession()) {
             session.beginTransaction();
-            String hqlUpdate = "update Portfolio p set p.pfl_end_dt = :currentDate";
+            String hqlUpdate = "update Portfolio p set p.pfl_end_dt = :currentDate where pfl_end_dt = null";
             int updatedEntities = session.createQuery(hqlUpdate)
                     .setDate("currentDate", new Date())
                     .executeUpdate();
