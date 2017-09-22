@@ -68,7 +68,7 @@ public class TableUpserterTest {
         assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.nullValue()));
         assertThat(portfolioList.get(0).pfl_strt_dt, is(IsNull.notNullValue()));
 
-        int updatedEntries = tableUpserter.updateAllEndDates();
+        int updatedEntries = tableUpserter.update(portfolioList.get(0).pfl_csg_id);
         assertThat(updatedEntries, is(2));
         portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(select));
         assertThat(portfolioList.get(0).pfl_strt_dt, is(IsNull.notNullValue()));

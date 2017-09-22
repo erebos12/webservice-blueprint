@@ -57,7 +57,7 @@ public class PortfolioManagerTest {
     }
 
     @Test
-    public void whenUpdateSamePortfolio_thenExpect_EndDateForOldPortfolio() throws Exception {
+    public void whenUpdateSamePortfolio_thenExpect_just_EndDateForOldPortfolio() throws Exception {
         //initial portfolio
         Portfolio p1 = new Portfolio();
         p1.pfl_cust_identifier = "123";
@@ -67,26 +67,45 @@ public class PortfolioManagerTest {
         p1.pfl_dtt_id = 1;
         p1.pfl_ext_identifier = 444;
         p1.pfl_wrk_id = 1;
-
         portfolioManager.update(Arrays.asList(p1));
+
+        // untouched portfolio
+        Portfolio p2 = new Portfolio();
+        p2.pfl_cust_identifier = "9678";
+        p2.pfl_country_iso2 = "DE";
+        p2.pfl_strt_dt = new Date();
+        p2.pfl_csg_id = 2;
+        p2.pfl_dtt_id = 5;
+        p2.pfl_ext_identifier = 555;
+        p2.pfl_wrk_id = 1;
+        portfolioManager.update(Arrays.asList(p2));
+
         SelectColumnProperty selectCrit = new SelectColumnProperty("pfl_cust_identifier", Arrays.asList("123"));
         List<Portfolio> portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(selectCrit));
         assertEquals(1, portfolioList.size());
 
+        // now update P1 with new pfl_dtt_id
         p1 = new Portfolio();
         p1.pfl_cust_identifier = "123";
         p1.pfl_country_iso2 = "DE";
         p1.pfl_strt_dt = new Date();
         p1.pfl_csg_id = 1;
-        p1.pfl_dtt_id = 2; //change in here
+        p1.pfl_dtt_id = 2; // update in here
         p1.pfl_ext_identifier = 444;
         p1.pfl_wrk_id = 1;
-
         portfolioManager.update(Arrays.asList(p1));
+
+        // check content of table
         selectCrit = new SelectColumnProperty("pfl_dtt_id", Arrays.asList(1));
         portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(selectCrit));
         assertEquals(1, portfolioList.size());
         Portfolio p1_old_with_end_date = portfolioList.get(0);
+
+        selectCrit = new SelectColumnProperty("pfl_ext_identifier", Arrays.asList(555));
+        portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(selectCrit));
+        assertEquals(1, portfolioList.size());
+        Portfolio portfolio_untouched_end_date = portfolioList.get(0);
+
         selectCrit = new SelectColumnProperty("pfl_dtt_id", Arrays.asList(2));
         portfolioList = tableSelector.selectWhereInMultipleList(Portfolio.class, Arrays.asList(selectCrit));
         assertEquals(1, portfolioList.size());
@@ -94,5 +113,6 @@ public class PortfolioManagerTest {
 
         assertThat(p1_old_with_end_date.pfl_end_dt, is(IsNull.notNullValue()));
         assertThat(p1_new_without_end_date.pfl_end_dt, is(IsNull.nullValue()));
+        assertThat(portfolio_untouched_end_date.pfl_end_dt, is(IsNull.nullValue()));
     }
 }

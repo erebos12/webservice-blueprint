@@ -32,7 +32,10 @@ public class PortfolioManager {
     }
 
     public void update(List<Portfolio> portfolioList) {
-        tableUpserter.updateAllEndDates();
+        if (portfolioList.isEmpty()){
+            return;
+        }
+        tableUpserter.update(portfolioList.get(0).pfl_csg_id);
         portfolioList.forEach(portfolio -> tableUpserter.upsert(portfolio));
     }
 
