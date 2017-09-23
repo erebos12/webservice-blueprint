@@ -2,11 +2,10 @@ package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.PortfolioTableMgr;
-import com.bisnode.bhc.utils.PortfolioSampleCfg;
-import com.bisnode.bhc.infrastructure.SelectColumnProperty;
+import com.bisnode.bhc.infrastructure.DbTableMgr;
 import com.bisnode.bhc.utils.TestH2Initializer;
 import com.bisnode.bhc.utils.Sorter;
+import com.google.common.io.Resources;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,16 +27,18 @@ public class PortfolioManagerTest {
 
     private static PortfolioManager portfolioManager;
     private static CfgParams cfgParams;
+    private static final String h2TestDataFile = "bhc-data-h2.sql";
+    private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
         cfgParams = new CfgParams();
-        portfolioManager = new PortfolioManager(cfgParams, new PortfolioTableMgr());
+        portfolioManager = new PortfolioManager(new DbTableMgr());
     }
 
     @Test
     public void whenInsert_P1AndP2_thenExpectBoth_with_NoEndDate() throws Exception {
-        TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
+        TestH2Initializer.initializeH2(h2CfgFile);
         //when
         Portfolio p1 = new Portfolio();
         p1.pfl_cust_identifier = "123";
@@ -70,7 +71,7 @@ public class PortfolioManagerTest {
 
     @Test
     public void whenUpdateSamePortfolio_thenExpect_just_EndDateForOldPortfolio() throws Exception {
-        TestH2Initializer.initializeH2(cfgParams.getH2DataFile());
+        TestH2Initializer.initializeH2(h2CfgFile);
         List<Portfolio> portfolioList;
         //initial portfolio
         Portfolio p1 = new Portfolio();

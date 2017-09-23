@@ -17,15 +17,14 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class PortfolioTableMgr {
+public class DbTableMgr {
 
-    private static final Logger logger = LoggerFactory.getLogger(PortfolioTableMgr.class);
+    private static final Logger logger = LoggerFactory.getLogger(DbTableMgr.class);
     private static final String PERSISTANCE_UNIT = "portfolio";
     private EntityManagerFactory emf;
-    private EntityManager em;
     private CriteriaBuilder cb;
 
-    public PortfolioTableMgr() throws IOException {
+    public DbTableMgr() throws IOException {
         emf = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT);
     }
 
@@ -52,12 +51,11 @@ public class PortfolioTableMgr {
             em.getTransaction().begin();
             int result = em.createQuery(update).executeUpdate();
             em.getTransaction().commit();
-            logger.info("PortfolioTableMgr.updateEndDatesBy: {}", result);
+            logger.info("DbTableMgr.updateEndDatesBy: {}", result);
             return result;
         } finally {
             em.close();
         }
-
     }
 
     public List<Portfolio> selectPortfolioBy(Integer pfl_csg_id) {

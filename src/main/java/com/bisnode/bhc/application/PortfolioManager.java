@@ -3,7 +3,7 @@ package com.bisnode.bhc.application;
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.GlobalMapping;
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.PortfolioTableMgr;
+import com.bisnode.bhc.infrastructure.DbTableMgr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,29 +19,29 @@ import java.util.stream.Collectors;
 public class PortfolioManager {
 
     @Autowired
-    private PortfolioTableMgr portfolioTableMgr;
+    private DbTableMgr dbTableMgr;
 
     @Autowired
-    public PortfolioManager(CfgParams cfgParams, PortfolioTableMgr portfolioTableMgr) throws IOException {
-        this.portfolioTableMgr = portfolioTableMgr;
+    public PortfolioManager(DbTableMgr dbTableMgr) throws IOException {
+        this.dbTableMgr = dbTableMgr;
     }
 
     public void update(List<Portfolio> portfolioList) {
         if (portfolioList.isEmpty()){
             return;
         }
-        portfolioTableMgr.updateEndDatesBy(portfolioList.get(0).pfl_csg_id);
-        portfolioList.forEach(portfolio -> portfolioTableMgr.insert(portfolio));
+        dbTableMgr.updateEndDatesBy(portfolioList.get(0).pfl_csg_id);
+        portfolioList.forEach(portfolio -> dbTableMgr.insert(portfolio));
     }
 
     public List<Portfolio> getPortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        return portfolioTableMgr.selectPortfolioBy(mappedSystemId);
+        return dbTableMgr.selectPortfolioBy(mappedSystemId);
     }
 
     public List<Portfolio> getActivePortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        List<Portfolio> list = portfolioTableMgr.selectPortfolioBy(mappedSystemId);
+        List<Portfolio> list = dbTableMgr.selectPortfolioBy(mappedSystemId);
         return list.stream().filter(portItem -> hasNoEndDate(portItem.pfl_end_dt)).collect(Collectors.toList());
     }
 
