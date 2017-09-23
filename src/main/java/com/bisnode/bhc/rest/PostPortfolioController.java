@@ -40,7 +40,7 @@ public class PostPortfolioController implements PostPortfolioApi {
     private final String jsonSchemaFile = "schema.json";
 
     @Autowired
-    public PostPortfolioController() throws IOException {
+    public PostPortfolioController(PortfolioManager portfolioManager) throws IOException {
         this.jsonSchemaValidator = new JsonSchemaValidator();
         jsonSchemaValidator.loadJsonSchema(jsonSchemaValidator.jsonFile2JsonNode(jsonSchemaFile));
     }

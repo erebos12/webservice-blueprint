@@ -23,9 +23,11 @@ public class DbTableMgr {
     private static final String PERSISTANCE_UNIT = "portfolio";
     private EntityManagerFactory emf;
     private CriteriaBuilder cb;
+    private TableUpdateOps tableUpdateOps;
 
     public DbTableMgr() throws IOException {
         emf = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT);
+        tableUpdateOps = new TableUpdateOps(PERSISTANCE_UNIT);
     }
 
     public void insert(Portfolio portfolio) {
@@ -40,22 +42,13 @@ public class DbTableMgr {
     }
 
     public int updateEndDatesBy(Integer pfl_csg_id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            cb = em.getCriteriaBuilder();
-            CriteriaUpdate<Portfolio> update = cb.createCriteriaUpdate(Portfolio.class);
-            Root e = update.from(Portfolio.class);
-            update.set("pfl_end_dt", new Date());
-            update.where(cb.and(cb.equal(e.get("pfl_csg_id"), pfl_csg_id),
-                    cb.isNull(e.get("pfl_end_dt"))));
-            em.getTransaction().begin();
-            int result = em.createQuery(update).executeUpdate();
-            em.getTransaction().commit();
-            logger.info("DbTableMgr.updateEndDatesBy: {}", result);
-            return result;
-        } finally {
-            em.close();
-        }
+        CriteriaBuilder cb = tableUpdateOps.createCriteriaBuiler();
+        CriteriaUpdate update = cb.createCriteriaUpdate(Portfolio.class);
+        Root root = update.from(Portfolio.class);
+        update.set("pfl_end_dt", new Date());
+        update.where(cb.and(cb.equal(root.get("pfl_csg_id"), pfl_csg_id),
+                cb.isNull(root.get("pfl_end_dt"))));
+        return tableUpdateOps.executeUpdate(update);
     }
 
     public List<Portfolio> selectPortfolioBy(Integer pfl_csg_id) {

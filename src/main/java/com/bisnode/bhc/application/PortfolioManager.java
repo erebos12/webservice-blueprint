@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Component
 public class PortfolioManager {
 
-    @Autowired
     private DbTableMgr dbTableMgr;
 
     @Autowired

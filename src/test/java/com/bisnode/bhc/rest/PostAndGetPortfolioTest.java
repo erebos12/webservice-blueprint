@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = PostPortfolioController.class, includeFilters = {
+@WebMvcTest(controllers = {PostPortfolioController.class, GetPortfolioController.class}, includeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.bisnode.bhc.*")})
 public class PostAndGetPortfolioTest {
 
