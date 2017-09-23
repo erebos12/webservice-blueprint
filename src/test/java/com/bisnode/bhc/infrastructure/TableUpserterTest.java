@@ -21,21 +21,21 @@ import static org.junit.Assert.assertThat;
 
 public class TableUpserterTest {
 
-    private static DbTableMgr dbTableMgr = null;
+    private static PortfolioDbOperator portfolioDbOperator = null;
     private static final String h2TestDataFile = "bhc-data-h2.sql";
     private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
     private TableUpserter tableUpserter;
 
     @Before
     public void setup() throws SQLException, RuntimeException, IOException {
-        dbTableMgr = new DbTableMgr();
+        portfolioDbOperator = new PortfolioDbOperator();
         H2DbInitializer.initializeH2(h2CfgFile);
         tableUpserter = new TableUpserter("portfolio");
     }
 
     @Test
     public void test() throws IOException, SQLException {
-        dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany2());
+        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany2());
 
         CriteriaBuilder cb = tableUpserter.createCriteriaBuiler();
 
@@ -47,7 +47,7 @@ public class TableUpserterTest {
 
         int res = tableUpserter.executeUpdate(update);
         assertThat(res, is(1));
-        List<Portfolio> list = dbTableMgr.selectPortfolioBy(1);
+        List<Portfolio> list = portfolioDbOperator.selectPortfolioBy(1);
         assertThat(list.size(), is(1));
         assertThat(list.get(0).pfl_end_dt, is(IsNull.notNullValue()));
     }

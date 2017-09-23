@@ -17,13 +17,13 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class DbTableMgr {
+public class PortfolioDbOperator {
 
     private static final String PERSISTANCE_UNIT = "portfolio";
     private TableUpserter tableUpserter;
     private TableSelector tableSelector;
 
-    public DbTableMgr() throws IOException {
+    public PortfolioDbOperator() throws IOException {
         tableUpserter = new TableUpserter(PERSISTANCE_UNIT);
         tableSelector = new TableSelector(PERSISTANCE_UNIT);
     }

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class TableUpserter {
 
-    private static final Logger logger = LoggerFactory.getLogger(DbTableMgr.class);
+    private static final Logger logger = LoggerFactory.getLogger(PortfolioDbOperator.class);
     private EntityManagerFactory emf;
     private EntityManager em;
 

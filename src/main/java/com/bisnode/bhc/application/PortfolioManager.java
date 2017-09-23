@@ -3,7 +3,7 @@ package com.bisnode.bhc.application;
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.GlobalMapping;
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.DbTableMgr;
+import com.bisnode.bhc.infrastructure.PortfolioDbOperator;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.google.common.io.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 @Component
 public class PortfolioManager {
 
-    private DbTableMgr dbTableMgr;
+    private PortfolioDbOperator portfolioDbOperator;
     private CfgParams cfgParams;
 
     @Autowired
-    public PortfolioManager(DbTableMgr dbTableMgr, CfgParams cfgParams) throws IOException, SQLException {
-        this.dbTableMgr = dbTableMgr;
+    public PortfolioManager(PortfolioDbOperator portfolioDbOperator, CfgParams cfgParams) throws IOException, SQLException {
+        this.portfolioDbOperator = portfolioDbOperator;
         this.cfgParams = cfgParams;
         if ("test".equalsIgnoreCase(cfgParams.mode)){
             String h2TestDataFile = "bhc-data-h2.sql";
@@ -39,18 +39,18 @@ public class PortfolioManager {
         if (portfolioList.isEmpty()){
             return;
         }
-        dbTableMgr.updateEndDatesBy(portfolioList.get(0).pfl_csg_id);
-        portfolioList.forEach(portfolio -> dbTableMgr.insert(portfolio));
+        portfolioDbOperator.updateEndDatesBy(portfolioList.get(0).pfl_csg_id);
+        portfolioList.forEach(portfolio -> portfolioDbOperator.insert(portfolio));
     }
 
     public List<Portfolio> getPortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        return dbTableMgr.selectPortfolioBy(mappedSystemId);
+        return portfolioDbOperator.selectPortfolioBy(mappedSystemId);
     }
 
     public List<Portfolio> getActivePortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        List<Portfolio> list = dbTableMgr.selectPortfolioBy(mappedSystemId);
+        List<Portfolio> list = portfolioDbOperator.selectPortfolioBy(mappedSystemId);
         return list.stream().filter(portItem -> hasNoEndDate(portItem.pfl_end_dt)).collect(Collectors.toList());
     }
 

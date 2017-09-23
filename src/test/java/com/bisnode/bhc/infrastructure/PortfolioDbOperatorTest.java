@@ -18,34 +18,34 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 
-public class DbTableMgrTest {
+public class PortfolioDbOperatorTest {
 
-    private static DbTableMgr dbTableMgr = null;
+    private static PortfolioDbOperator portfolioDbOperator = null;
     private static final String h2TestDataFile = "bhc-data-h2.sql";
     private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
-        dbTableMgr = new DbTableMgr();
+        portfolioDbOperator = new PortfolioDbOperator();
     }
 
     @Test
     public void whenInsertToDifferentPortfolios_thenExpect_them_in_DB() throws Exception {
         H2DbInitializer.initializeH2(h2CfgFile);
-        dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany2());
-        dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany3());
+        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany2());
+        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany3());
 
-        List<Portfolio> portfolioList = dbTableMgr.selectPortfolioBy(1);
+        List<Portfolio> portfolioList = portfolioDbOperator.selectPortfolioBy(1);
         assertEquals(2, portfolioList.size());
     }
 
     @Test
     public void testSetEnddates() throws IOException, SQLException {
         H2DbInitializer.initializeH2(h2CfgFile);
-        dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany1());
-        dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany3());
-        dbTableMgr.updateEndDatesBy(1);
-        List<Portfolio> l = dbTableMgr.selectPortfolioBy(1);
+        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany1());
+        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany3());
+        portfolioDbOperator.updateEndDatesBy(1);
+        List<Portfolio> l = portfolioDbOperator.selectPortfolioBy(1);
         assertThat(l.size(), is(1));
         Date endDate = l.get(0).pfl_end_dt;
         assertThat(endDate, is(IsNull.notNullValue()));

@@ -8,13 +8,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
 import java.io.IOException;
 import java.util.List;
 
 public class TableSelector {
 
-    private static final Logger logger = LoggerFactory.getLogger(DbTableMgr.class);
+    private static final Logger logger = LoggerFactory.getLogger(PortfolioDbOperator.class);
     private EntityManagerFactory emf;
     private EntityManager em;
 

@@ -2,7 +2,7 @@ package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.infrastructure.DbTableMgr;
+import com.bisnode.bhc.infrastructure.PortfolioDbOperator;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.Sorter;
 import com.google.common.io.Resources;
@@ -33,7 +33,7 @@ public class PortfolioManagerTest {
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
         cfgParams = new CfgParams();
-        portfolioManager = new PortfolioManager(new DbTableMgr(), new CfgParams());
+        portfolioManager = new PortfolioManager(new PortfolioDbOperator(), new CfgParams());
     }
 
     @Test
