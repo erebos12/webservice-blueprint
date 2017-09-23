@@ -7,16 +7,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import java.io.IOException;
+import java.util.List;
 
-public class TableUpdateOps {
+public class TableSelector {
 
     private static final Logger logger = LoggerFactory.getLogger(DbTableMgr.class);
     private EntityManagerFactory emf;
     private EntityManager em;
 
-    public TableUpdateOps(String persistanceUnit) throws IOException {
+    public TableSelector(String persistanceUnit) throws IOException {
         emf = Persistence.createEntityManagerFactory(persistanceUnit);
     }
 
@@ -25,13 +27,9 @@ public class TableUpdateOps {
         return em.getCriteriaBuilder();
     }
 
-    public int executeUpdate(CriteriaUpdate update) {
+    public <T> List<T> executeQuery(CriteriaQuery query) {
         try {
-            em.getTransaction().begin();
-            int result = em.createQuery(update).executeUpdate();
-            em.getTransaction().commit();
-            logger.info("executeUpdate: {}", result);
-            return result;
+            return em.createQuery(query).getResultList();
         } finally {
             em.close();
         }

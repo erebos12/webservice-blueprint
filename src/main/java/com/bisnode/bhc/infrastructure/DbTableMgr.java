@@ -19,49 +19,34 @@ import java.util.List;
 @Component
 public class DbTableMgr {
 
-    private static final Logger logger = LoggerFactory.getLogger(DbTableMgr.class);
     private static final String PERSISTANCE_UNIT = "portfolio";
-    private EntityManagerFactory emf;
-    private CriteriaBuilder cb;
-    private TableUpdateOps tableUpdateOps;
+    private TableUpserter tableUpserter;
+    private TableSelector tableSelector;
 
     public DbTableMgr() throws IOException {
-        emf = Persistence.createEntityManagerFactory(PERSISTANCE_UNIT);
-        tableUpdateOps = new TableUpdateOps(PERSISTANCE_UNIT);
+        tableUpserter = new TableUpserter(PERSISTANCE_UNIT);
+        tableSelector = new TableSelector(PERSISTANCE_UNIT);
     }
 
     public void insert(Portfolio portfolio) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(portfolio);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+        tableUpserter.insert(portfolio);
     }
 
     public int updateEndDatesBy(Integer pfl_csg_id) {
-        CriteriaBuilder cb = tableUpdateOps.createCriteriaBuiler();
+        CriteriaBuilder cb = tableUpserter.createCriteriaBuiler();
         CriteriaUpdate update = cb.createCriteriaUpdate(Portfolio.class);
         Root root = update.from(Portfolio.class);
         update.set("pfl_end_dt", new Date());
         update.where(cb.and(cb.equal(root.get("pfl_csg_id"), pfl_csg_id),
                 cb.isNull(root.get("pfl_end_dt"))));
-        return tableUpdateOps.executeUpdate(update);
+        return tableUpserter.executeUpdate(update);
     }
 
     public List<Portfolio> selectPortfolioBy(Integer pfl_csg_id) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            cb = em.getCriteriaBuilder();
-            CriteriaQuery<Portfolio> q = cb.createQuery(Portfolio.class);
-            Root<Portfolio> e = q.from(Portfolio.class);
-            q.where(cb.equal(e.get("pfl_csg_id"), pfl_csg_id));
-            return em.createQuery(q).getResultList();
-        }
-        finally {
-            em.close();
-        }
+        CriteriaBuilder cb = tableSelector.createCriteriaBuiler();
+        CriteriaQuery<Portfolio> q = cb.createQuery(Portfolio.class);
+        Root<Portfolio> e = q.from(Portfolio.class);
+        q.where(cb.equal(e.get("pfl_csg_id"), pfl_csg_id));
+        return tableSelector.executeQuery(q);
     }
 }
