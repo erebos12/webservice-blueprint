@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CfgParams {
 
-    @Value("${bhcws.mode:#{test}}")
+    @Value("${bhcws.mode:{test}}")
     public String mode;
 }

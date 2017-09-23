@@ -2,7 +2,7 @@ package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
-import com.bisnode.bhc.utils.TestH2Initializer;
+import com.bisnode.bhc.utils.H2DbInitializer;
 import com.google.common.io.Resources;
 import org.hamcrest.core.IsNull;
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class TableUpdateOpsTest {
     @Before
     public void setup() throws SQLException, RuntimeException, IOException {
         dbTableMgr = new DbTableMgr();
-        TestH2Initializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2(h2CfgFile);
         tableUpdateOps = new TableUpdateOps("portfolio");
     }
 

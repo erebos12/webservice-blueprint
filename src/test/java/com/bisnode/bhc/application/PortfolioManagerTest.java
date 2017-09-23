@@ -3,7 +3,7 @@ package com.bisnode.bhc.application;
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.infrastructure.DbTableMgr;
-import com.bisnode.bhc.utils.TestH2Initializer;
+import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.Sorter;
 import com.google.common.io.Resources;
 import org.hamcrest.core.IsNull;
@@ -33,12 +33,12 @@ public class PortfolioManagerTest {
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
         cfgParams = new CfgParams();
-        portfolioManager = new PortfolioManager(new DbTableMgr());
+        portfolioManager = new PortfolioManager(new DbTableMgr(), new CfgParams());
     }
 
     @Test
     public void whenInsert_P1AndP2_thenExpectBoth_with_NoEndDate() throws Exception {
-        TestH2Initializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2(h2CfgFile);
         //when
         Portfolio p1 = new Portfolio();
         p1.pfl_cust_identifier = "123";
@@ -71,7 +71,7 @@ public class PortfolioManagerTest {
 
     @Test
     public void whenUpdateSamePortfolio_thenExpect_just_EndDateForOldPortfolio() throws Exception {
-        TestH2Initializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2(h2CfgFile);
         List<Portfolio> portfolioList;
         //initial portfolio
         Portfolio p1 = new Portfolio();

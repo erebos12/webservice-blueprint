@@ -2,7 +2,7 @@ package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
-import com.bisnode.bhc.utils.TestH2Initializer;
+import com.bisnode.bhc.utils.H2DbInitializer;
 import com.google.common.io.Resources;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
@@ -31,7 +31,7 @@ public class DbTableMgrTest {
 
     @Test
     public void whenInsertToDifferentPortfolios_thenExpect_them_in_DB() throws Exception {
-        TestH2Initializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2(h2CfgFile);
         dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany2());
         dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany3());
 
@@ -41,7 +41,7 @@ public class DbTableMgrTest {
 
     @Test
     public void testSetEnddates() throws IOException, SQLException {
-        TestH2Initializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2(h2CfgFile);
         dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany1());
         dbTableMgr.insert(PortfolioSampleCfg.getPortfolioCompany3());
         dbTableMgr.updateEndDatesBy(1);

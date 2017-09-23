@@ -11,11 +11,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public final class TestH2Initializer {
+public final class H2DbInitializer {
 
-	private static final Logger logger = LoggerFactory.getLogger(TestH2Initializer.class);
+	private static final Logger logger = LoggerFactory.getLogger(H2DbInitializer.class);
 	
-    private TestH2Initializer() {
+    private H2DbInitializer() {
         // no instances
     }
 

@@ -1,7 +1,7 @@
 package com.bisnode.bhc.rest;
 
 
-import com.bisnode.bhc.utils.TestH2Initializer;
+import com.bisnode.bhc.utils.H2DbInitializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -54,7 +54,7 @@ public class PostAndGetPortfolioTest {
 
     @BeforeClass
     public static void setup() throws SQLException {
-        TestH2Initializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2(h2CfgFile);
     }
 
     @Test

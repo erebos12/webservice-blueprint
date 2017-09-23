@@ -1,7 +1,7 @@
 package com.bisnode.bhc.rest;
 
 
-import com.bisnode.bhc.utils.TestH2Initializer;
+import com.bisnode.bhc.utils.H2DbInitializer;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.hamcrest.CoreMatchers;
@@ -46,7 +46,7 @@ public class PostPortfolioControllerTest {
 
     @BeforeClass
     public static void setup() throws SQLException {
-        TestH2Initializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2(h2CfgFile);
     }
 
     @Test
