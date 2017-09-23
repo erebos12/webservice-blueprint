@@ -1,12 +1,14 @@
 package com.bisnode.bhc.rest;
 
 
+import com.bisnode.bhc.utils.TestH2Initializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.hamcrest.core.IsNull;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -46,6 +49,13 @@ public class PostAndGetPortfolioTest {
 
     @Autowired
     private ObjectMapper mapper;
+    private static final String h2TestDataFile = "bhc-data-h2.sql";
+    private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
+
+    @BeforeClass
+    public static void setup() throws SQLException {
+        TestH2Initializer.initializeH2(h2CfgFile);
+    }
 
     @Test
     public void when_postPortfolio_thenExpectItInGETPortfolio_and_updateExistingPortfolio() throws Exception {
