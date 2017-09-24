@@ -41,11 +41,6 @@ public class PostPortfolioControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @BeforeClass
-    public static void setup() throws SQLException {
-        H2DbInitializer.initializeH2();
-    }
-
     @Test
     public void whenSending_portfolio_thenExpect_200OK() throws Exception {
         String json = getFileContent("incoming_portfolio01.json");

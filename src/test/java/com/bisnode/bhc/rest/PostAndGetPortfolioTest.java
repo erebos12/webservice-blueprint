@@ -50,11 +50,6 @@ public class PostAndGetPortfolioTest {
     @Autowired
     private ObjectMapper mapper;
 
-    @BeforeClass
-    public static void setup() throws SQLException {
-        H2DbInitializer.initializeH2();
-    }
-
     @Test
     public void when_postPortfolio_thenExpectItInGETPortfolio_and_updateExistingPortfolio() throws Exception {
         MvcResult result = mockMvc.perform(post("/portfolios")

@@ -1,6 +1,5 @@
 package com.bisnode.bhc.infrastructure;
 
-import com.bisnode.bhc.application.PortfolioManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

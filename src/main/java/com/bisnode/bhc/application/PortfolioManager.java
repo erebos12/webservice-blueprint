@@ -1,11 +1,8 @@
 package com.bisnode.bhc.application;
 
-import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.GlobalMapping;
 import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.infrastructure.PortfolioDbOperator;
-import com.bisnode.bhc.utils.H2DbInitializer;
-import com.google.common.io.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

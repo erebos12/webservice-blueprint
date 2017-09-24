@@ -39,8 +39,7 @@ public class PostPortfolioController implements PostPortfolioApi {
     private final ObjectNode node = JsonNodeFactory.instance.objectNode();
     private final String jsonSchemaFile = "schema.json";
 
-    @Autowired
-    public PostPortfolioController(PortfolioManager portfolioManager) throws IOException {
+    public PostPortfolioController() throws IOException {
         this.jsonSchemaValidator = new JsonSchemaValidator();
         jsonSchemaValidator.loadJsonSchema(jsonSchemaValidator.jsonFile2JsonNode(jsonSchemaFile));
     }
