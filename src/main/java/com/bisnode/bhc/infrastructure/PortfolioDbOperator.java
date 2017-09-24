@@ -1,8 +1,10 @@
 package com.bisnode.bhc.infrastructure;
 
+import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -19,13 +21,13 @@ import java.util.List;
 @Component
 public class PortfolioDbOperator {
 
-    private static final String PERSISTANCE_UNIT = "portfolio";
     private TableUpserter tableUpserter;
     private TableSelector tableSelector;
 
-    public PortfolioDbOperator() throws IOException {
-        tableUpserter = new TableUpserter(PERSISTANCE_UNIT);
-        tableSelector = new TableSelector(PERSISTANCE_UNIT);
+    @Autowired
+    public PortfolioDbOperator(CfgParams cfgParams) throws IOException {
+        tableUpserter = new TableUpserter(cfgParams.persistence_unit);
+        tableSelector = new TableSelector(cfgParams.persistence_unit);
     }
 
     public void insert(Portfolio portfolio) {

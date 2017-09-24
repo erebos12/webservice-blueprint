@@ -22,15 +22,10 @@ import java.util.stream.Collectors;
 public class PortfolioManager {
 
     private PortfolioDbOperator portfolioDbOperator;
-    private CfgParams cfgParams;
 
     @Autowired
-    public PortfolioManager(PortfolioDbOperator portfolioDbOperator, CfgParams cfgParams) throws IOException, SQLException {
+    public PortfolioManager(PortfolioDbOperator portfolioDbOperator) throws IOException, SQLException {
         this.portfolioDbOperator = portfolioDbOperator;
-        this.cfgParams = cfgParams;
-        if ("test".equalsIgnoreCase(cfgParams.mode)){
-            H2DbInitializer.initializeH2();
-        }
     }
 
     public void update(List<Portfolio> portfolioList) {

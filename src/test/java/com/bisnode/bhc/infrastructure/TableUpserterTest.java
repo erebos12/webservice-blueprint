@@ -1,5 +1,6 @@
 package com.bisnode.bhc.infrastructure;
 
+import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import com.bisnode.bhc.utils.H2DbInitializer;
@@ -26,9 +27,10 @@ public class TableUpserterTest {
 
     @Before
     public void setup() throws SQLException, RuntimeException, IOException {
-        portfolioDbOperator = new PortfolioDbOperator();
+        CfgParams cfgParams = new CfgParams();
+        portfolioDbOperator = new PortfolioDbOperator(cfgParams);
         H2DbInitializer.initializeH2();
-        tableUpserter = new TableUpserter("portfolio");
+        tableUpserter = new TableUpserter(cfgParams.persistence_unit);
     }
 
     @Test

@@ -31,7 +31,7 @@ public class PortfolioManagerTest {
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
         cfgParams = new CfgParams();
-        portfolioManager = new PortfolioManager(new PortfolioDbOperator(), new CfgParams());
+        portfolioManager = new PortfolioManager(new PortfolioDbOperator(cfgParams));
     }
 
     @Test
