@@ -21,8 +21,6 @@ import static org.junit.Assert.assertThat;
 public class PortfolioDbOperatorTest {
 
     private static PortfolioDbOperator portfolioDbOperator = null;
-    private static final String h2TestDataFile = "bhc-data-h2.sql";
-    private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
@@ -31,7 +29,7 @@ public class PortfolioDbOperatorTest {
 
     @Test
     public void whenInsertToDifferentPortfolios_thenExpect_them_in_DB() throws Exception {
-        H2DbInitializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2();
         portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany2());
         portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany3());
 
@@ -41,7 +39,7 @@ public class PortfolioDbOperatorTest {
 
     @Test
     public void testSetEnddates() throws IOException, SQLException {
-        H2DbInitializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2();
         portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany1());
         portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany3());
         portfolioDbOperator.updateEndDatesBy(1);

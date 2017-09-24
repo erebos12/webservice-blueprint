@@ -27,8 +27,6 @@ public class PortfolioManagerTest {
 
     private static PortfolioManager portfolioManager;
     private static CfgParams cfgParams;
-    private static final String h2TestDataFile = "bhc-data-h2.sql";
-    private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
@@ -38,7 +36,7 @@ public class PortfolioManagerTest {
 
     @Test
     public void whenInsert_P1AndP2_thenExpectBoth_with_NoEndDate() throws Exception {
-        H2DbInitializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2();
         //when
         Portfolio p1 = new Portfolio();
         p1.pfl_cust_identifier = "123";
@@ -71,7 +69,7 @@ public class PortfolioManagerTest {
 
     @Test
     public void whenUpdateSamePortfolio_thenExpect_just_EndDateForOldPortfolio() throws Exception {
-        H2DbInitializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2();
         List<Portfolio> portfolioList;
         //initial portfolio
         Portfolio p1 = new Portfolio();

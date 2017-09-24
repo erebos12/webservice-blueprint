@@ -22,14 +22,12 @@ import static org.junit.Assert.assertThat;
 public class TableUpserterTest {
 
     private static PortfolioDbOperator portfolioDbOperator = null;
-    private static final String h2TestDataFile = "bhc-data-h2.sql";
-    private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
     private TableUpserter tableUpserter;
 
     @Before
     public void setup() throws SQLException, RuntimeException, IOException {
         portfolioDbOperator = new PortfolioDbOperator();
-        H2DbInitializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2();
         tableUpserter = new TableUpserter("portfolio");
     }
 

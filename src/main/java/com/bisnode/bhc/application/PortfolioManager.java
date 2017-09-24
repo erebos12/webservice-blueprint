@@ -29,9 +29,7 @@ public class PortfolioManager {
         this.portfolioDbOperator = portfolioDbOperator;
         this.cfgParams = cfgParams;
         if ("test".equalsIgnoreCase(cfgParams.mode)){
-            String h2TestDataFile = "bhc-data-h2.sql";
-            String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
-            H2DbInitializer.initializeH2(h2CfgFile);
+            H2DbInitializer.initializeH2();
         }
     }
 

@@ -49,12 +49,10 @@ public class PostAndGetPortfolioTest {
 
     @Autowired
     private ObjectMapper mapper;
-    private static final String h2TestDataFile = "bhc-data-h2.sql";
-    private static final String h2CfgFile = Resources.getResource(h2TestDataFile).getFile();
 
     @BeforeClass
     public static void setup() throws SQLException {
-        H2DbInitializer.initializeH2(h2CfgFile);
+        H2DbInitializer.initializeH2();
     }
 
     @Test
