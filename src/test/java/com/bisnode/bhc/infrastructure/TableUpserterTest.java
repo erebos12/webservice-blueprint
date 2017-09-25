@@ -59,7 +59,7 @@ public class TableUpserterTest {
 
 
     private CriteriaQuery createQuery(Integer pfl_csg_id) {
-        CriteriaBuilder cb = tableSelector.createCriteriaBuiler();
+        CriteriaBuilder cb = tableSelector.createCriteriaBuilder();
         CriteriaQuery<Portfolio> q = cb.createQuery(Portfolio.class);
         Root<Portfolio> e = q.from(Portfolio.class);
         return q.where(cb.equal(e.get("pfl_csg_id"), pfl_csg_id));
