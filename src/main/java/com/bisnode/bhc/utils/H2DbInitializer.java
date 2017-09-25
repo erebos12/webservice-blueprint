@@ -31,7 +31,7 @@ public final class H2DbInitializer {
             RunScript.execute(connection, reader);
             connection.close();
         } catch (IOException e) {
-        	String errMsg = "Unable to initialize H2 DB";
+        	String errMsg = "Unable to initialize H2 DB: " + e.toString();
         	logger.error(errMsg);
             throw new RuntimeException(errMsg);
         }
