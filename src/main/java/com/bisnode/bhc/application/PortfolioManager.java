@@ -5,8 +5,6 @@ import com.bisnode.bhc.domain.portfolio.Portfolio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,12 +15,8 @@ import java.util.stream.Collectors;
 @Component
 public class PortfolioManager {
 
-    private PortfolioDbOperator portfolioDbOperator;
-
     @Autowired
-    public PortfolioManager(PortfolioDbOperator portfolioDbOperator) throws IOException, SQLException {
-        this.portfolioDbOperator = portfolioDbOperator;
-    }
+    private PortfolioDbOperator portfolioDbOperator;
 
     public void update(List<Portfolio> portfolioList) {
         if (portfolioList.isEmpty()) {

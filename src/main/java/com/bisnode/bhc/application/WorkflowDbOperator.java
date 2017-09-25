@@ -3,22 +3,15 @@ package com.bisnode.bhc.application;
 import com.bisnode.bhc.domain.workflow.Workflow;
 import com.bisnode.bhc.infrastructure.TableUpserter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 
 @Component
 public class WorkflowDbOperator {
 
-    private TableUpserter tableUpserter;
-
     @Autowired
-    public WorkflowDbOperator(TableUpserter tableUpserter) throws SQLException, IOException {
-        this.tableUpserter = tableUpserter;
-    }
+    private TableUpserter tableUpserter;
 
     public void insertWorkflowFor(Integer wrk_csg_id) {
         Workflow workflow = new Workflow();
