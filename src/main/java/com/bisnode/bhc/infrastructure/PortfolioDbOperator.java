@@ -2,32 +2,41 @@ package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.Portfolio;
+import com.bisnode.bhc.rest.GetPortfolioController;
+import com.bisnode.bhc.utils.H2DbInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 @Component
 public class PortfolioDbOperator {
 
+    private static final Logger logger = LoggerFactory.getLogger(PortfolioDbOperator.class);
     private TableUpserter tableUpserter;
     private TableSelector tableSelector;
+    public String persistence_unit;
 
     @Autowired
-    public PortfolioDbOperator(CfgParams cfgParams) throws IOException {
-        tableUpserter = new TableUpserter(cfgParams.persistence_unit);
-        tableSelector = new TableSelector(cfgParams.persistence_unit);
+    public PortfolioDbOperator(CfgParams cfgParams) throws IOException, SQLException {
+        if ("prod".equalsIgnoreCase(cfgParams.mode)) {
+            persistence_unit = "portfolio_prod";
+        } else {
+            persistence_unit = "portfolio_test";
+            H2DbInitializer.initializeH2();
+        }
+        logger.info("Using persistence_unit: {}", persistence_unit);
+        tableUpserter = new TableUpserter(persistence_unit);
+        tableSelector = new TableSelector(persistence_unit);
     }
 
     public void insert(Portfolio portfolio) {
