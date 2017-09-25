@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Portfolio schema definition",
+  "description": "A portfolio web service",
+  "type": "object",
+  "properties": {
+    "business_partner_id": {
+      "description": "The unique identifier for an owner of a certain portfolio",
+      "type": "string"
+    },
+    "system_id": {
+      "description": "System name which provides portfolio data",
+      "type": "string",
+      "enum": [
+        "PBC",
+        "P2R",
+        "P4S"
+      ]
+    },
+    "company_id_type": {
+      "description": "Type of the identifier of a certain company e.g. 1 = DUNS",
+      "type": "string",
+      "enum": ["1"]
+    },
+    "companies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string",
+            "pattern": "^[A-Za-z]{2}$"
+          },
+          "data_profile": {
+            "type": "string",
+            "enum": [
+              "Large",
+              "Medium",
+              "Small"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "country",
+          "data_profile"
+        ]
+      }
+    }
+  },
+  "required": [
+    "business_partner_id",
+    "system_id",
+    "company_id_type"
+  ]
+}

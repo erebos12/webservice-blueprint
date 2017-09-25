@@ -1,0 +1,12 @@
+{
+  "business_partner_id": "54435",
+  "system_id": "P2R",
+  "company_id_type": "1",
+  "companies": [
+    {
+      "id": "44444",
+      "country": "DE",
+      "data_profile": "Small"
+    }
+  ]
+}

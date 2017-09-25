@@ -9,13 +9,14 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Import(MicroserviceConfig.class)
-public class BhcWsMain {
+public class PortfolioWsMain {
 
-    private static final Logger logger = LoggerFactory.getLogger(BhcWsMain.class);
+    private static final Logger logger = LoggerFactory.getLogger(PortfolioWsMain.class);
 
     public static void main(String[] args) {
-        SpringApplication app = new SpringApplication(BhcWsMain.class);
+        logger.info("Starting PortfolioWsMain ...");
+        SpringApplication app = new SpringApplication(PortfolioWsMain.class);
         app.run();
-        logger.info("Started BhcWsMain successfully.");
+        logger.info("Started PortfolioWsMain successfully.");
     }
 }

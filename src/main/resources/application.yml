@@ -1,9 +1,9 @@
 microservice:
   swagger:
-    name: Mibi File Provider
-    description: Microbilg File Provider REST Service
+    name: BHC-WS (v1.0)
+    description: Bayer-Health-Care REST WEB Service
   oauth2:
     enabled: false # Disable for development only
 
-mibi:
-  filePath: "src/test/resources/pdf"
+bhcws:
+   mode: ${BHCWS_MODE}

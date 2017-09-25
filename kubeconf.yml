@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${SERVICE_NAME}
+  labels:
+    app: ${SERVICE_NAME}
+    tier: svc
+spec:
+  ports:
+  - port: 80 # the port that this service should serve on
+               # the container on each pod to connect to, can be a name
+               # (e.g. 'www') or a number (e.g. 80)
+    targetPort: 8080
+    protocol: TCP
+ 
+  # just like the selector in the replication controller,
+  # but this time it identifies the set of pods to load balance
+  # traffic to.
+  selector:
+    app: ${SERVICE_NAME}
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: ${SERVICE_NAME}-${DEPLOY_VERSION}
+  labels:
+    app: ${SERVICE_NAME}
+spec:
+  replicas: ${RC_REPLICAS}
+  replicaSelector:
+    app: ${SERVICE_NAME}
+    version: ${DEPLOY_VERSION}
+  # selector identifies the set of Pods that this
+  # replication controller is responsible for managing
+  selector:
+    app: ${SERVICE_NAME}
+    version: ${DEPLOY_VERSION}
+    # podTemplate defines the 'cookie cutter' used for creating
+    # new pods when necessary
+  labels:
+    app: ${SERVICE_NAME}
+    version: ${DEPLOY_VERSION}
+  template:
+    metadata:
+      labels:
+        # Important: these labels need to match the selector above
+        # The api server enforces this constraint.
+        app: ${SERVICE_NAME}
+        version: ${DEPLOY_VERSION}
+    spec:
+      containers:
+      - name: ${SERVICE_NAME}
+        image: registry.bisnode.net/bisnode/${SERVICE_NAME}:${VERSION}
+        imagePullPolicy: Always
+        env:
+        - name: OAUTH_ENABLED
+          value: ${OAUTH_ENABLED}
+        ports:
+          - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: ${CONTEXT_PATH}/ping
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: ${CONTEXT_PATH}/ping
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 30
