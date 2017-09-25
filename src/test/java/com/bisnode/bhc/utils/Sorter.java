@@ -1,6 +1,6 @@
 package com.bisnode.bhc.utils;
 
-import com.bisnode.bhc.domain.Portfolio;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 
 import java.util.List;
 

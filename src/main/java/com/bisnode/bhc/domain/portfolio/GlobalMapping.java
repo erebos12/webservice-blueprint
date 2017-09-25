@@ -1,4 +1,4 @@
-package com.bisnode.bhc.domain;
+package com.bisnode.bhc.domain.portfolio;
 
 import java.util.HashMap;
 

@@ -1,8 +1,7 @@
 package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.configuration.CfgParams;
-import com.bisnode.bhc.domain.Portfolio;
-import com.bisnode.bhc.rest.GetPortfolioController;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

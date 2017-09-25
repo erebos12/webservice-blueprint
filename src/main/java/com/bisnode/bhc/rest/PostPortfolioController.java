@@ -5,8 +5,8 @@ package com.bisnode.bhc.rest;
  */
 
 import com.bisnode.bhc.application.PortfolioManager;
-import com.bisnode.bhc.domain.ConvertPortfolio;
-import com.bisnode.bhc.domain.IncomingPortfolio;
+import com.bisnode.bhc.domain.portfolio.ConvertPortfolio;
+import com.bisnode.bhc.domain.portfolio.IncomingPortfolio;
 import com.bisnode.bhc.utils.JsonSchemaValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;

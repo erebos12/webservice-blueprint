@@ -1,10 +1,9 @@
 package com.bisnode.bhc.infrastructure;
 
-import com.bisnode.bhc.domain.Portfolio;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import org.hamcrest.core.IsNull;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

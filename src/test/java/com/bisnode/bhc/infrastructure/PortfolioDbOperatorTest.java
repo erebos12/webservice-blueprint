@@ -1,14 +1,12 @@
 package com.bisnode.bhc.infrastructure;
 
 import com.bisnode.bhc.configuration.CfgParams;
-import com.bisnode.bhc.domain.Portfolio;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import com.bisnode.bhc.utils.H2DbInitializer;
-import com.google.common.io.Resources;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.SQLException;

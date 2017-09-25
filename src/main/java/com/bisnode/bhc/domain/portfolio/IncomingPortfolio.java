@@ -1,4 +1,4 @@
-package com.bisnode.bhc.domain;
+package com.bisnode.bhc.domain.portfolio;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,5 +1,9 @@
 package com.bisnode.bhc.domain;
 
+import com.bisnode.bhc.domain.portfolio.Company;
+import com.bisnode.bhc.domain.portfolio.ConvertPortfolio;
+import com.bisnode.bhc.domain.portfolio.IncomingPortfolio;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

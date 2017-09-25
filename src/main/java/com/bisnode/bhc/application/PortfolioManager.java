@@ -1,7 +1,7 @@
 package com.bisnode.bhc.application;
 
-import com.bisnode.bhc.domain.GlobalMapping;
-import com.bisnode.bhc.domain.Portfolio;
+import com.bisnode.bhc.domain.portfolio.GlobalMapping;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.infrastructure.PortfolioDbOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
