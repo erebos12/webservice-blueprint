@@ -1,7 +1,10 @@
 package com.bisnode.bhc.infrastructure;
 
+import com.bisnode.bhc.configuration.CfgParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,15 +12,17 @@ import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaUpdate;
 import java.io.IOException;
+import java.sql.SQLException;
 
-public class TableUpserter {
+@Component
+public class TableUpserter extends TableMgrBase {
 
-    private static final Logger logger = LoggerFactory.getLogger(PortfolioDbOperator.class);
-    private EntityManagerFactory emf;
+    private static final Logger logger = LoggerFactory.getLogger(TableUpserter.class);
     private EntityManager em;
 
-    public TableUpserter(String persistanceUnit) throws IOException {
-        emf = Persistence.createEntityManagerFactory(persistanceUnit);
+    @Autowired
+    public TableUpserter(CfgParams cfgParams) throws IOException, SQLException {
+        super(cfgParams);
     }
 
     public CriteriaBuilder createCriteriaBuiler() {

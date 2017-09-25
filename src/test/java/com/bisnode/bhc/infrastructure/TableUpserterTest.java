@@ -6,6 +6,10 @@ import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,17 +23,19 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class TableUpserterTest {
 
-    private static TableSelector tableSelector;
-    private static TableUpserter tableUpserter;
+    @Autowired
+    private TableSelector tableSelector;
+    @Autowired
+    private TableUpserter tableUpserter;
 
     @BeforeClass
     public static void setup() throws SQLException, RuntimeException, IOException {
+        System.setProperty("BHCWS_MODE", "test");
         H2DbInitializer.initializeH2();
-        String persistence_unit = "portfolio_test";
-        tableUpserter = new TableUpserter(persistence_unit);
-        tableSelector = new TableSelector(persistence_unit);
     }
 
     @Test

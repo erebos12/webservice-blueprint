@@ -1,11 +1,9 @@
 package com.bisnode.bhc.rest;
 
 
-import com.bisnode.bhc.utils.H2DbInitializer;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.hamcrest.CoreMatchers;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -21,7 +19,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

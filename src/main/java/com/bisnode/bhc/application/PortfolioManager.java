@@ -3,6 +3,7 @@ package com.bisnode.bhc.application;
 import com.bisnode.bhc.domain.portfolio.GlobalMapping;
 import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.infrastructure.PortfolioDbOperator;
+import com.bisnode.bhc.infrastructure.WorkflowDbOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +27,11 @@ public class PortfolioManager {
     }
 
     public void update(List<Portfolio> portfolioList) {
-        if (portfolioList.isEmpty()){
+        if (portfolioList.isEmpty()) {
             return;
         }
-        portfolioDbOperator.updateEndDatesBy(portfolioList.get(0).pfl_csg_id);
+        Integer csg_id = portfolioList.get(0).pfl_csg_id;
+        portfolioDbOperator.updateEndDatesBy(csg_id);
         portfolioList.forEach(portfolio -> portfolioDbOperator.insert(portfolio));
     }
 

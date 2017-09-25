@@ -1,16 +1,22 @@
 package com.bisnode.bhc.application;
 
-import com.bisnode.bhc.configuration.CfgParams;
 import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.infrastructure.PortfolioDbOperator;
+import com.bisnode.bhc.infrastructure.TableSelector;
+import com.bisnode.bhc.infrastructure.TableUpserter;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.Sorter;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -22,15 +28,16 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by sahm on 23.08.17.
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class PortfolioManagerTest {
 
-    private static PortfolioManager portfolioManager;
-    private static CfgParams cfgParams;
+    @Autowired
+    public PortfolioManager portfolioManager;
 
     @BeforeClass
-    public static void setup() throws SQLException, RuntimeException, IOException {
-        cfgParams = new CfgParams();
-        portfolioManager = new PortfolioManager(new PortfolioDbOperator(cfgParams));
+    public static void setup() {
+        System.setProperty("BHCWS_MODE", "test");
     }
 
     @Test

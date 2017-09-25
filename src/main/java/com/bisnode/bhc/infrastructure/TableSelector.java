@@ -1,20 +1,26 @@
 package com.bisnode.bhc.infrastructure;
 
+import com.bisnode.bhc.configuration.CfgParams;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
-public class TableSelector {
+@Component
+public class TableSelector extends TableMgrBase {
 
-    private EntityManagerFactory emf;
     private EntityManager em;
 
-    public TableSelector(String persistanceUnit) throws IOException {
-        emf = Persistence.createEntityManagerFactory(persistanceUnit);
+    @Autowired
+    public TableSelector(CfgParams cfgParams) throws IOException, SQLException {
+        super(cfgParams);
     }
 
     public CriteriaBuilder createCriteriaBuiler() {
