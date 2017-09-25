@@ -1,5 +1,6 @@
 package com.bisnode.bhc.infrastructure;
 
+import com.bisnode.bhc.application.PortfolioDbOperator;
 import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.PortfolioSampleCfg;

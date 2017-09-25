@@ -49,7 +49,7 @@ public class TableUpserterTest {
     }
 
     private CriteriaUpdate createUpdate() {
-        CriteriaBuilder cb = tableUpserter.createCriteriaBuiler();
+        CriteriaBuilder cb = tableUpserter.createCriteriaBuilder();
         CriteriaUpdate update = cb.createCriteriaUpdate(Portfolio.class);
         Root root = update.from(Portfolio.class);
         update.set("pfl_end_dt", new Date());

@@ -1,9 +1,6 @@
 package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.domain.portfolio.Portfolio;
-import com.bisnode.bhc.infrastructure.PortfolioDbOperator;
-import com.bisnode.bhc.infrastructure.TableSelector;
-import com.bisnode.bhc.infrastructure.TableUpserter;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.Sorter;
 import org.hamcrest.core.IsNull;
@@ -12,9 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;

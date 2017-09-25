@@ -1,6 +1,7 @@
-package com.bisnode.bhc.infrastructure;
+package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.domain.workflow.Workflow;
+import com.bisnode.bhc.infrastructure.TableUpserter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;

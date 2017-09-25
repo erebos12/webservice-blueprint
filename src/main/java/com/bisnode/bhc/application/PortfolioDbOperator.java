@@ -1,8 +1,8 @@
-package com.bisnode.bhc.infrastructure;
+package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.domain.portfolio.Portfolio;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.bisnode.bhc.infrastructure.TableSelector;
+import com.bisnode.bhc.infrastructure.TableUpserter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,14 +10,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 @Component
 public class PortfolioDbOperator {
-    
+
     @Autowired
     private TableUpserter tableUpserter;
     @Autowired
@@ -28,7 +26,7 @@ public class PortfolioDbOperator {
     }
 
     public int updateEndDatesBy(Integer pfl_csg_id) {
-        CriteriaBuilder cb = tableUpserter.createCriteriaBuiler();
+        CriteriaBuilder cb = tableUpserter.createCriteriaBuilder();
         CriteriaUpdate update = cb.createCriteriaUpdate(Portfolio.class);
         Root root = update.from(Portfolio.class);
         update.set("pfl_end_dt", new Date());

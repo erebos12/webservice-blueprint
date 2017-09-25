@@ -25,7 +25,7 @@ public class TableUpserter extends TableMgrBase {
         super(cfgParams);
     }
 
-    public CriteriaBuilder createCriteriaBuiler() {
+    public CriteriaBuilder createCriteriaBuilder() {
         em = emf.createEntityManager();
         return em.getCriteriaBuilder();
     }
