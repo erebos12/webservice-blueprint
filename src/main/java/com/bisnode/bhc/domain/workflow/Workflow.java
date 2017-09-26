@@ -10,7 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "workflow_log")
 public class Workflow {
-    
+
     @Id
     @GeneratedValue(strategy=IDENTITY)
     @Column(name = "wrk_id", nullable = false)
@@ -32,10 +32,10 @@ public class Workflow {
     public Integer wrk_current_step;
 
     @Column(name = "wrk_current_status", nullable = false)
-    public String wrk_current_status;
+    public Integer wrk_current_status;
 
     @Column(name = "wrk_pdi_job_id")
-    public Date wrk_pdi_job_id;
+    public Integer wrk_pdi_job_id;
 
     @Column(name = "wrk_strt_dt", nullable = false)
     public Date wrk_strt_dt;
@@ -44,7 +44,7 @@ public class Workflow {
     public Date wrk_end_dt;
 
     @Column(name = "wrk_success_quote")
-    public Long wrk_success_quote;
+    public Double wrk_success_quote;
 
     @Column(name = "wrk_activating_time")
     public Date wrk_activating_time;

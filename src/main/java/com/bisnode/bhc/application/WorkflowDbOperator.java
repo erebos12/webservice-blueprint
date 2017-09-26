@@ -20,7 +20,7 @@ public class WorkflowDbOperator {
         workflow.wrk_type_cd = "1";
         workflow.wrk_def_type_cd = 1;
         workflow.wrk_current_step = 0;
-        workflow.wrk_current_status = "0";
+        workflow.wrk_current_status = 0;
         workflow.wrk_strt_dt = new Date();
         tableUpserter.insert(workflow);
     }

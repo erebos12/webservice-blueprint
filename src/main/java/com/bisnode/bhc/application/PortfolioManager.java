@@ -18,6 +18,9 @@ public class PortfolioManager {
     @Autowired
     private PortfolioDbOperator portfolioDbOperator;
 
+    @Autowired
+    private WorkflowDbOperator workflowDbOperator;
+
     public void update(List<Portfolio> portfolioList) {
         if (portfolioList.isEmpty()) {
             return;
@@ -25,6 +28,7 @@ public class PortfolioManager {
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
         portfolioDbOperator.updateEndDatesBy(csg_id);
         portfolioList.forEach(portfolio -> portfolioDbOperator.insert(portfolio));
+        workflowDbOperator.insertWorkflowFor(csg_id);
     }
 
     public List<Portfolio> getPortfolio(String system_id) {

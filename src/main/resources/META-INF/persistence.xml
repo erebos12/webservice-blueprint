@@ -5,8 +5,6 @@
 
     <persistence-unit name="portfolio_test" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>com.bisnode.bhc.domain.portfolio.Portfolio</class>
-        <exclude-unlisted-classes/>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;TRACE_LEVEL_FILE=1"/>
@@ -17,15 +15,13 @@
 
     <persistence-unit name="portfolio_prod" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>com.bisnode.bhc.domain.portfolio.Portfolio</class>
-        <exclude-unlisted-classes/>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://SHR-QA-DB-01:3306/squid"/>
             <property name="javax.persistence.jdbc.user" value="devdba"/>
             <property name="javax.persistence.jdbc.password" value="N1xputm8chn!"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.show_sql" value="true"/>
         </properties>
     </persistence-unit>
 

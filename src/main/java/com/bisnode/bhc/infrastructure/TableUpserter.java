@@ -42,11 +42,11 @@ public class TableUpserter extends TableMgrBase {
         }
     }
 
-    public <T> void insert(T object2insert) {
+    public void insert(Object o) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(object2insert);
+            em.persist(o);
             em.getTransaction().commit();
         } finally {
             em.close();

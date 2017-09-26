@@ -4,6 +4,7 @@ import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.Sorter;
 import org.hamcrest.core.IsNull;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -34,9 +36,13 @@ public class PortfolioManagerTest {
         System.setProperty("BHCWS_MODE", "test");
     }
 
+    @Before
+    public void init() throws SQLException {
+        H2DbInitializer.initializeH2();
+    }
+
     @Test
     public void whenInsert_P1AndP2_thenExpectBoth_with_NoEndDate() throws Exception {
-        H2DbInitializer.initializeH2();
         //when
         Portfolio p1 = new Portfolio();
         p1.pfl_cust_identifier = "123";
@@ -69,7 +75,6 @@ public class PortfolioManagerTest {
 
     @Test
     public void whenUpdateSamePortfolio_thenExpect_just_EndDateForOldPortfolio() throws Exception {
-        H2DbInitializer.initializeH2();
         List<Portfolio> portfolioList;
         //initial portfolio
         Portfolio p1 = new Portfolio();

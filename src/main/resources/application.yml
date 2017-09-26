@@ -7,3 +7,7 @@ microservice:
 
 bhcws:
    mode: ${BHCWS_MODE}
+
+#spring:
+#   jpa:
+#     javax.persistence.jdbc.driver: ""
