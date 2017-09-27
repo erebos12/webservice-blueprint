@@ -1,22 +1,24 @@
 package com.bisnode.bhc.rest;
 
 
-import com.bisnode.bhc.utils.H2DbInitializer;
+import com.bisnode.bhc.infrastructure.PortfolioRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.hamcrest.core.IsNull;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,11 +26,9 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.isNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,19 +36,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by sahm on 22.08.17.
  */
-
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = {PostPortfolioController.class, GetPortfolioController.class}, includeFilters = {
         @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.bisnode.bhc.*")})
+@EnableJpaRepositories(basePackages = {"com.bisnode.bhc.infrastructure"})
+@AutoConfigureDataJpa
 public class PostAndGetPortfolioTest {
 
     private static final Logger logger = LoggerFactory.getLogger(PostAndGetPortfolioTest.class);
+
+    @Autowired
+    private PortfolioRepository portfolioRepository;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper mapper;
+
+    @Before
+    public void cleanup(){
+        portfolioRepository.deleteAll();
+    }
 
     @Test
     public void when_postPortfolio_thenExpectItInGETPortfolio_and_updateExistingPortfolio() throws Exception {

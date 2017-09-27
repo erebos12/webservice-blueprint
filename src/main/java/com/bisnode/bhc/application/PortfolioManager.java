@@ -2,6 +2,7 @@ package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.domain.portfolio.GlobalMapping;
 import com.bisnode.bhc.domain.portfolio.Portfolio;
+import com.bisnode.bhc.infrastructure.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +17,7 @@ import java.util.stream.Collectors;
 public class PortfolioManager {
 
     @Autowired
-    private PortfolioDbOperator portfolioDbOperator;
-
+    private PortfolioRepository portfolioRepository;
     @Autowired
     private WorkflowDbOperator workflowDbOperator;
 
@@ -26,19 +26,19 @@ public class PortfolioManager {
             return;
         }
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
-        portfolioDbOperator.updateEndDatesBy(csg_id);
-        portfolioList.forEach(portfolio -> portfolioDbOperator.insert(portfolio));
+        portfolioRepository.setEndDate(new Date(), csg_id);
+        portfolioList.forEach(portfolio -> portfolioRepository.save(portfolio));
         workflowDbOperator.insertWorkflowFor(csg_id);
     }
 
     public List<Portfolio> getPortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        return portfolioDbOperator.selectPortfolioBy(mappedSystemId);
+        return portfolioRepository.getEntirePortfolioBy(mappedSystemId);
     }
 
     public List<Portfolio> getActivePortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        List<Portfolio> list = portfolioDbOperator.selectPortfolioBy(mappedSystemId);
+        List<Portfolio> list = portfolioRepository.getEntirePortfolioBy(mappedSystemId);
         return list.stream().filter(portItem -> hasNoEndDate(portItem.pfl_end_dt)).collect(Collectors.toList());
     }
 

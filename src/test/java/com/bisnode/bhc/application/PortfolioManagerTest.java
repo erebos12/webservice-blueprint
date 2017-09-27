@@ -32,12 +32,7 @@ public class PortfolioManagerTest {
     public PortfolioManager portfolioManager;
 
     @BeforeClass
-    public static void setup() {
-        System.setProperty("BHCWS_MODE", "test");
-    }
-
-    @Before
-    public void init() throws SQLException {
+    public static void setup() throws SQLException {
         H2DbInitializer.initializeH2();
     }
 
@@ -48,7 +43,7 @@ public class PortfolioManagerTest {
         p1.pfl_cust_identifier = "123";
         p1.pfl_country_iso2 = "DE";
         p1.pfl_strt_dt = new Date();
-        p1.pfl_csg_id = 1;
+        p1.pfl_csg_id = 3;
         p1.pfl_dtt_id = 1;
         p1.pfl_ext_identifier = 444;
         p1.pfl_wrk_id = 1;
@@ -57,7 +52,7 @@ public class PortfolioManagerTest {
         p2.pfl_cust_identifier = "123";
         p2.pfl_country_iso2 = "DE";
         p2.pfl_strt_dt = new Date();
-        p2.pfl_csg_id = 1;
+        p2.pfl_csg_id = 3;
         p2.pfl_dtt_id = 2;
         p2.pfl_ext_identifier = 444;
         p2.pfl_wrk_id = 1;
@@ -66,7 +61,7 @@ public class PortfolioManagerTest {
         portfolioManager.update(Arrays.asList(p1, p2));
 
         //expect
-        List<Portfolio> portfolioList = portfolioManager.getPortfolio("PBC");
+        List<Portfolio> portfolioList = portfolioManager.getPortfolio("P4S");
         Sorter.sortListByPortfolioID(portfolioList);
         assertEquals(2, portfolioList.size());
         assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.nullValue()));

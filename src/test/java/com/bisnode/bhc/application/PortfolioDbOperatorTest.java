@@ -1,8 +1,8 @@
 package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.domain.portfolio.Portfolio;
+import com.bisnode.bhc.infrastructure.PortfolioRepository;
 import com.bisnode.bhc.utils.H2DbInitializer;
-import com.bisnode.bhc.utils.PortfolioSampleCfg;
 import org.hamcrest.core.IsNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,30 +25,53 @@ import static org.junit.Assert.assertThat;
 public class PortfolioDbOperatorTest {
 
     @Autowired
-    private PortfolioDbOperator portfolioDbOperator;
+    private PortfolioRepository portfolioRepository;
 
     @BeforeClass
-    public static void setup() {
-        System.setProperty("BHCWS_MODE", "test");
+    public static void setup() throws SQLException {
+        H2DbInitializer.initializeH2();
     }
-
     @Test
     public void whenInsertToDifferentPortfolios_thenExpect_them_in_DB() throws Exception {
-        H2DbInitializer.initializeH2();
-        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany2());
-        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany3());
+        Portfolio p = new Portfolio();
+        p.pfl_country_iso2 = "SE";
+        p.pfl_csg_id = 18;
+        p.pfl_wrk_id = 77;
+        p.pfl_ext_identifier = 777;
+        p.pfl_dtt_id = 7777;
+        p.pfl_cust_identifier = "77777";
+        p.pfl_strt_dt = new Date();
+        portfolioRepository.save(p);
 
-        List<Portfolio> portfolioList = portfolioDbOperator.selectPortfolioBy(1);
+        Portfolio p2 = new Portfolio();
+        p2.pfl_country_iso2 = "DE";
+        p2.pfl_csg_id = 18;
+        p2.pfl_wrk_id = 5;
+        p2.pfl_ext_identifier = 5;
+        p2.pfl_dtt_id = 5;
+        p2.pfl_cust_identifier = "5";
+        p2.pfl_strt_dt = new Date();
+        portfolioRepository.save(p2);
+
+        List<Portfolio> portfolioList = portfolioRepository.getEntirePortfolioBy(p.pfl_csg_id);
         assertEquals(2, portfolioList.size());
     }
 
     @Test
-    public void testSetEnddates() throws IOException, SQLException {
-        H2DbInitializer.initializeH2();
-        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany1());
-        portfolioDbOperator.insert(PortfolioSampleCfg.getPortfolioCompany3());
-        portfolioDbOperator.updateEndDatesBy(1);
-        List<Portfolio> l = portfolioDbOperator.selectPortfolioBy(1);
+    public void whenInsertPortfolio_AndUpdateEnddates_theExpect_NoneNullForEndDates() throws IOException, SQLException {
+        Portfolio p = new Portfolio();
+        p.pfl_country_iso2 = "SE";
+        p.pfl_csg_id = 33;
+        p.pfl_wrk_id = 77;
+        p.pfl_ext_identifier = 777;
+        p.pfl_dtt_id = 7777;
+        p.pfl_cust_identifier = "77777";
+        p.pfl_strt_dt = new Date();
+        portfolioRepository.save(p);
+
+        portfolioRepository.setEndDate(new Date(), p.pfl_csg_id);
+
+        List<Portfolio> l = portfolioRepository.getEntirePortfolioBy(p.pfl_csg_id);
         assertThat(l.size(), is(1));
         Date endDate = l.get(0).pfl_end_dt;
         assertThat(endDate, is(IsNull.notNullValue()));

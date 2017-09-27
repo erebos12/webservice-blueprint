@@ -1,7 +1,7 @@
 package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.domain.workflow.Workflow;
-import com.bisnode.bhc.infrastructure.TableUpserter;
+import com.bisnode.bhc.infrastructure.WorkflowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.Date;
 public class WorkflowDbOperator {
 
     @Autowired
-    private TableUpserter tableUpserter;
+    private WorkflowRepository workflowRepository;
 
     public void insertWorkflowFor(Integer wrk_csg_id) {
         Workflow workflow = new Workflow();
@@ -22,6 +22,6 @@ public class WorkflowDbOperator {
         workflow.wrk_current_step = 0;
         workflow.wrk_current_status = 0;
         workflow.wrk_strt_dt = new Date();
-        tableUpserter.insert(workflow);
+        workflowRepository.save(workflow);
     }
 }
