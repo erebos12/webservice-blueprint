@@ -69,7 +69,7 @@ public class PortfolioDbOperatorTest {
         p.pfl_strt_dt = new Date();
         portfolioRepository.save(p);
 
-        portfolioRepository.setEndDate(new Date(), p.pfl_csg_id);
+        portfolioRepository.setEndDateForExistingPortfolio(new Date(), p.pfl_csg_id);
 
         List<Portfolio> l = portfolioRepository.getEntirePortfolioBy(p.pfl_csg_id);
         assertThat(l.size(), is(1));

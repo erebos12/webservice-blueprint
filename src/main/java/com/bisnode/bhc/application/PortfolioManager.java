@@ -21,12 +21,22 @@ public class PortfolioManager {
     @Autowired
     private WorkflowDbOperator workflowDbOperator;
 
-    public void update(List<Portfolio> portfolioList) {
+    public void disableExistingAndInsertNewPortfolio(List<Portfolio> portfolioList) {
         if (portfolioList.isEmpty()) {
             return;
         }
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
-        portfolioRepository.setEndDate(new Date(), csg_id);
+        portfolioRepository.setEndDateForExistingPortfolio(new Date(), csg_id);
+        portfolioList.forEach(portfolio -> portfolioRepository.save(portfolio));
+        workflowDbOperator.insertWorkflowFor(csg_id);
+    }
+
+    public void disableDeliverdCompaniesAndInsertNewPortfolio(List<Portfolio> portfolioList) {
+        if (portfolioList.isEmpty()) {
+            return;
+        }
+        Integer csg_id = portfolioList.get(0).pfl_csg_id;
+        portfolioList.forEach(portfolio -> portfolioRepository.setEndDateForSpecificId(new Date(), csg_id, portfolio.pfl_cust_identifier));
         portfolioList.forEach(portfolio -> portfolioRepository.save(portfolio));
         workflowDbOperator.insertWorkflowFor(csg_id);
     }

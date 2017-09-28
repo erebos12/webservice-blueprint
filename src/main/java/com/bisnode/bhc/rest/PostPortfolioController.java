@@ -51,7 +51,7 @@ public class PostPortfolioController implements PostPortfolioApi {
             jsonSchemaValidator.validate(mapper.readTree(body));
             IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
             logger.info("Receiving POST request with body: '{}'", incomingPortfolio.toString());
-            portfolioManager.update(converter.apply(incomingPortfolio));
+            portfolioManager.disableExistingAndInsertNewPortfolio(converter.apply(incomingPortfolio));
             node.put("message", "Portfolio proceeded successfully");
             return ResponseEntity.ok(node);
         } catch (Throwable e) {

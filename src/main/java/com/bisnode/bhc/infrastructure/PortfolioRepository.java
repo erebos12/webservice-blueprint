@@ -14,8 +14,16 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Integer> {
     @Query("select p from Portfolio p where p.pfl_csg_id = :pfl_csg_id")
     List<Portfolio> getEntirePortfolioBy(@Param("pfl_csg_id") Integer pfl_csg_id);
 
+    @Query("select p from Portfolio p where p.pfl_cust_identifier = :pfl_cust_identifier")
+    List<Portfolio> findByCustId(@Param("pfl_cust_identifier") String pfl_cust_identifier);
+
     @Transactional
     @Modifying
     @Query("update Portfolio p set p.pfl_end_dt = :now where p.pfl_end_dt = null and p.pfl_csg_id = :pfl_csg_id")
-    void setEndDate(@Param("now") Date now, @Param("pfl_csg_id") Integer pfl_csg_id);
+    void setEndDateForExistingPortfolio(@Param("now") Date now, @Param("pfl_csg_id") Integer pfl_csg_id);
+
+    @Transactional
+    @Modifying
+    @Query("update Portfolio p set p.pfl_end_dt = :now where p.pfl_end_dt = null and p.pfl_csg_id = :pfl_csg_id and p.pfl_cust_identifier = :pfl_cust_identifier")
+    void setEndDateForSpecificId(@Param("now") Date now, @Param("pfl_csg_id") Integer pfl_csg_id, @Param("pfl_cust_identifier") String pfl_cust_identifier);
 }
