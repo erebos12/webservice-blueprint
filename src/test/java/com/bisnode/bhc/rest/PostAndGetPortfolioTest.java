@@ -64,7 +64,7 @@ public class PostAndGetPortfolioTest {
 
     @Test
     public void when_postPortfolio_thenExpectItInGETPortfolio_and_updateExistingPortfolio() throws Exception {
-        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "portfolio01.json");
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "P2R_Portfolio_CompanyId_44444_Profile_Small.json");
         MvcResult result = performGetAndCheckResp("/portfolios/p2r");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray, is(IsNull.notNullValue()));
@@ -73,7 +73,7 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.get(0).get("pfl_ext_identifier").asInt(), is(1));
         assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), is("null"));
 
-        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "portfolio02.json");
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "P2R_Portfolio_CompanyId_44444_Profile_Medium.json");
         result = performGetAndCheckResp("/portfolios/p2r");
 
         portfolioArray = resultToPortfolioJsonNode(result);
@@ -96,26 +96,26 @@ public class PostAndGetPortfolioTest {
 
     @Test
     public void getJustActivePortfolios() throws Exception {
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "incoming_portfolio01.json");
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "incoming_portfolio01.json");
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "PBC_Portfolio_With_3_Companies_02.json");
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "PBC_Portfolio_With_3_Companies_02.json");
         MvcResult result = performGetAndCheckResp("/portfolios/pbc?active=true");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(3));
     }
 
     @Test
-    public void whenUpdate1EntryInPortfolio_thenExpect_allOldEntries() throws Exception {
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "portfolio03.json");
-        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "portfolio01.json");
+    public void DISABLE_OFF_thenExpect_allOldEntries() throws Exception {
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "P2R_Portfolio_With_3_Companies.json");
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "P2R_Portfolio_CompanyId_44444_Profile_Small.json");
         MvcResult result = performGetAndCheckResp("/portfolios/p2r?active=true");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(3));
     }
 
     @Test
-    public void whenUpdate1EntryInPortfolio_thenExpect_dontReceiveOldEntries() throws Exception {
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "portfolio03.json");
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "portfolio01.json");
+    public void DISABLE_ALL_thenExpect_dontReceiveOldEntries() throws Exception {
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "P2R_Portfolio_With_3_Companies.json");
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "P2R_Portfolio_CompanyId_44444_Profile_Small.json");
         MvcResult result = performGetAndCheckResp("/portfolios/p2r?active=true");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(1));

@@ -54,7 +54,7 @@ public class PostPortfolioControllerTest {
 
     @Test
     public void whenSending_portfolio_thenExpect_200OK() throws Exception {
-        String json = getFileContent("incoming_portfolio01.json");
+        String json = getFileContent("PBC_Portfolio_With_3_Companies_02.json");
         logger.info("Sending POST with json: '{}'", json);
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)

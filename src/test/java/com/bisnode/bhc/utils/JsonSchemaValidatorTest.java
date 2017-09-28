@@ -27,7 +27,7 @@ public class JsonSchemaValidatorTest {
 
     @Test
     public void test_schemaValidator02() throws IOException, ProcessingException, InvalidPortfolioMessageException {
-        Assert.assertEquals(true, jsonSchemaValidator.validate(jsonSchemaValidator.jsonFile2JsonNode("incoming_portfolio01.json")).isSuccess());
+        Assert.assertEquals(true, jsonSchemaValidator.validate(jsonSchemaValidator.jsonFile2JsonNode("PBC_Portfolio_With_3_Companies_02.json")).isSuccess());
     }
 
     @Test(expected = InvalidPortfolioMessageException.class)
