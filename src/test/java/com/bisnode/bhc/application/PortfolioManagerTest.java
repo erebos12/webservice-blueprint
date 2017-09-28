@@ -1,9 +1,11 @@
 package com.bisnode.bhc.application;
 
 import com.bisnode.bhc.domain.portfolio.Portfolio;
+import com.bisnode.bhc.infrastructure.PortfolioRepository;
 import com.bisnode.bhc.utils.H2DbInitializer;
 import com.bisnode.bhc.utils.Sorter;
 import org.hamcrest.core.IsNull;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,10 +31,18 @@ public class PortfolioManagerTest {
 
     @Autowired
     public PortfolioManager portfolioManager;
+    @Autowired
+    private PortfolioRepository portfolioRepository;
+
 
     @BeforeClass
     public static void setup() throws SQLException {
         H2DbInitializer.initializeH2();
+    }
+
+    @Before
+    public void cleanup() {
+        portfolioRepository.deleteAll();
     }
 
     @Test

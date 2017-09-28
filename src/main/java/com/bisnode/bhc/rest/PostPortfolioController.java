@@ -5,6 +5,7 @@ package com.bisnode.bhc.rest;
  */
 
 import com.bisnode.bhc.application.PortfolioManager;
+import com.bisnode.bhc.domain.exception.EmptyPortfolioListException;
 import com.bisnode.bhc.domain.portfolio.ConvertPortfolio;
 import com.bisnode.bhc.domain.portfolio.IncomingPortfolio;
 import com.bisnode.bhc.domain.portfolio.Portfolio;
@@ -47,22 +48,34 @@ public class PostPortfolioController implements PostPortfolioApi {
     @PostMapping(produces = "application/json")
     public ResponseEntity<?> postPortfolio(final @RequestBody String body,
                                            final @RequestParam(value = "disable", required = false) String disable) {
+        logger.info("Receiving POST request with disable: '{}'", disable);
         try {
             jsonSchemaValidator.validate(mapper.readTree(body));
             IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
-            logger.info("Receiving POST request with disable: '{}'", disable);
-            List<Portfolio> portfolioList = converter.apply(incomingPortfolio);
-            if ("all".equalsIgnoreCase(disable)) {
-                portfolioManager.disableAllAndInsertNewPortfolio(portfolioList);
-            } else {
-                portfolioManager.disableSpecificAndInsertNewPortfolio(portfolioList);
-            }
+            List<Portfolio> portfolioList = convert2List(incomingPortfolio);
+            handleByDisableParamter(disable, portfolioList);
             node.put("message", "Portfolio proceeded successfully");
             return ResponseEntity.ok(node);
         } catch (Throwable e) {
             logger.error("Exception while proceeding POST request: '{}'", e.toString());
             node.put("message", e.toString());
-            return ResponseEntity.badRequest().body(node);
+            return ResponseEntity.status(500).body(node);
+        }
+    }
+
+    private List<Portfolio> convert2List(IncomingPortfolio incomingPortfolio) throws EmptyPortfolioListException {
+        List<Portfolio> portfolioList = converter.apply(incomingPortfolio);
+        if (portfolioList.isEmpty()) {
+            throw new EmptyPortfolioListException("Empty portfolio list after converting incoming portfolio");
+        }
+        return portfolioList;
+    }
+
+    private void handleByDisableParamter(String disable, List<Portfolio> portfolioList) {
+        if ("all".equalsIgnoreCase(disable)) {
+            portfolioManager.disableAllAndInsertNewPortfolio(portfolioList);
+        } else {
+            portfolioManager.disableSpecificAndInsertNewPortfolio(portfolioList);
         }
     }
 }

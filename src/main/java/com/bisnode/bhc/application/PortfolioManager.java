@@ -22,9 +22,6 @@ public class PortfolioManager {
     private WorkflowDbOperator workflowDbOperator;
 
     public void disableAllAndInsertNewPortfolio(List<Portfolio> portfolioList) {
-        if (portfolioList.isEmpty()) {
-            return;
-        }
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
         portfolioRepository.setEndDateForExistingPortfolio(new Date(), csg_id);
         portfolioList.forEach(portfolio -> portfolioRepository.save(portfolio));
@@ -32,9 +29,6 @@ public class PortfolioManager {
     }
 
     public void disableSpecificAndInsertNewPortfolio(List<Portfolio> portfolioList) {
-        if (portfolioList.isEmpty()) {
-            return;
-        }
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
         portfolioList.forEach(portfolio -> portfolioRepository.setEndDateForSpecificId(new Date(), csg_id, portfolio.pfl_cust_identifier));
         portfolioList.forEach(portfolio -> portfolioRepository.save(portfolio));

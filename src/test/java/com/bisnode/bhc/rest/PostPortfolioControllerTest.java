@@ -66,37 +66,37 @@ public class PostPortfolioControllerTest {
     }
 
     @Test
-    public void sendInvalidDataProfile_thenExpect_400() throws Exception {
+    public void sendInvalidDataProfile_thenExpect_500() throws Exception {
 
         String json = getFileContent("incoming_portfolio_invalid.json");
         logger.info("Sending POST with json: '{}'", json);
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().is(500))
                 .andReturn();
         String expectedString = "/companies/0/data_profile";
         assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
     }
 
     @Test
-    public void sendInvalidSystemId_thenExpect_400() throws Exception {
+    public void sendInvalidSystemId_thenExpect_500() throws Exception {
         String json = getFileContent("incoming_portfolio_invalid_systemId.json");
         logger.info("Sending POST with json: '{}'", json);
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().is(500))
                 .andReturn();
         assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString("properties/system_id"));
     }
 
     @Test
-    public void sendEmptyJsonInPost_thenExpect_400() throws Exception {
+    public void sendEmptyJsonInPost_thenExpect_500() throws Exception {
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().is(500))
                 .andReturn();
         String expectedString = "object has missing required properties";
         assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
