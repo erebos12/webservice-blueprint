@@ -11,8 +11,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface PortfolioRepository extends JpaRepository<Portfolio, Integer> {
+
     @Query("select p from Portfolio p where p.pfl_csg_id = :pfl_csg_id")
-    List<Portfolio> getEntirePortfolioBy(@Param("pfl_csg_id") Integer pfl_csg_id);
+    List<Portfolio> findByCsgId(@Param("pfl_csg_id") Integer pfl_csg_id);
 
     @Query("select p from Portfolio p where p.pfl_cust_identifier = :pfl_cust_identifier")
     List<Portfolio> findByCustId(@Param("pfl_cust_identifier") String pfl_cust_identifier);

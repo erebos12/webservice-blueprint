@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
@@ -18,7 +21,8 @@ public interface PostPortfolioApi {
             @ApiResponse(code = 200, message = "Portfolio posted successfully", response = String.class),
             @ApiResponse(code = 400, message = "Portfolio message content is invalid", response = String.class)})
 
-    public ResponseEntity<?> postPortfolio(@RequestBody String body) throws IOException;
+    public ResponseEntity<?> postPortfolio(final @RequestBody String body,
+                                           final @RequestParam(value = "active", required = false) String active) throws IOException;
 }
 
 

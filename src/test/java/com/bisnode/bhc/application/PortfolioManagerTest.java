@@ -57,7 +57,7 @@ public class PortfolioManagerTest {
         p2.pfl_wrk_id = 1;
 
         //then
-        portfolioManager.disableExistingAndInsertNewPortfolio(Arrays.asList(p1, p2));
+        portfolioManager.disableAllAndInsertNewPortfolio(Arrays.asList(p1, p2));
 
         //expect
         List<Portfolio> portfolioList = portfolioManager.getPortfolio("P4S");
@@ -89,7 +89,7 @@ public class PortfolioManagerTest {
         p2.pfl_dtt_id = 5;
         p2.pfl_ext_identifier = 555;
         p2.pfl_wrk_id = 1;
-        portfolioManager.disableExistingAndInsertNewPortfolio(Arrays.asList(p1, p2));
+        portfolioManager.disableAllAndInsertNewPortfolio(Arrays.asList(p1, p2));
 
         portfolioList = portfolioManager.getPortfolio("PBC");
         assertEquals(1, portfolioList.size());
@@ -108,7 +108,7 @@ public class PortfolioManagerTest {
         p1.pfl_dtt_id = 2; // updateEndDatesBy in here
         p1.pfl_ext_identifier = 444;
         p1.pfl_wrk_id = 1;
-        portfolioManager.disableExistingAndInsertNewPortfolio(Arrays.asList(p1));
+        portfolioManager.disableAllAndInsertNewPortfolio(Arrays.asList(p1));
 
         // check content of table
         portfolioList = portfolioManager.getPortfolio("PBC");

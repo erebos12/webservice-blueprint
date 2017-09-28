@@ -7,6 +7,7 @@ package com.bisnode.bhc.rest;
 import com.bisnode.bhc.application.PortfolioManager;
 import com.bisnode.bhc.domain.portfolio.ConvertPortfolio;
 import com.bisnode.bhc.domain.portfolio.IncomingPortfolio;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.utils.JsonSchemaValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -16,12 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @Api
@@ -45,13 +44,19 @@ public class PostPortfolioController implements PostPortfolioApi {
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> postPortfolio(@RequestBody String body) throws IOException {
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<?> postPortfolio(final @RequestBody String body,
+                                           final @RequestParam(value = "disable", required = false) String disable) {
         try {
             jsonSchemaValidator.validate(mapper.readTree(body));
             IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
-            logger.info("Receiving POST request with body: '{}'", incomingPortfolio.toString());
-            portfolioManager.disableExistingAndInsertNewPortfolio(converter.apply(incomingPortfolio));
+            logger.info("Receiving POST request with disable: '{}'", disable);
+            List<Portfolio> portfolioList = converter.apply(incomingPortfolio);
+            if ("all".equalsIgnoreCase(disable)) {
+                portfolioManager.disableAllAndInsertNewPortfolio(portfolioList);
+            } else {
+                portfolioManager.disableSpecificAndInsertNewPortfolio(portfolioList);
+            }
             node.put("message", "Portfolio proceeded successfully");
             return ResponseEntity.ok(node);
         } catch (Throwable e) {

@@ -21,7 +21,7 @@ public class PortfolioManager {
     @Autowired
     private WorkflowDbOperator workflowDbOperator;
 
-    public void disableExistingAndInsertNewPortfolio(List<Portfolio> portfolioList) {
+    public void disableAllAndInsertNewPortfolio(List<Portfolio> portfolioList) {
         if (portfolioList.isEmpty()) {
             return;
         }
@@ -31,7 +31,7 @@ public class PortfolioManager {
         workflowDbOperator.insertWorkflowFor(csg_id);
     }
 
-    public void disableDeliverdCompaniesAndInsertNewPortfolio(List<Portfolio> portfolioList) {
+    public void disableSpecificAndInsertNewPortfolio(List<Portfolio> portfolioList) {
         if (portfolioList.isEmpty()) {
             return;
         }
@@ -43,12 +43,12 @@ public class PortfolioManager {
 
     public List<Portfolio> getPortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        return portfolioRepository.getEntirePortfolioBy(mappedSystemId);
+        return portfolioRepository.findByCsgId(mappedSystemId);
     }
 
     public List<Portfolio> getActivePortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        List<Portfolio> list = portfolioRepository.getEntirePortfolioBy(mappedSystemId);
+        List<Portfolio> list = portfolioRepository.findByCsgId(mappedSystemId);
         return list.stream().filter(portItem -> hasNoEndDate(portItem.pfl_end_dt)).collect(Collectors.toList());
     }
 

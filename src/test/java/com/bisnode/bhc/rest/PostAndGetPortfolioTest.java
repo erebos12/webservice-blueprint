@@ -54,50 +54,29 @@ public class PostAndGetPortfolioTest {
     @Autowired
     private ObjectMapper mapper;
 
+    private final String POST_URL_WITH_DISABLE_ALL = "/portfolios?disable=all";
+    private final String POST_URL_WITHOUT_DISABLE = "/portfolios";
+
     @Before
-    public void cleanup(){
+    public void cleanup() {
         portfolioRepository.deleteAll();
     }
 
     @Test
     public void when_postPortfolio_thenExpectItInGETPortfolio_and_updateExistingPortfolio() throws Exception {
-        MvcResult result = mockMvc.perform(post("/portfolios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getFileContent("portfolio01.json")))
-                .andExpect(status().isOk())
-                .andReturn();
-        String expectedMsg = "{\"message\":\"Portfolio proceeded successfully\"}";
-        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
-
-        result = mockMvc.perform(get("/portfolios/p2r"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String response = result.getResponse().getContentAsString();
-        JsonNode jsonNode = mapper.readTree(response);
-        System.out.println(jsonNode.toString());
-        JsonNode portfolioArray = jsonNode.get("portfolio");
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "portfolio01.json");
+        MvcResult result = performGetAndCheckResp("/portfolios/p2r");
+        JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray, is(IsNull.notNullValue()));
         assertThat(portfolioArray.size(), is(1));
         assertThat(portfolioArray.get(0).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(0).get("pfl_ext_identifier").asInt(), is(1));
         assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), is("null"));
 
-        result = mockMvc.perform(post("/portfolios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getFileContent("portfolio02.json")))
-                .andExpect(status().isOk())
-                .andReturn();
-        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "portfolio02.json");
+        result = performGetAndCheckResp("/portfolios/p2r");
 
-        result = mockMvc.perform(get("/portfolios/p2r"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        response = result.getResponse().getContentAsString();
-        jsonNode = mapper.readTree(response);
-        System.out.println(jsonNode.toString());
-        portfolioArray = jsonNode.get("portfolio");
+        portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray, is(IsNull.notNullValue()));
         assertThat(portfolioArray.size(), is(2));
         assertThat(portfolioArray.get(0).get("pfl_cust_identifier").asInt(), is(44444));
@@ -108,51 +87,73 @@ public class PostAndGetPortfolioTest {
         Assert.assertEquals(portfolioArray.get(1).get("pfl_end_dt").asText(), "null");
     }
 
-
     @Test
     public void when_getWithInvalidSystemId_thenExpectEmptyPortfolioList() throws Exception {
-        MvcResult result = mockMvc.perform(get("/portfolios/fdjkjhgfdh"))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        String response = result.getResponse().getContentAsString();
-        JsonNode jsonNode = mapper.readTree(response);
-        System.out.println(jsonNode.toString());
-        JsonNode portfolioArray = jsonNode.get("portfolio");
+        MvcResult result = performGetAndCheckResp("/portfolios/fdjkjhgfdh");
+        JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(0));
     }
 
     @Test
     public void getJustActivePortfolios() throws Exception {
-        MvcResult result = mockMvc.perform(post("/portfolios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getFileContent("incoming_portfolio01.json")))
-                .andExpect(status().isOk())
-                .andReturn();
-        String expectedMsg = "{\"message\":\"Portfolio proceeded successfully\"}";
-        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
-
-        result = mockMvc.perform(post("/portfolios")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getFileContent("incoming_portfolio01.json")))
-                .andExpect(status().isOk())
-                .andReturn();
-        expectedMsg = "{\"message\":\"Portfolio proceeded successfully\"}";
-        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
-
-        result = mockMvc.perform(get("/portfolios/pbc?active=true"))
-                .andExpect(status().isOk())
-                .andReturn();
-        String response = result.getResponse().getContentAsString();
-        JsonNode jsonNode = mapper.readTree(response);
-        System.out.println(jsonNode.toString());
-        JsonNode portfolioArray = jsonNode.get("portfolio");
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "incoming_portfolio01.json");
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "incoming_portfolio01.json");
+        MvcResult result = performGetAndCheckResp("/portfolios/pbc?active=true");
+        JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(3));
+    }
 
+    @Test
+    public void whenUpdate1EntryInPortfolio_thenExpect_allOldEntries() throws Exception {
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "portfolio03.json");
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "portfolio01.json");
+        MvcResult result = performGetAndCheckResp("/portfolios/p2r?active=true");
+        JsonNode portfolioArray = resultToPortfolioJsonNode(result);
+        assertThat(portfolioArray.size(), is(3));
+    }
+
+    @Test
+    public void whenUpdate1EntryInPortfolio_thenExpect_dontReceiveOldEntries() throws Exception {
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "portfolio03.json");
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "portfolio01.json");
+        MvcResult result = performGetAndCheckResp("/portfolios/p2r?active=true");
+        JsonNode portfolioArray = resultToPortfolioJsonNode(result);
+        assertThat(portfolioArray.size(), is(1));
+    }
+
+    private MvcResult performPostAndCheckResp(String urlTemplate, String fileWithJsonContent) throws Exception {
+        MvcResult result = mockMvc.perform(post(urlTemplate)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getFileContent(fileWithJsonContent)))
+                .andExpect(status().isOk())
+                .andReturn();
+        JsonNode jsonNode = resultToJsonNode(result);
+        assertThat(jsonNode.get("message").asText(), is("Portfolio proceeded successfully"));
+        return result;
+    }
+
+    private MvcResult performGetAndCheckResp(String urlTemplate) throws Exception {
+        MvcResult result = mockMvc.perform(get(urlTemplate))
+                .andExpect(status().isOk())
+                .andReturn();
+        return result;
     }
 
     private String getFileContent(String file) throws IOException {
         URL url = Resources.getResource(file);
         return Resources.toString(url, Charsets.UTF_8);
     }
+
+    private JsonNode resultToPortfolioJsonNode(MvcResult result) throws IOException {
+        String response = result.getResponse().getContentAsString();
+        JsonNode jsonNode = mapper.readTree(response);
+        return jsonNode.get("portfolio");
+    }
+
+    private JsonNode resultToJsonNode(MvcResult result) throws IOException {
+        String response = result.getResponse().getContentAsString();
+        return mapper.readTree(response);
+    }
+
+
 }
