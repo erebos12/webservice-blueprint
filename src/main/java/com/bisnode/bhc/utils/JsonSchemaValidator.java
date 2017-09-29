@@ -30,7 +30,8 @@ public class JsonSchemaValidator {
     public ProcessingReport validate(JsonNode dataNode) throws IOException, ProcessingException, InvalidPortfolioMessageException {
         ProcessingReport report = validator.validateUnchecked(schemaNode, dataNode);
         if (!report.isSuccess()) {
-            throw new InvalidPortfolioMessageException(report.toString());
+            String errMsg = filterMsgString(report.toString());
+            throw new InvalidPortfolioMessageException(errMsg);
         }
         return report;
     }
@@ -39,5 +40,9 @@ public class JsonSchemaValidator {
         URL url = Resources.getResource(file);
         String s = Resources.toString(url, Charsets.UTF_8);
         return mapper.readTree(s);
+    }
+
+    private String filterMsgString(String inMsg){
+        return inMsg.replace("\"", "");
     }
 }
