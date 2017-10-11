@@ -27,6 +27,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -73,6 +75,7 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.get(0).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(0).get("pfl_ext_identifier").asInt(), is(1));
         assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), is("null"));
+        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
 
         performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "P2R_Portfolio_CompanyId_44444_Profile_Medium.json");
         result = performGetAndCheckResp("/portfolios/p2r");
@@ -85,6 +88,7 @@ public class PostAndGetPortfolioTest {
         Assert.assertNotEquals(portfolioArray.get(0).get("pfl_end_dt").asText(), "null");
         assertThat(portfolioArray.get(1).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(1).get("pfl_ext_identifier").asInt(), is(1));
+        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
         Assert.assertEquals(portfolioArray.get(1).get("pfl_end_dt").asText(), "null");
     }
 
