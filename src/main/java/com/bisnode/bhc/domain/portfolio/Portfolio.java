@@ -1,6 +1,6 @@
 package com.bisnode.bhc.domain.portfolio;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,6 +8,7 @@ import java.util.Date;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Data
 @Table(name = "portfolio")
 public class Portfolio {
     
@@ -41,9 +42,5 @@ public class Portfolio {
     @Column(name = "pfl_end_dt", nullable = true)
     @Temporal(TemporalType.DATE)
     public Date pfl_end_dt;
-
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
 
 }
