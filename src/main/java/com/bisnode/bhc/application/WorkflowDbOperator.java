@@ -17,7 +17,7 @@ public class WorkflowDbOperator {
         Workflow workflow = new Workflow();
         workflow.wrk_clt_id = 1;
         workflow.wrk_csg_id = wrk_csg_id;
-        workflow.wrk_type_cd = "1";
+        workflow.wrk_type_cd = "3";
         workflow.wrk_def_type_cd = 1;
         workflow.wrk_current_step = 0;
         workflow.wrk_current_status = 0;
