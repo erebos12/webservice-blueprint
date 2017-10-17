@@ -10,6 +10,7 @@ import java.util.Date;
 @Table(name = "view_export_data")
 public class ExportData {
 
+    @Id
     @Column(name = "pfl_csg_id")
     public Integer pfl_csg_id;
 

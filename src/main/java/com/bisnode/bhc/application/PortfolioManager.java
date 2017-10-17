@@ -1,11 +1,14 @@
 package com.bisnode.bhc.application;
 
+import com.bisnode.bhc.domain.data.ExportData;
 import com.bisnode.bhc.domain.portfolio.GlobalMapping;
 import com.bisnode.bhc.domain.portfolio.Portfolio;
+import com.bisnode.bhc.infrastructure.ExportDataRepository;
 import com.bisnode.bhc.infrastructure.PortfolioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +23,8 @@ public class PortfolioManager {
     private PortfolioRepository portfolioRepository;
     @Autowired
     private WorkflowDbOperator workflowDbOperator;
+    @Autowired
+    private ExportDataRepository exportDataRepository;
 
     public void disableAllAndInsertNewPortfolio(List<Portfolio> portfolioList) {
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
@@ -38,6 +43,11 @@ public class PortfolioManager {
     public List<Portfolio> getPortfolio(String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
         return portfolioRepository.findByCsgId(mappedSystemId);
+    }
+
+    public List<ExportData> getPortfolioData(String system_id) {
+        Integer mappedSystemId = getSystemIdValue(system_id);
+        return exportDataRepository.findAll(Arrays.asList(mappedSystemId));
     }
 
     public List<Portfolio> getActivePortfolio(String system_id) {
