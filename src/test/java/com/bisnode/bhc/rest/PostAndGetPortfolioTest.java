@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNull;
 import org.junit.Assert;
 import org.junit.Before;
@@ -133,7 +135,7 @@ public class PostAndGetPortfolioTest {
                 .andExpect(status().isOk())
                 .andReturn();
         JsonNode jsonNode = resultToJsonNode(result);
-        assertThat(jsonNode.get("message").asText(), is("Portfolio proceeded successfully"));
+        assertThat(jsonNode.get("message").asText(), CoreMatchers.containsString("Portfolio proceeded successfully"));
         return result;
     }
 

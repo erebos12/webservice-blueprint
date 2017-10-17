@@ -54,7 +54,8 @@ public class PostPortfolioController implements PostPortfolioApi {
             IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
             List<Portfolio> portfolioList = convert2List(incomingPortfolio);
             handleByDisableParamter(disable, portfolioList);
-            node.put("message", "Portfolio proceeded successfully");
+            String successMsg = String.format("Portfolio proceeded successfully. Uploaded %s records to your portfolio", portfolioList.size());
+            node.put("message", successMsg);
             return ResponseEntity.ok(node);
         } catch (Throwable e) {
             logger.error("Exception while proceeding POST request: '{}'", e.toString());

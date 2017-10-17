@@ -61,8 +61,8 @@ public class PostPortfolioControllerTest {
                 .content(json))
                 .andExpect(status().isOk())
                 .andReturn();
-        String expectedMsg = "{\"message\":\"Portfolio proceeded successfully\"}";
-        assertThat(result.getResponse().getContentAsString(), is(expectedMsg));
+        String expectedMsg = "Portfolio proceeded successfully";
+        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedMsg));
     }
 
     @Test
