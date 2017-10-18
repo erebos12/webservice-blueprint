@@ -28,11 +28,11 @@ public class ConvertPortfolio {
     private Portfolio createPortfolio(IncomingPortfolio incomingPortfolio, Company company){
         Portfolio portfolio = new Portfolio();
         portfolio.pfl_wrk_id = WORKFLOW_ID;
-        portfolio.pfl_ext_identifier = EXTERNAL_ID;
         portfolio.pfl_strt_dt = new Date();
         portfolio.pfl_end_dt = null;
         portfolio.pfl_country_iso2 = company.country;
         portfolio.pfl_cust_identifier = company.id;
+        portfolio.pfl_ext_identifier = Integer.valueOf(company.business_partner_id);
         portfolio.pfl_dtt_id = GlobalMapping.profileIdMap.get(company.data_profile);
         portfolio.pfl_csg_id = GlobalMapping.systemIdMap.get(incomingPortfolio.system_id);
         logger.info("createPortfolio():  {}", portfolio.toString());

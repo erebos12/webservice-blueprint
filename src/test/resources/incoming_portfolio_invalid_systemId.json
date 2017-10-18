@@ -1,10 +1,10 @@
 {
-  "business_partner_id": "54435",
   "system_id": "zzzzzzzzzzzzzz",
   "company_id_type": "1",
   "companies": [
     {
       "id": "43257",
+      "business_partner_id": "54435",
       "country": "DE",
       "data_profile": "Small"
     }
