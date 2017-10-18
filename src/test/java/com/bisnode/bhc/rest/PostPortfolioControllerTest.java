@@ -2,8 +2,7 @@ package com.bisnode.bhc.rest;
 
 
 import com.bisnode.bhc.infrastructure.PortfolioRepository;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import com.bisnode.bhc.utils.IncomingPortfolioJsonBuilder;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.io.IOException;
-import java.net.URL;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -46,6 +42,8 @@ public class PostPortfolioControllerTest {
     private static final Logger logger = LoggerFactory.getLogger(PostPortfolioControllerTest.class);
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private IncomingPortfolioJsonBuilder jsonBuilder;
 
     @Before
     public void cleanup() {
@@ -54,8 +52,12 @@ public class PostPortfolioControllerTest {
 
     @Test
     public void whenSending_portfolio_thenExpect_200OK() throws Exception {
-        String json = getFileContent("PBC_Portfolio_With_3_Companies_02.json");
-        logger.info("Sending POST with json: '{}'", json);
+        String json = jsonBuilder.build()
+                .withSystemId("PBC")
+                .withCompany("43257", "54309888", "DE", "Large")
+                .withCompany("44561", "54435", "US", "Medium")
+                .withCompany("43756823", "12321432", "SE", "Small")
+                .asJson();
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
@@ -67,9 +69,10 @@ public class PostPortfolioControllerTest {
 
     @Test
     public void sendInvalidDataProfile_thenExpect_500() throws Exception {
-
-        String json = getFileContent("incoming_portfolio_invalid.json");
-        logger.info("Sending POST with json: '{}'", json);
+        String json = jsonBuilder.build()
+                .withSystemId("PBC")
+                .withCompany("43756823", "12321432", "SE", "InvalidDataProfile")
+                .asJson();
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
@@ -81,8 +84,10 @@ public class PostPortfolioControllerTest {
 
     @Test
     public void sendInvalidSystemId_thenExpect_500() throws Exception {
-        String json = getFileContent("incoming_portfolio_invalid_systemId.json");
-        logger.info("Sending POST with json: '{}'", json);
+        String json = jsonBuilder.build()
+                .withSystemId("InvalidSystemId")
+                .withCompany("43756823", "12321432", "SE", "Small")
+                .asJson();
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
@@ -100,10 +105,5 @@ public class PostPortfolioControllerTest {
                 .andReturn();
         String expectedString = "object has missing required properties";
         assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
-    }
-
-    private String getFileContent(String file) throws IOException {
-        URL url = Resources.getResource(file);
-        return Resources.toString(url, Charsets.UTF_8);
     }
 }

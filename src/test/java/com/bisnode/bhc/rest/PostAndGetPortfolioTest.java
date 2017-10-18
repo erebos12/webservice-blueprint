@@ -2,16 +2,12 @@ package com.bisnode.bhc.rest;
 
 
 import com.bisnode.bhc.infrastructure.PortfolioRepository;
+import com.bisnode.bhc.utils.IncomingPortfolioJsonBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
 import org.hamcrest.core.IsNull;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -28,9 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.Date;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -58,6 +52,8 @@ public class PostAndGetPortfolioTest {
 
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private IncomingPortfolioJsonBuilder jsonBuilder;
 
     private final String POST_URL_WITH_DISABLE_ALL = "/portfolios?disable=all";
     private final String POST_URL_WITHOUT_DISABLE = "/portfolios";
@@ -69,7 +65,11 @@ public class PostAndGetPortfolioTest {
 
     @Test
     public void when_postPortfolio_thenExpectItInGETPortfolio_and_updateExistingPortfolio() throws Exception {
-        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "P2R_Portfolio_CompanyId_44444_Profile_Small.json");
+        String json = jsonBuilder.build()
+                .withSystemId("P2R")
+                .withCompany("44444", "54435", "DE", "Small")
+                .asJson();
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, json);
         MvcResult result = performGetAndCheckResp("/portfolios/p2r");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray, is(IsNull.notNullValue()));
@@ -79,7 +79,11 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), is("null"));
         assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
 
-        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "P2R_Portfolio_CompanyId_44444_Profile_Medium.json");
+        json = jsonBuilder.build()
+                .withSystemId("P2R")
+                .withCompany("44444", "54435", "DE", "Medium")
+                .asJson();
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, json);
         result = performGetAndCheckResp("/portfolios/p2r");
 
         portfolioArray = resultToPortfolioJsonNode(result);
@@ -87,11 +91,12 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.size(), is(2));
         assertThat(portfolioArray.get(0).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(0).get("pfl_ext_identifier").asText(), is("54435"));
-        Assert.assertNotEquals(portfolioArray.get(0).get("pfl_end_dt").asText(), "null");
+        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
+        assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), is(LocalDate.now().toString()));
         assertThat(portfolioArray.get(1).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(1).get("pfl_ext_identifier").asText(), is("54435"));
-        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
-        Assert.assertEquals(portfolioArray.get(1).get("pfl_end_dt").asText(), "null");
+        assertThat(portfolioArray.get(1).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
+        assertThat(portfolioArray.get(1).get("pfl_end_dt").asText(), is("null"));
     }
 
     @Test
@@ -103,35 +108,63 @@ public class PostAndGetPortfolioTest {
 
     @Test
     public void getJustActivePortfolios() throws Exception {
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "PBC_Portfolio_With_3_Companies_02.json");
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "PBC_Portfolio_With_3_Companies_02.json");
+        String json = jsonBuilder.build()
+                .withSystemId("PBC")
+                .withCompany("43257", "54309888", "DE", "Large")
+                .withCompany("44561", "54435", "US", "Medium")
+                .withCompany("43756823", "12321432", "SE", "Small")
+                .asJson();
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, json);
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, json);
         MvcResult result = performGetAndCheckResp("/portfolios/pbc?active=true");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(3));
     }
 
     @Test
-    public void DISABLE_OFF_thenExpect_allOldEntries() throws Exception {
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "P2R_Portfolio_With_3_Companies.json");
-        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, "P2R_Portfolio_CompanyId_44444_Profile_Small.json");
+    public void DISABLE_OFF_thenExpect_receiveAllOldEntries() throws Exception {
+        String json1 = jsonBuilder.build()
+                .withSystemId("P2R")
+                .withCompany("43257", "54309888", "DE", "Large")
+                .withCompany("44561", "54435", "US", "Medium")
+                .withCompany("43756823", "12321432", "SE", "Small")
+                .asJson();
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, json1);
+
+        String json2 = jsonBuilder.build()
+                .withSystemId("P2R")
+                .withCompany("43257", "54309888", "DE", "Small")
+                .asJson();
+        performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, json2);
         MvcResult result = performGetAndCheckResp("/portfolios/p2r?active=true");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(3));
     }
 
     @Test
-    public void DISABLE_ALL_thenExpect_dontReceiveOldEntries() throws Exception {
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "P2R_Portfolio_With_3_Companies.json");
-        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, "P2R_Portfolio_CompanyId_44444_Profile_Small.json");
+    public void DISABLE_ALL_thenExpect_notToReceiveOldEntries() throws Exception {
+        String json1 = jsonBuilder.build()
+                .withSystemId("P2R")
+                .withCompany("43257", "54309888", "DE", "Large")
+                .withCompany("44561", "54435", "US", "Medium")
+                .withCompany("43756823", "12321432", "SE", "Small")
+                .asJson();
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, json1);
+        
+        String json2 = jsonBuilder.build()
+                .withSystemId("P2R")
+                .withCompany("43257", "54309888", "DE", "Small")
+                .asJson();
+        performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, json2);
         MvcResult result = performGetAndCheckResp("/portfolios/p2r?active=true");
         JsonNode portfolioArray = resultToPortfolioJsonNode(result);
         assertThat(portfolioArray.size(), is(1));
     }
 
-    private MvcResult performPostAndCheckResp(String urlTemplate, String fileWithJsonContent) throws Exception {
+    private MvcResult performPostAndCheckResp(String urlTemplate, String jsonContent) throws Exception {
         MvcResult result = mockMvc.perform(post(urlTemplate)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(getFileContent(fileWithJsonContent)))
+                .content(jsonContent))
                 .andExpect(status().isOk())
                 .andReturn();
         JsonNode jsonNode = resultToJsonNode(result);
@@ -146,11 +179,6 @@ public class PostAndGetPortfolioTest {
         return result;
     }
 
-    private String getFileContent(String file) throws IOException {
-        URL url = Resources.getResource(file);
-        return Resources.toString(url, Charsets.UTF_8);
-    }
-
     private JsonNode resultToPortfolioJsonNode(MvcResult result) throws IOException {
         String response = result.getResponse().getContentAsString();
         JsonNode jsonNode = mapper.readTree(response);
@@ -161,6 +189,5 @@ public class PostAndGetPortfolioTest {
         String response = result.getResponse().getContentAsString();
         return mapper.readTree(response);
     }
-
 
 }
