@@ -150,7 +150,7 @@ public class PostAndGetPortfolioTest {
                 .withCompany("43756823", "12321432", "SE", "Small")
                 .asJson();
         performPostAndCheckResp(POST_URL_WITH_DISABLE_ALL, json1);
-        
+
         String json2 = jsonBuilder.build()
                 .withSystemId("P2R")
                 .withCompany("43257", "54309888", "DE", "Small")

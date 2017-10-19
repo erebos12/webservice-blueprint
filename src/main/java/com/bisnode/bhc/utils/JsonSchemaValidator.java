@@ -30,8 +30,9 @@ public class JsonSchemaValidator {
     public ProcessingReport validate(JsonNode dataNode) throws IOException, ProcessingException, InvalidPortfolioMessageException {
         ProcessingReport report = validator.validateUnchecked(schemaNode, dataNode);
         if (!report.isSuccess()) {
-            String errMsg = filterMsgString(report.toString());
-            throw new InvalidPortfolioMessageException(errMsg);
+            final JsonNode reportAsJson = ((AsJson) report).asJson();
+            String errMsg = reportAsJson.get(0).get("message").asText();
+            throw new InvalidPortfolioMessageException(filterMsgString(errMsg));
         }
         return report;
     }

@@ -78,7 +78,7 @@ public class PostPortfolioControllerTest {
                 .content(json))
                 .andExpect(status().is(500))
                 .andReturn();
-        String expectedString = "/companies/0/data_profile";
+        String expectedString = "instance value (InvalidDataProfile) not found in enum (possible values: [Large,Medium,Small]";
         assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
     }
 
@@ -93,7 +93,7 @@ public class PostPortfolioControllerTest {
                 .content(json))
                 .andExpect(status().is(500))
                 .andReturn();
-        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString("properties/system_id"));
+        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString("instance value (InvalidSystemId) not found in enum"));
     }
 
     @Test
