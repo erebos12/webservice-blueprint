@@ -26,41 +26,41 @@ public class PortfolioManager {
     @Autowired
     private ExportDataRepository exportDataRepository;
 
-    public void disableAllAndInsertNewPortfolio(List<Portfolio> portfolioList) {
+    public void disableAllAndInsertNewPortfolio(final List<Portfolio> portfolioList) {
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
         portfolioRepository.setEndDateForExistingPortfolio(new Date(), csg_id);
         portfolioList.forEach(portfolio -> portfolioRepository.save(portfolio));
         workflowDbOperator.insertWorkflowFor(csg_id);
     }
 
-    public void disableSpecificAndInsertNewPortfolio(List<Portfolio> portfolioList) {
+    public void disableSpecificAndInsertNewPortfolio(final List<Portfolio> portfolioList) {
         Integer csg_id = portfolioList.get(0).pfl_csg_id;
         portfolioList.forEach(portfolio -> portfolioRepository.setEndDateForSpecificId(new Date(), csg_id, portfolio.pfl_cust_identifier));
         portfolioList.forEach(portfolio -> portfolioRepository.save(portfolio));
         workflowDbOperator.insertWorkflowFor(csg_id);
     }
 
-    public List<Portfolio> getPortfolio(String system_id) {
+    public List<Portfolio> getPortfolio(final String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
         return portfolioRepository.findByCsgId(mappedSystemId);
     }
 
-    public List<ExportData> getPortfolioData(String system_id) {
+    public List<ExportData> getPortfolioData(final String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
         return exportDataRepository.findAll(Arrays.asList(mappedSystemId));
     }
 
-    public List<Portfolio> getActivePortfolio(String system_id) {
+    public List<Portfolio> getActivePortfolio(final String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
         List<Portfolio> list = portfolioRepository.findByCsgId(mappedSystemId);
         return list.stream().filter(portItem -> hasNoEndDate(portItem.pfl_end_dt)).collect(Collectors.toList());
     }
 
-    private Integer getSystemIdValue(String system_id) {
+    private Integer getSystemIdValue(final String system_id) {
         return GlobalMapping.systemIdMap.get(system_id.toUpperCase());
     }
 
-    private boolean hasNoEndDate(Date endDate) {
+    private boolean hasNoEndDate(final Date endDate) {
         return endDate == null;
     }
 }

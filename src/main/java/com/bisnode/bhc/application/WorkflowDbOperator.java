@@ -13,7 +13,7 @@ public class WorkflowDbOperator {
     @Autowired
     private WorkflowRepository workflowRepository;
 
-    public void insertWorkflowFor(Integer wrk_csg_id) {
+    public void insertWorkflowFor(final Integer wrk_csg_id) {
         Workflow workflow = new Workflow();
         workflow.wrk_clt_id = 1;
         workflow.wrk_csg_id = wrk_csg_id;

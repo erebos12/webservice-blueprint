@@ -20,14 +20,14 @@ import java.net.URL;
 public class JsonSchemaValidator {
 
     private JsonNode schemaNode;
-    private JsonValidator validator = JsonSchemaFactory.byDefault().getValidator();
+    private final JsonValidator validator = JsonSchemaFactory.byDefault().getValidator();
     private final ObjectMapper mapper = new ObjectMapper();
 
     public void loadJsonSchema(JsonNode schemaNode) throws IOException {
         this.schemaNode = schemaNode;
     }
 
-    public ProcessingReport validate(JsonNode dataNode) throws IOException, ProcessingException, InvalidPortfolioMessageException {
+    public ProcessingReport validate(final JsonNode dataNode) throws IOException, ProcessingException, InvalidPortfolioMessageException {
         ProcessingReport report = validator.validateUnchecked(schemaNode, dataNode);
         if (!report.isSuccess()) {
             final JsonNode reportAsJson = ((AsJson) report).asJson();
@@ -37,7 +37,7 @@ public class JsonSchemaValidator {
         return report;
     }
 
-    public JsonNode jsonFile2JsonNode(String file) throws IOException {
+    public JsonNode jsonFile2JsonNode(final String file) throws IOException {
         URL url = Resources.getResource(file);
         String s = Resources.toString(url, Charsets.UTF_8);
         return mapper.readTree(s);
