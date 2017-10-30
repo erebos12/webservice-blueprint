@@ -1,0 +1,43 @@
+version: '2'
+services:
+  bhcfrontend:
+    image: artifactory.bisnode.net/bisnode/bhc-frontend:develop
+    extra_hosts:
+      - "hub.bi.bisnode.de:10.49.128.11"
+      - "dock-qa-se-04:10.49.128.166"
+    depends_on:
+      - mongo 
+    environment:
+      NODE_ENV: 'production'
+      APP_NAME: 'bhcapp'
+      APP_PORT: 9003
+      APP_HOSTNAME: '0.0.0.0'
+      APP_BASE_URL: 'http://localhost:9003'
+      APP_DATABASE: 'mongo'
+      APP_SECRET: '1HcmBUZx4GOSJUsIhHGs3fwbnDNRij6fBSKWcvkoK0j6F3VW0jaBOpTMRAjV70A'
+      APP_REST_MAIN_SERVICE: 'http://bhcws:8080'
+      MONGO_HOSTNAME: 'mongo'
+      TERM: 'linux'
+    ports:
+      - 9008:9008
+      - 9003:9003
+      - 49154:49154
+    restart: unless-stopped
+    command: node /app/dist/server/app.js
+  bhcws:
+    image: artifactory.bisnode.net/bisnode/bhc-ws:develop
+    # image: registry.bisnode.net/bisnode/bhc-ws:develop
+    environment:
+      BHCWS_MODE: 'prod'
+    ports:
+      - 8082:8080
+    restart: unless-stopped
+  bddriver:
+    image: artifactory.bisnode.net/bisnode/bdd-driver-ws:develop
+    ports:
+      - 8083:8080
+    restart: unless-stopped
+  mongo:
+    image: mongo:latest
+    command: --storageEngine wiredTiger
+    restart: unless-stopped
