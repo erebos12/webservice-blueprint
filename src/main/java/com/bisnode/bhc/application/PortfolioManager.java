@@ -47,7 +47,7 @@ public class PortfolioManager {
 
     public List<ExportData> getPortfolioData(final String system_id) {
         Integer mappedSystemId = getSystemIdValue(system_id);
-        return exportDataRepository.findAll(Arrays.asList(mappedSystemId));
+        return exportDataRepository.findByCsgId(mappedSystemId);
     }
 
     public List<Portfolio> getActivePortfolio(final String system_id) {

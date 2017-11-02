@@ -11,6 +11,12 @@ import java.util.Date;
 public class ExportData {
 
     @Id
+    @Column(name = "duns_nbr")
+    public String duns_nbr;
+
+    @Column(name = "prim_nme")
+    public String prim_nme;
+
     @Column(name = "pfl_csg_id")
     public Integer pfl_csg_id;
 
@@ -61,9 +67,6 @@ public class ExportData {
     @Column(name = "prim_geo_area")
     public String prim_geo_area;
 
-    @Column(name = "prim_nme")
-    public String prim_nme;
-
     @Column(name = "tlcm_nbr")
     public String tlcm_nbr;
 
@@ -81,9 +84,6 @@ public class ExportData {
 
     @Column(name = "curr_cntl_yr")
     public String curr_cntl_yr;
-
-    @Column(name = "duns_nbr")
-    public String duns_nbr;
 
     @Column(name = "empl_at_prim_adr")
     public String empl_at_prim_adr;
