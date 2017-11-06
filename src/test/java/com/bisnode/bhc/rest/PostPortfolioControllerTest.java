@@ -68,7 +68,7 @@ public class PostPortfolioControllerTest {
     }
 
     @Test
-    public void sendInvalidDataProfile_thenExpect_500() throws Exception {
+    public void sendInvalidDataProfile_thenExpect_mappedToSmallAndSuccess() throws Exception {
         String json = jsonBuilder.build()
                 .withSystemId("PBC")
                 .withCompany("43756823", "12321432", "SE", "InvalidDataProfile")
@@ -76,10 +76,25 @@ public class PostPortfolioControllerTest {
         MvcResult result = mockMvc.perform(post("/portfolios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-                .andExpect(status().is(500))
+                .andExpect(status().isOk())
                 .andReturn();
-        String expectedString = "instance value (InvalidDataProfile) not found in enum (possible values: [Large,Medium,Small]";
-        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedString));
+        String expectedMsg = "Portfolio proceeded successfully";
+        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedMsg));
+    }
+
+    @Test
+    public void sendEmptyDataProfile_thenExpect_mappedToSmallAndSuccess() throws Exception {
+        String json = jsonBuilder.build()
+                .withSystemId("PBC")
+                .withCompany("43756823", "12321432", "SE", "")
+                .asJson();
+        MvcResult result = mockMvc.perform(post("/portfolios")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn();
+        String expectedMsg = "Portfolio proceeded successfully";
+        assertThat(result.getResponse().getContentAsString(), CoreMatchers.containsString(expectedMsg));
     }
 
     @Test

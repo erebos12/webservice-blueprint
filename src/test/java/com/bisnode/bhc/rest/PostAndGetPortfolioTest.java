@@ -81,7 +81,7 @@ public class PostAndGetPortfolioTest {
 
         json = jsonBuilder.build()
                 .withSystemId("P2R")
-                .withCompany("44444", "54435", "DE", "Medium")
+                .withCompany("44444", "54435", "DE", "medium")
                 .asJson();
         performPostAndCheckResp(POST_URL_WITHOUT_DISABLE, json);
         result = performGetAndCheckResp("/portfolios/p2r");

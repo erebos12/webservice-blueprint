@@ -12,8 +12,8 @@ public class GlobalMapping {
         systemIdMap.put("P2R", 2);
         systemIdMap.put("P4S", 3);
 
-        profileIdMap.put("Small", 1);
-        profileIdMap.put("Medium", 2);
-        profileIdMap.put("Large", 3);
+        profileIdMap.put("SMALL", 1);
+        profileIdMap.put("MEDIUM", 2);
+        profileIdMap.put("LARGE", 3);
     }
 }
