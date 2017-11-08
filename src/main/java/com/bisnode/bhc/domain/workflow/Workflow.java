@@ -1,5 +1,6 @@
 package com.bisnode.bhc.domain.workflow;
 
+import lombok.Data;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.Date;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Data
 @Table(name = "workflow_log")
 public class Workflow {
 
@@ -51,9 +53,4 @@ public class Workflow {
     @Column(name = "wrk_activating_time")
     @Temporal(TemporalType.TIMESTAMP)
     public Date wrk_activating_time;
-
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
-
 }
