@@ -77,7 +77,7 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.get(0).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(0).get("pfl_ext_identifier").asText(), is("54435"));
         assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), is("null"));
-        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
+        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), IsNull.notNullValue());
 
         json = jsonBuilder.build()
                 .withSystemId("P2R")
@@ -91,11 +91,11 @@ public class PostAndGetPortfolioTest {
         assertThat(portfolioArray.size(), is(2));
         assertThat(portfolioArray.get(0).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(0).get("pfl_ext_identifier").asText(), is("54435"));
-        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
-        assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), is(LocalDate.now().toString()));
+        assertThat(portfolioArray.get(0).get("pfl_strt_dt").asText(), IsNull.notNullValue());
+        assertThat(portfolioArray.get(0).get("pfl_end_dt").asText(), IsNull.notNullValue());
         assertThat(portfolioArray.get(1).get("pfl_cust_identifier").asInt(), is(44444));
         assertThat(portfolioArray.get(1).get("pfl_ext_identifier").asText(), is("54435"));
-        assertThat(portfolioArray.get(1).get("pfl_strt_dt").asText(), is(LocalDate.now().toString()));
+        assertThat(portfolioArray.get(1).get("pfl_strt_dt").asText(), IsNull.notNullValue());
         assertThat(portfolioArray.get(1).get("pfl_end_dt").asText(), is("null"));
     }
 

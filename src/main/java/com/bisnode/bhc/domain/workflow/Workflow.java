@@ -38,15 +38,18 @@ public class Workflow {
     public Integer wrk_pdi_job_id;
 
     @Column(name = "wrk_strt_dt", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date wrk_strt_dt;
 
     @Column(name = "wrk_end_dt")
+    @Temporal(TemporalType.TIMESTAMP)
     public Date wrk_end_dt;
 
     @Column(name = "wrk_success_quote")
     public Double wrk_success_quote;
 
     @Column(name = "wrk_activating_time")
+    @Temporal(TemporalType.TIMESTAMP)
     public Date wrk_activating_time;
 
     public String toString() {

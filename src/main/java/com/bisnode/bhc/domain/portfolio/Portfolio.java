@@ -36,11 +36,11 @@ public class Portfolio {
     public String pfl_country_iso2;
 
     @Column(name = "pfl_strt_dt", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date pfl_strt_dt;
 
     @Column(name = "pfl_end_dt", nullable = true)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date pfl_end_dt;
 
 }
