@@ -42,5 +42,4 @@ public class Portfolio {
     @Column(name = "pfl_end_dt", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     public Date pfl_end_dt;
-
 }

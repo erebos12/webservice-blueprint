@@ -51,8 +51,7 @@ public class PostPortfolioController implements PostPortfolioApi {
         logger.info("Receiving POST request with disable: '{}'", disable);
         try {
             jsonSchemaValidator.validate(mapper.readTree(body));
-            IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
-            List<Portfolio> portfolioList = convert2List(incomingPortfolio);
+            List<Portfolio> portfolioList = readFromRequestBody(body);
             handleByDisableParamter(disable, portfolioList);
             String successMsg = String.format("Portfolio proceeded successfully. Uploaded %s records to your portfolio", portfolioList.size());
             node.put("message", successMsg);
@@ -78,6 +77,11 @@ public class PostPortfolioController implements PostPortfolioApi {
         } else {
             portfolioManager.disableSpecificAndInsertNewPortfolio(portfolioList);
         }
+    }
+
+    private List<Portfolio> readFromRequestBody(String body) throws EmptyPortfolioListException, IOException {
+        IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
+        return convert2List(incomingPortfolio);
     }
 }
 
