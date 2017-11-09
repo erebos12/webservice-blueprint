@@ -121,13 +121,13 @@ public class PortfolioManagerTest {
         portfolioManager.disableAllAndInsertNewPortfolio(Arrays.asList(p1));
 
         // check content of table
-        portfolioList = portfolioManager.getPortfolio("PBC");
+        portfolioList = portfolioManager.getPortfolio("P2R");
         assertEquals(2, portfolioList.size());
         Sorter.sortListByPortfolioID(portfolioList);
         assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.notNullValue()));
         assertThat(portfolioList.get(1).pfl_end_dt, is(IsNull.nullValue()));
 
-        portfolioList = portfolioManager.getPortfolio("P2R");
+        portfolioList = portfolioManager.getPortfolio("PBC");
         assertEquals(1, portfolioList.size());
         assertThat(portfolioList.get(0).pfl_end_dt, is(IsNull.nullValue()));
     }

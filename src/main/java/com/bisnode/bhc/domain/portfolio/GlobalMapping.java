@@ -8,8 +8,8 @@ public class GlobalMapping {
     public static HashMap<String, Integer> profileIdMap = new HashMap<>();
 
     static {
-        systemIdMap.put("PBC", 1);
-        systemIdMap.put("P2R", 2);
+        systemIdMap.put("P2R", 1);
+        systemIdMap.put("PBC", 2);
         systemIdMap.put("P4S", 3);
 
         profileIdMap.put("SMALL", 1);
