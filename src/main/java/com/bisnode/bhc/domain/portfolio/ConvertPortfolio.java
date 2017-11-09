@@ -1,6 +1,5 @@
 package com.bisnode.bhc.domain.portfolio;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -8,6 +7,9 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.bisnode.bhc.domain.portfolio.GlobalMapping.getProfileIdValue;
+import static com.bisnode.bhc.domain.portfolio.GlobalMapping.getSystemIdValue;
 
 /**
  * Created by sahm on 28.08.17.
@@ -34,11 +36,11 @@ public class ConvertPortfolio {
         portfolio.pfl_country_iso2 = company.country;
         portfolio.pfl_cust_identifier = company.id;
         portfolio.pfl_ext_identifier = Integer.valueOf(company.business_partner_id);
-        portfolio.pfl_dtt_id = GlobalMapping.profileIdMap.get(company.data_profile.toUpperCase());
+        portfolio.pfl_dtt_id = getProfileIdValue(company.data_profile.toUpperCase());
         if (portfolio.pfl_dtt_id == null) {
-            portfolio.pfl_dtt_id = GlobalMapping.profileIdMap.get("SMALL");
+            portfolio.pfl_dtt_id = getProfileIdValue("SMALL");
         }
-        portfolio.pfl_csg_id = GlobalMapping.systemIdMap.get(incomingPortfolio.system_id.toUpperCase());
+        portfolio.pfl_csg_id = getSystemIdValue(incomingPortfolio.system_id.toUpperCase());
         logger.info("createPortfolio():  {}", portfolio.toString());
         return portfolio;
     }

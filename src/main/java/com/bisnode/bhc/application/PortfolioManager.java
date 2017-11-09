@@ -57,7 +57,7 @@ public class PortfolioManager {
     }
 
     private Integer getSystemIdValue(final String system_id) {
-        return GlobalMapping.systemIdMap.get(system_id.toUpperCase());
+        return GlobalMapping.getSystemIdValue(system_id.toUpperCase());
     }
 
     private boolean hasNoEndDate(final Date endDate) {
