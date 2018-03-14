@@ -5,8 +5,10 @@ package com.bisnode.bhc.rest;
  */
 
 import com.bisnode.bhc.application.PortfolioManager;
-import com.bisnode.bhc.domain.ConvertPortfolio;
-import com.bisnode.bhc.domain.IncomingPortfolio;
+import com.bisnode.bhc.domain.exception.EmptyPortfolioListException;
+import com.bisnode.bhc.domain.portfolio.ConvertPortfolio;
+import com.bisnode.bhc.domain.portfolio.IncomingPortfolio;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.bisnode.bhc.utils.JsonSchemaValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -16,12 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @Api
@@ -45,20 +45,43 @@ public class PostPortfolioController implements PostPortfolioApi {
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> postPortfolio(@RequestBody String body) throws IOException {
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<?> postPortfolio(final @RequestBody String body,
+                                           final @RequestParam(value = "disable", required = false) String disable) {
+        logger.info("Receiving POST request with disable: '{}'", disable);
         try {
             jsonSchemaValidator.validate(mapper.readTree(body));
-            IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
-            logger.info("Receiving POST request with body: '{}'", incomingPortfolio.toString());
-            portfolioManager.update(converter.apply(incomingPortfolio));
-            node.put("message", "Portfolio proceeded successfully");
+            List<Portfolio> portfolioList = readFromRequestBody(body);
+            handleByDisableParamter(disable, portfolioList);
+            String successMsg = String.format("Portfolio proceeded successfully. Uploaded %s records to your portfolio", portfolioList.size());
+            node.put("message", successMsg);
             return ResponseEntity.ok(node);
         } catch (Throwable e) {
             logger.error("Exception while proceeding POST request: '{}'", e.toString());
             node.put("message", e.toString());
-            return ResponseEntity.badRequest().body(node);
+            return ResponseEntity.status(500).body(node);
         }
+    }
+
+    private List<Portfolio> convert2List(IncomingPortfolio incomingPortfolio) throws EmptyPortfolioListException {
+        List<Portfolio> portfolioList = converter.apply(incomingPortfolio);
+        if (portfolioList.isEmpty()) {
+            throw new EmptyPortfolioListException("Empty portfolio list after converting incoming portfolio");
+        }
+        return portfolioList;
+    }
+
+    private void handleByDisableParamter(String disable, List<Portfolio> portfolioList) {
+        if ("all".equalsIgnoreCase(disable)) {
+            portfolioManager.disableAllAndInsertNewPortfolio(portfolioList);
+        } else {
+            portfolioManager.disableSpecificAndInsertNewPortfolio(portfolioList);
+        }
+    }
+
+    private List<Portfolio> readFromRequestBody(String body) throws EmptyPortfolioListException, IOException {
+        IncomingPortfolio incomingPortfolio = mapper.readValue(body, IncomingPortfolio.class);
+        return convert2List(incomingPortfolio);
     }
 }
 

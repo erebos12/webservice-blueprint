@@ -4,10 +4,6 @@
   "description": "A portfolio web service",
   "type": "object",
   "properties": {
-    "business_partner_id": {
-      "description": "The unique identifier for an owner of a certain portfolio",
-      "type": "string"
-    },
     "system_id": {
       "description": "System name which provides portfolio data",
       "type": "string",
@@ -30,21 +26,21 @@
           "id": {
             "type": "string"
           },
+          "business_partner_id": {
+            "description": "The external unique identifier of company in the system of the owner of portfolio",
+            "type": "string"
+          },
           "country": {
             "type": "string",
             "pattern": "^[A-Za-z]{2}$"
           },
           "data_profile": {
-            "type": "string",
-            "enum": [
-              "Large",
-              "Medium",
-              "Small"
-            ]
+            "type": "string"
           }
         },
         "required": [
           "id",
+          "business_partner_id",
           "country",
           "data_profile"
         ]
@@ -52,7 +48,6 @@
     }
   },
   "required": [
-    "business_partner_id",
     "system_id",
     "company_id_type"
   ]

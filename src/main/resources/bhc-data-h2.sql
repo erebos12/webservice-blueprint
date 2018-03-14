@@ -12,19 +12,26 @@ CREATE TABLE IF NOT EXISTS `Portfolio` (
 	UNIQUE KEY portfolio_pk (pfl_id)
 );
 
-DELETE FROM `Portfolio`;
+DELETE FROM Portfolio;
 
-CREATE TABLE IF NOT EXISTS `Workflow` (	
-	WRK_ID INT NOT NULL,
-	WRK_CLT_ID INT NOT NULL,
-	WRK_CDP_ID VARCHAR(50),
-	WRK_TYPE_CD VARCHAR(1),
-	WRK_TODO_ID VARCHAR(20),
-	WRK_START_DATE DATETIME NOT NULL,
-	WRK_END_DATE DATETIME,
-	PRIMARY KEY (WRK_ID)
+CREATE TABLE IF NOT EXISTS `workflow_log` (
+	wrk_id INT NOT NULL AUTO_INCREMENT,
+	wrk_clt_id INT NOT NULL,
+	wrk_csg_id INT NOT NULL,
+	wrk_type_cd VARCHAR(100) NOT NULL,
+	wrk_def_type_cd INT NOT NULL,
+	wrk_current_step INT NOT NULL,
+	wrk_current_status INT NOT NULL,
+	wrk_pdi_job_id INT NULL,
+	wrk_strt_dt DATETIME NOT NULL,
+	wrk_end_dt DATETIME NULL,
+	wrk_success_quote DECIMAL(6,3) NULL,
+	wrk_activating_time DATETIME NULL,
+	PRIMARY KEY (wrk_id),
+	UNIQUE KEY workflow_log_pk (wrk_id)
 );
-DELETE FROM `Workflow`;
+
+DELETE FROM workflow_log;
 
 
 

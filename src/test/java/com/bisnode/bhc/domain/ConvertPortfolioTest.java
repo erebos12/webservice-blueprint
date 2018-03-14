@@ -1,8 +1,10 @@
 package com.bisnode.bhc.domain;
 
-import org.junit.Rule;
+import com.bisnode.bhc.domain.portfolio.Company;
+import com.bisnode.bhc.domain.portfolio.ConvertPortfolio;
+import com.bisnode.bhc.domain.portfolio.IncomingPortfolio;
+import com.bisnode.bhc.domain.portfolio.Portfolio;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +19,14 @@ public class ConvertPortfolioTest {
 
     private final static ConvertPortfolio converter = new ConvertPortfolio();
 
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
-
     @Test
     public void whenReceiveNormalPortfolio_thenExpectPortfolioList(){
         List<Company> companies = new ArrayList<>();
-        Company c1 = new Company("2534", "DE", "Large");
-        Company c2 = new Company("4343", "SE", "Medium");
+        Company c1 = new Company("2534", "1",  "DE", "Large");
+        Company c2 = new Company("4343", "2",  "SE", "Medium");
         companies.add(c1);
         companies.add(c2);
-        IncomingPortfolio incomingPortfolio = new IncomingPortfolio("2543", "PBC", "1", companies);
+        IncomingPortfolio incomingPortfolio = new IncomingPortfolio("PBC", "1", companies);
         List<Portfolio> portfolios = converter.apply(incomingPortfolio);
         assertThat(portfolios.size(), is(2));
     }

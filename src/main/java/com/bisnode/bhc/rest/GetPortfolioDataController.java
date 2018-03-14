@@ -1,6 +1,7 @@
 package com.bisnode.bhc.rest;
 
 import com.bisnode.bhc.application.PortfolioManager;
+import com.bisnode.bhc.domain.data.ExportData;
 import com.bisnode.bhc.domain.portfolio.Portfolio;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,10 +21,10 @@ import java.util.List;
 
 @RestController
 @Api
-@RequestMapping("/portfolios")
-public class GetPortfolioController implements GetPortfolioApi {
+@RequestMapping("/portfolios/data")
+public class GetPortfolioDataController implements GetPortfolioDataApi {
 
-    private static final Logger logger = LoggerFactory.getLogger(GetPortfolioController.class);
+    private static final Logger logger = LoggerFactory.getLogger(GetPortfolioDataController.class);
 
     @Autowired
     private PortfolioManager portfolioManager;
@@ -33,16 +34,9 @@ public class GetPortfolioController implements GetPortfolioApi {
 
     @Override
     @GetMapping(path = "/{system_id}", produces = "application/json")
-    public ResponseEntity getPortfolio(final @PathVariable(value = "system_id") String system_id,
-                                       final @RequestParam(value = "active", required = false) String active) {
-        logger.info("Receiving GET request with system_id: '{}' and active: '{}'", system_id, active);
-        List<Portfolio> list;
-        if ("true".equalsIgnoreCase(active)) {
-            list = portfolioManager.getActivePortfolio(system_id);
-        } else {
-            list = portfolioManager.getPortfolio(system_id);
-        }
-        ArrayNode array = mapper.valueToTree(list);
+    public ResponseEntity getPortfolioData(final @PathVariable(value = "system_id") String system_id) {
+        List<ExportData> exportData = portfolioManager.getPortfolioData(system_id);
+        ArrayNode array = mapper.valueToTree(exportData);
         JsonNode result = mapper.createObjectNode().set("portfolio", array);
         logger.info("GET response: '{}'", result.toString());
         return ResponseEntity.ok(result);
