@@ -1,7 +1,8 @@
 microservice:
   swagger:
-    name: BHC-WS (v1.1)
+    name: BHC-WS
     description: Bayer-Health-Care REST WEB Service
+    version: 1.0
   oauth2:
     enabled: false # Disable for development only
 
