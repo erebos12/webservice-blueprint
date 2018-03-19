@@ -34,4 +34,5 @@ all necessary components. See in *docker-compose.yml* which components are requi
 4. See Jenkins (test) job http://jenkins.bi.bisnode.de/jenkins/job/BHC-QA-Test/ which runs BDD tests.
 
 ## TODO List
-* TBC
+* Deployment: Steps from deployit.sh can be done within Jenkins job. So no need to maintain deployit.sh anymore.
+* Build: Use *Gradle* instead of *Maven*
