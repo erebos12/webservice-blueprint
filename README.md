@@ -38,3 +38,5 @@ all necessary components. See in *docker-compose.yml* which components are requi
 * Deployment: Steps from deployit.sh can be done within Jenkins job. So no need to maintain deployit.sh anymore.
 Separate then the deployment from BHC and BDD stuff. So making different Jenkins jobs which will be executed in sequence.
 * Build: Use *Gradle* instead of *Maven*
+* Use bisconf.yaml instead of kubeconf.yml. Automated tagging is then included. See bdd-driver-ws as sample.
+* Add *ApiExceptionHandler* as in bdd-driver-ws to separate exception handling from request handling
