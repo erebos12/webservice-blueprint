@@ -26,18 +26,43 @@ services:
     command: node /app/dist/server/app.js
   bhcws:
     image: artifactory.bisnode.net/bisnode/bhc-ws:develop
-    # image: registry.bisnode.net/bisnode/bhc-ws:develop
     environment:
       BHCWS_MODE: 'prod'
     ports:
-      - 8082:8080
+      - 8084:8080
     restart: unless-stopped
   bddriver:
-    image: artifactory.bisnode.net/bisnode/bdd-driver-ws:develop
+    image: artifactory.bisnode.net/bisnode/bdd-driver-ws-v1:latest-master
+    depends_on:
+      - mongo
+    links:
+      - bhcfrontend
+    environment:
+      MONGODB_HOST_LIST: 'mongo1.qa.cluster1.blue.bisnode.net'
+      #MONGODB_DB_NAME: 'rgs_qa'
+      #MONGODB_USERNAME: 'rgs_qa' 
+      #MONGODB_PASSWORD: 'eTai2fieveeTaiwi'
+      MONGODB_DB_NAME: 'rgs_dev'
+      MONGODB_USERNAME: 'rgs_dev' 
+      MONGODB_PASSWORD: ''
+      SERVICES_AUTHORIZATION_ENABLED: 'false'
+      AUTHORIZATION_SERVER_URL: 'dummy'
+      AUTHORIZATION_CLIENT_ID: 'dummy'
+      AUTHORIZATION_CLIENT_SECRET: 'dummy'
+      SERVICE_UNDER_TEST_BASE_URL: 'dummy'
     ports:
-      - 8083:8080
+      - 8033:8080
     restart: unless-stopped
   mongo:
     image: mongo:latest
     command: --storageEngine wiredTiger
     restart: unless-stopped
+  bddui:
+    image: artifactory.bisnode.net/bisnode/bdd-ui:latest-master
+    ports:
+     - 8092:8092
+    restart: unless-stopped
+    depends_on:
+     - bddriver
+    environment:
+     BDD_WS_PORT: 8082
